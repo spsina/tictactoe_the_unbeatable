@@ -4,10 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:tictactoe/game/game.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  Tictactoe game = Tictactoe();
+  runApp(game.widget);
+  
+  
   Util flameUtil = Util();
   flameUtil.fullScreen();
   flameUtil.setOrientation(DeviceOrientation.portraitUp);
-  Tictactoe game = Tictactoe();
 
-  runApp(game.widget);
 }
