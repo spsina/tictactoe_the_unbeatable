@@ -7,7 +7,29 @@ class FiveByFive extends StatelessWidget{
   */
   @override
   Widget build(BuildContext context) {
-    return Image(image: AssetImage(('assets/images/battleSelect/5x5_challenge.png')), width: 200, height: 200,);
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Image(image: AssetImage(('assets/images/battleSelect/5x5_challenge.png')), width: 180, height: 180,),
+          Container(
+            margin: EdgeInsets.only(top: 37, bottom: 15),
+            child: Text("5x5", textAlign: TextAlign.center, style: TextStyle(
+              fontSize: 35,
+              color: Color(0xffffac41)
+            ),
+            ),
+          ),
+          Container(
+            width: 140,
+            child: Text("THER IS A CHANCE HERE", textAlign: TextAlign.center, style: TextStyle(
+              fontSize: 20,
+              color: Color(0xffffac41)
+            ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
 import 'package:tictactoe/pages/battleSelect/components/5x5.dart';
 
@@ -10,9 +11,10 @@ class BattleOptions extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 79),
+      margin: EdgeInsets.only(top: 50),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           ThreeByThree(),
           FiveByFive()
