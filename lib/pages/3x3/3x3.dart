@@ -7,7 +7,7 @@ class ThreeByThreeGameBoard extends StatefulWidget {
   /*
     The 3x3 game board
   */
-  Player player;
+  final Player player;
 
   ThreeByThreeGameBoard(this.player);
 

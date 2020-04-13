@@ -2,20 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game/player.dart';
 
-class Trun extends StatefulWidget{
-  Player player;
+class Trun extends StatelessWidget{
+  final Player player;
 
   Trun(this.player);
 
-  TrunState createState() => TrunState();
-}
-
-
-class TrunState extends State<Trun> {
-
   @override
   Widget build(BuildContext context) {
-    bool isX = widget.player.type == PlayerType.X;
+    bool isX = player.type == PlayerType.X;
 
     return Container(
       margin: EdgeInsets.only(top: 53),
