@@ -1,35 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
-import 'package:tictactoe/game/game.dart';
-Tictactoe game = Tictactoe();
+import 'package:wordpair/toptitle.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // to hide only bottom bar:
+  SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.top]);
+
+  // to hide only status bar: 
+  SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]);
+
+  // to hide both:
+  SystemChrome.setEnabledSystemUIOverlays ([]);
 
   runApp(MyApp());
-  
-  
-  Util flameUtil = Util();
-  flameUtil.fullScreen();
-  flameUtil.setOrientation(DeviceOrientation.portraitUp);
-
 }
 
-class MyApp extends StatelessWidget {
-  
+class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Learning flutter',
+      theme: ThemeData(fontFamily: 'Gearus'),
+      title: "App",
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Let's learn this thing"),
-        ),
-        body: Center(
-          child: Text('Hello World'),
-        ),
-      ),
-    );
+        backgroundColor: Color(0xff1B2429),
+        body: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // TIC TAC TOE THE UNBEATABLE
+              TopTitle(),
+
+             ],
+            ),
+          ),
+        )
+      );
   }
+
 }
