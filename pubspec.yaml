@@ -39,7 +39,11 @@ flutter:
 
   assets:
     - assets/images/bg/bg.jpg
-
+    - assets/images/battleSelect/choose_your_battle.png
+    - assets/images/battleSelect/10x10_challenge.png
+    - assets/images/battleSelect/3x3_death.png
+    - assets/animations/battle/thinking.flr
+    - assets/animations/battleSelect/select.flr
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
