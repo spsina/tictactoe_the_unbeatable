@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 
@@ -11,7 +12,12 @@ class BattleSelectPage extends StatelessWidget{
           children: <Widget>[
             // TIC TAC TOE THE UNBEATABLE
               TopTitle(),
-              BattleOptions()
+              BattleOptions(),
+              Expanded(
+                  child: Align(child: AboutButton(),
+                  alignment: FractionalOffset.bottomCenter,
+                ),
+              ),
             ],
           ),
       );

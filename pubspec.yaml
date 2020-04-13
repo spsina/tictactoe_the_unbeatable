@@ -42,6 +42,7 @@ flutter:
     - assets/images/battleSelect/choose_your_battle.png
     - assets/images/battleSelect/5x5_challenge.png
     - assets/images/battleSelect/3x3_death.png
+    - assets/images/battleSelect/wheel.png
     - assets/animations/battle/thinking.flr
     - assets/animations/battleSelect/select.flr
   
