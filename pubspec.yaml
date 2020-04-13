@@ -44,6 +44,12 @@ flutter:
     - assets/images/battleSelect/3x3_death.png
     - assets/animations/battle/thinking.flr
     - assets/animations/battleSelect/select.flr
+  
+
+  fonts:
+    - family: Gearus
+      fonts:
+        - asset: fonts/GearusBook.otf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
