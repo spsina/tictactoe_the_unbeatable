@@ -6,12 +6,12 @@ class BattleSelectPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return
       Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             // TIC TAC TOE THE UNBEATABLE
               TopTitle(),
-              
+
             ],
           ),
       );
