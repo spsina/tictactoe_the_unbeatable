@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wordpair/toptitle.dart';
+import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,27 +14,18 @@ void main() {
   // to hide both:
   SystemChrome.setEnabledSystemUIOverlays ([]);
 
-  runApp(MyApp());
+  runApp(Entry());
 }
 
-class MyApp extends StatelessWidget{
+class Entry extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Gearus'),
-      title: "App",
+      title: "TIC TAC TOE, THE UNBEATABLE",
       home: Scaffold(
         backgroundColor: Color(0xff1B2429),
-        body: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // TIC TAC TOE THE UNBEATABLE
-              TopTitle(),
-
-             ],
-            ),
-          ),
+        body: BattleSelectPage()
         )
       );
   }
