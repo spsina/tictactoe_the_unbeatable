@@ -12,8 +12,10 @@ class BattleOptions extends StatelessWidget{
   */
   @override
   Widget build(BuildContext context) {
+    double tileSize = MediaQuery. of(context).size.width / 9;
+
     return Container(
-      margin: EdgeInsets.only(top: 50),
+      margin: EdgeInsets.only(top: tileSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

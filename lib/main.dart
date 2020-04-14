@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
+import 'package:tictactoe/pages/win/win.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

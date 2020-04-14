@@ -13,7 +13,7 @@ class TopTitle extends StatelessWidget{
     double tileSize = MediaQuery. of(context).size.width / 9;
     return 
     Container (
-      margin: EdgeInsets.only(top: tileSize ),
+      margin: EdgeInsets.only(top: tileSize * 1.2),
       child: 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class TopTitle extends StatelessWidget{
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xffF4F4F4),
-                      fontSize: tileSize / 1.1
+                      fontSize: tileSize / 1.3
                       ),
                       )
                 ),

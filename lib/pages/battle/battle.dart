@@ -117,14 +117,20 @@ class Game extends State<GameBoard> {
                 height: tileSize,
                 color: Color(0xffff1e56),
                 child: FlatButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
-                    );
-                  },
-                  child: Text("RESIGN", style: TextStyle(color: Color(0xffF4F4F4)),),
-                )
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
+                      );
+                    },
+                    child: Container(
+                      width: tileSize * 3,
+                      height: tileSize,
+                      child: Center( 
+                        child: Text("RESIGN", style: TextStyle(color: Colors.white),),
+                      )
+                    )
+                  ),
               ),
               alignment: Alignment.bottomCenter,
 

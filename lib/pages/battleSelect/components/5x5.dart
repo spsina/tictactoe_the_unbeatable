@@ -10,6 +10,7 @@ class FiveByFive extends StatelessWidget{
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
+      margin: EdgeInsets.only(top: tileSize),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
