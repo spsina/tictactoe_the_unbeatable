@@ -7,23 +7,26 @@ class ThreeByThree extends StatelessWidget{
   */
   @override
   Widget build(BuildContext context) {
+    double tileSize = MediaQuery. of(context).size.width / 9;
+
     return 
     Container(
       child: Column(
         children: <Widget>[
-          Image(image: AssetImage(('assets/images/battleSelect/3x3_death.png')), width: 180, height: 180,),
+          Image(image: AssetImage(('assets/images/battleSelect/3x3_death.png')), width: 4 * tileSize, height: 4*tileSize,),
           Container(
-            margin: EdgeInsets.only(top: 37, bottom: 15),
+            margin: EdgeInsets.only(top: tileSize/ 5 ),
             child: Text("3x3", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: 35,
+              fontSize: tileSize / 1.2,
               color: Color(0xffff1e56)
             ),
             ),
           ),
           Container(
-            width: 118,
+            margin: EdgeInsets.only(top: tileSize/ 5 ),
+            width: 4 * tileSize,
             child: Text("YOU CAN NEVER WIN THIS", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: 20,
+              fontSize: tileSize / 2,
               color: Color(0xffff1e56)
             ),
             ),

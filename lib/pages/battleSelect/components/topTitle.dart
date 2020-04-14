@@ -10,9 +10,10 @@ class TopTitle extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
+    double tileSize = MediaQuery. of(context).size.width / 9;
     return 
     Container (
-      margin: const EdgeInsets.only(top: 53),
+      margin: EdgeInsets.only(top: tileSize ),
       child: 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -26,18 +27,18 @@ class TopTitle extends StatelessWidget{
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xffF4F4F4),
-                      fontSize: 37
+                      fontSize: tileSize
                       ),
                       )
                 ),
                 // THE UNBETABLE
                 Container(
-                  margin: EdgeInsets.only(top: 13),
+                  margin: EdgeInsets.only(top: tileSize / 5),
                   child: Text("THE UNBEATABLE",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xff8EC6C5),
-                      fontSize: 23
+                      fontSize: tileSize / 2
                       ),
                       )
                 ),
