@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/pages/3x3/3x3.dart';
+import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +27,7 @@ class Entry extends StatelessWidget{
       title: "TIC TAC TOE, THE UNBEATABLE",
       home: Scaffold(
         backgroundColor: Color(0xff1B2429),
-        body: Column (children: <Widget>[
-          GameBoard(Player(PlayerType.X), 5),
-        ],) 
+        body: GameBoard(Player(PlayerType.X), 3)
         )
       );
   }
