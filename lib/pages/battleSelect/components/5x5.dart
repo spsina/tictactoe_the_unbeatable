@@ -10,25 +10,22 @@ class FiveByFive extends StatelessWidget{
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Image(image: AssetImage(('assets/images/battleSelect/5x5_challenge.png')), width: 4 * tileSize, height: 4 * tileSize,),
-          Container(
-            margin: EdgeInsets.only(top: tileSize/ 5 ),
-            child: Text("5x5", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: tileSize / 1.2,
-              color: Color(0xffffac41)
-            ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: tileSize/ 5 ),
-            width: 4 * tileSize,
-            child: Text("THER IS A CHANCE HERE", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: tileSize / 2,
-              color: Color(0xffffac41)
-            ),
-            ),
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: tileSize/ 5 ),
+                width: 4 * tileSize,
+                child: Text("THER IS A CHANCE HERE", textAlign: TextAlign.left, style: TextStyle(
+                  fontSize: tileSize / 2.1,
+                  color: Color(0xffffac41)
+                ),
+                ),
+              )
+            ],
           )
         ],
       ),

@@ -27,7 +27,7 @@ class TopTitle extends StatelessWidget{
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xffF4F4F4),
-                      fontSize: tileSize
+                      fontSize: tileSize / 1.1
                       ),
                       )
                 ),

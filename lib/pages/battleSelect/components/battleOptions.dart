@@ -14,11 +14,14 @@ class BattleOptions extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 50),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          GestureDetector(
+          InkWell(
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Color(0xaaff1e56),
             onTap: () {
               Navigator.push(
                 context,
@@ -27,7 +30,11 @@ class BattleOptions extends StatelessWidget{
             },
             child: ThreeByThree(),
           ),
-          GestureDetector(
+          InkWell(
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Color(0xaaffac41),
             child: FiveByFive(),
             onTap: () {
               Navigator.push(
