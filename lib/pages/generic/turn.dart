@@ -25,7 +25,7 @@ class Trun extends StatelessWidget{
               ),
 
               Container(
-                margin: EdgeInsets.only(top:70),
+                margin: EdgeInsets.only(top:35),
                 child: Image(
                   image: AssetImage( isX ?
                                     "assets/images/battleSelect/your_turn.png"
