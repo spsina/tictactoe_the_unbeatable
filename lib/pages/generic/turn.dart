@@ -10,9 +10,10 @@ class Trun extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     bool isX = player.type == PlayerType.X;
+    double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
-      margin: EdgeInsets.only(top: 53),
+      margin: EdgeInsets.only(top: tileSize),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -20,19 +21,19 @@ class Trun extends StatelessWidget{
             children: <Widget>[
               Text(isX ? "YOUR TURN" : "AI'S TURN", style: TextStyle(
                   color: Color(0xffF4F4F4),
-                  fontSize: 37
+                  fontSize: tileSize
                 ),
               ),
 
               Container(
-                margin: EdgeInsets.only(top:35),
+                margin: EdgeInsets.only(top:tileSize / 5),
                 child: Image(
                   image: AssetImage( isX ?
                                     "assets/images/battleSelect/your_turn.png"
                                     :"assets/images/battleSelect/ai_turn.png"
                                     ),
-                    width: 146,
-                    height: 146,
+                    width: tileSize * 3,
+                    height: tileSize * 3,
                   ),
               )
             ],
