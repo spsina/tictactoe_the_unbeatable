@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game/player.dart';
+import 'package:tictactoe/main.dart';
+import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
 
 
@@ -115,7 +117,12 @@ class Game extends State<GameBoard> {
                 height: tileSize,
                 color: Color(0xffff1e56),
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
+                    );
+                  },
                   child: Text("RESIGN", style: TextStyle(color: Color(0xffF4F4F4)),),
                 )
               ),

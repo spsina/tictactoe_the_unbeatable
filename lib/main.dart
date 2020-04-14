@@ -15,10 +15,14 @@ void main() {
   // to hide both:
   SystemChrome.setEnabledSystemUIOverlays ([]);
 
-  runApp(Entry());
+  runApp(Entry(BattleSelectPage()));
 }
 
 class Entry extends StatelessWidget{
+  final Widget page;
+  
+  Entry(this.page);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +31,7 @@ class Entry extends StatelessWidget{
       home: Scaffold(
         backgroundColor: Color(0xff1B2429),
         body: Container( child:
-          BattleSelectPage()
+          page
         )
         )
       );
