@@ -28,7 +28,7 @@ class Entry extends StatelessWidget{
       home: Scaffold(
         backgroundColor: Color(0xff1B2429),
         body: Container( child:
-          BattleSelectPage()
+          GameBoard(Player(PlayerType.X), 5)
         )
         )
       );

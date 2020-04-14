@@ -30,55 +30,57 @@ class ThreeByThreeState extends State<GameBoard> {
       super.initState();
   }
 
-  Widget _visualizedBoard() {
-    return Container( 
-      margin: EdgeInsets.all(15),
-      child: Column(
-      children: List<Widget>.generate(widget.size,
-       (i) => Container(
-         child: Row(
-           mainAxisAlignment: MainAxisAlignment.center,
-         children: List<Widget>.generate(widget.size,
-          (j) => GestureDetector(
-            onTap: () {
-              setState(() {
-                _board[i][j] = "X";
-              });
-            },
-            child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              color: Color(0xff323232),
-            ),
-            width:  widget.size == 3 ? 100 : 100 * 3/5,
-            height: widget.size == 3 ? 100 : 100 * 3/5,
-            margin: EdgeInsets.only(right: 10, top:10),
-            child: Center(child: Text(_board[i][j],
-            style: TextStyle(
-                color: Color(0xfff4f4f4),
-                fontSize: 45
-              ),
-            )
-          )
-          )
-          ),
-         )
-        )
-    )
-    )
-    )
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // get the player 
     Player player = widget.player;
+    double tileSize = MediaQuery. of(context).size.width / 9;
+
     return Container(
       child: Column(
         children: <Widget>[
           Trun(player),
-          _visualizedBoard()
+          Container (
+            margin: EdgeInsets.only(top: tileSize/ 2),
+            child: Column (
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // a list of row, each containig a list of cols
+              children: List<Widget>.generate(widget.size, (i) {
+                // generate a row
+                return Container(
+                  margin: EdgeInsets.only(top: tileSize/5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List<Widget>.generate(widget.size, (j) {
+                      // each cell
+                      return Material(
+                        color: Color(0xff323232),
+                        child: InkWell(
+                          splashColor: Color(0xff222831),
+                          onTap: (){ 
+                            setState(() {
+                              _board[i][j] = player.getRepresentation();
+                            });
+                          },
+                          child: Container(
+                            width: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
+                            height: (9 - (widget.size+1)*0.5)/widget.size * tileSize,
+                            child: Center(
+                              child: Text(_board[i][j], textAlign: TextAlign.center, style: TextStyle(
+                                  fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
+                                  color: Color(0xffdbdbdb)
+                                ),
+                              ),
+                            )
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                );
+              }),
+            )
+          )
         ],
       ),
     );
