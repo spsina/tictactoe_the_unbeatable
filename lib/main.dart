@@ -27,7 +27,9 @@ class Entry extends StatelessWidget{
       title: "TIC TAC TOE, THE UNBEATABLE",
       home: Scaffold(
         backgroundColor: Color(0xff1B2429),
-        body: GameBoard(Player(PlayerType.X), 3)
+        body: Container( child:
+          GameBoard(Player(PlayerType.X), 5)
+        )
         )
       );
   }
