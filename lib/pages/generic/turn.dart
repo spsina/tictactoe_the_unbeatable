@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:tictactoe/game/player.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
-class Trun extends StatelessWidget{
+class Turn extends StatelessWidget{
   final Player player;
+  final int _key;
 
-  Trun(this.player);
+  Turn(this.player, this._key) : super(key: ValueKey<int>(_key));
 
   @override
   Widget build(BuildContext context) {

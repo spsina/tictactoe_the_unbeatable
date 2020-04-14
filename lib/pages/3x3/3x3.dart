@@ -21,7 +21,9 @@ class GameBoard extends StatefulWidget {
 class ThreeByThreeState extends State<GameBoard> {
   
   List<List<String>> _board;
-  
+  Player turn = Player(PlayerType.X);
+  Turn turnWidget = Turn(Player(PlayerType.X), 0);
+
   @override
   void initState() {
       _board = List<List<String>>.generate(widget.size, (i) { 
@@ -30,16 +32,32 @@ class ThreeByThreeState extends State<GameBoard> {
       super.initState();
   }
 
+  int count(String target){
+    int c = 0;
+    _board.forEach((row) {
+      row.forEach((cell) {
+        if (cell == target)
+          c++;
+      });
+    });
+
+    return c;
+  }
+
   @override
   Widget build(BuildContext context) {
     // get the player 
-    Player player = widget.player;
+    
+    
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
       child: Column(
         children: <Widget>[
-          Trun(player),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 500),
+            child: turnWidget,
+          ),
           Container (
             margin: EdgeInsets.only(top: tileSize/ 2),
             child: Column (
@@ -48,27 +66,38 @@ class ThreeByThreeState extends State<GameBoard> {
               children: List<Widget>.generate(widget.size, (i) {
                 // generate a row
                 return Container(
-                  margin: EdgeInsets.only(top: tileSize/5),
+                  margin: EdgeInsets.only(top: tileSize/5, right: 10, left:10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List<Widget>.generate(widget.size, (j) {
                       // each cell
                       return Material(
-                        color: Color(0xff323232),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        color: Color(0xffd3d6db),
                         child: InkWell(
-                          splashColor: Color(0xff222831),
+                          splashColor: Color(0xfff4f4f4),
                           onTap: (){ 
                             setState(() {
-                              _board[i][j] = player.getRepresentation();
+                              if (_board[i][j] == "")
+                                _board[i][j] = turn.getRepresentation();
+                                turn = count("X") == count("O") ? 
+                                  Player(PlayerType.X): Player(PlayerType.O);
+                                if (turn.type == PlayerType.X)
+                                  turnWidget = Turn(turn, 0);
+                                else
+                                  turnWidget = Turn(turn, 1);
                             });
                           },
                           child: Container(
+                            
                             width: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
-                            height: (9 - (widget.size+1)*0.5)/widget.size * tileSize,
+                            height: (9 - (widget.size+1)*0.4)/widget.size * tileSize,
                             child: Center(
                               child: Text(_board[i][j], textAlign: TextAlign.center, style: TextStyle(
                                   fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
-                                  color: Color(0xffdbdbdb)
+                                  color: _board[i][j] == "X" ? Color(0xff11999e):Color(0xff3c3c3c)
                                 ),
                               ),
                             )
