@@ -14,11 +14,11 @@ class GameBoard extends StatefulWidget {
 
   GameBoard(this.player, this.size);
 
-  ThreeByThreeState createState() => ThreeByThreeState();
+  Game createState() => Game();
 }
 
 
-class ThreeByThreeState extends State<GameBoard> {
+class Game extends State<GameBoard> {
   
   List<List<String>> _board;
   Player turn = Player(PlayerType.X);

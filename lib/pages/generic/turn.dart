@@ -33,7 +33,7 @@ class Turn extends StatelessWidget{
                   animation:"Alarm"
                 )
               ),
-              Text(isX ? "YOUR TURN" : "AI'S TURN", style: TextStyle(
+              Text(isX ? ".:: YOUR TURN ::." : ".:: AI IS THINKING ::.", style: TextStyle(
                   color: Color(0xffF4F4F4),
                   fontSize: tileSize / 4
                 ),
