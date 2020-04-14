@@ -15,7 +15,7 @@ class Turn extends StatelessWidget{
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
-      margin: EdgeInsets.only(top: tileSize / 2),
+      margin: EdgeInsets.only(top: tileSize / 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

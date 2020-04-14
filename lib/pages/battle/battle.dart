@@ -9,10 +9,9 @@ class GameBoard extends StatefulWidget {
   /*
     The 3x3 game board
   */
-  final Player player;
   final int size;
 
-  GameBoard(this.player, this.size);
+  GameBoard(this.size);
 
   Game createState() => Game();
 }
@@ -109,6 +108,20 @@ class Game extends State<GameBoard> {
                 );
               }),
             )
+          ),
+          Expanded(
+            child: Align(
+              child: Container(
+                height: tileSize,
+                color: Color(0xffff1e56),
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Text("RESIGN", style: TextStyle(color: Color(0xffF4F4F4)),),
+                )
+              ),
+              alignment: Alignment.bottomCenter,
+
+            ),
           )
         ],
       ),
