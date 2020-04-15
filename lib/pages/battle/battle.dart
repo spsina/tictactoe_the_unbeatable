@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tictactoe/game/ai.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
+import 'package:tuple/tuple.dart';
 
 
 class GameBoard extends StatefulWidget {
@@ -30,6 +33,18 @@ class Game extends State<GameBoard> {
     board = Board(widget.size);
     turnWidget = Turn(board.player, board.player.key);
     super.initState();
+  }
+
+  
+  void playerMoveTo(i, j) async{
+    if (widget.playingAs == board.player.type){
+      moveTo(i, j);
+      
+      // pass the game to AI now
+      var aiMove = await compute<Board,  Tuple2>(alphaBeta, board);
+      moveTo(aiMove.item1, aiMove.item2);
+      
+    }
   }
 
   void moveTo(i, j) {
@@ -73,7 +88,7 @@ class Game extends State<GameBoard> {
                         child: InkWell(
                           splashColor: Color(0xfff4f4f4),
                           onTap: (){ 
-                            moveTo(i, j);
+                            playerMoveTo(i, j);
                           },
                           child: Container(
                             

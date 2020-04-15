@@ -44,6 +44,7 @@ class Board{
     if (board[i][j] == ""){
       board[i][j] = player.getRepresentation();
       
+      lastMove = Tuple2(i,j);
       possibleMoves.remove(Tuple2(i,j));
       moves++;
     }
