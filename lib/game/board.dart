@@ -47,84 +47,14 @@ class Board{
       lastMove = Tuple2(i,j);
       possibleMoves.remove(Tuple2(i,j));
       moves++;
+      // switch the player
+      if (player.type == x)
+        player = Player(o);
+      else
+        player = Player(x);
     }
 
-    // switch the player
-    if (player.type == x)
-      player = Player(o);
-    else
-      player = Player(x);
-  }
-
-  int countInRow(String target, int row){
-    // count target in row
-    int count = 0;
-    board[row].forEach((cell) => cell == target ? count++ : count += 0);
-
-    return count;
-  }
-
-  int countInCol(String target, int col) {
-    // count target in col
-    int count = 0;
-    for (var i = 0; i < size; i ++ )
-      board[i][col] == target ? count++ : count+=0;
     
-    return count;
   }
-
-  int countInMainAxis(String target) {
-    // count in main axis
-    int count = 0;
-    for (var i = 0 ; i < size; i++)
-      board[i][i] == target ? count ++ : count += 0;
-
-    return count;
-  }
-
-  int countInCrossAxis(String target) {
-    // count in cross axis
-    
-    int count = 0;
-    for (var i = 0 ; i < size; i++)
-      board[i][size - 1 - i] == target ? count ++ : count += 0;
-
-    return count;
-  }
-
-  Tuple2<bool, Player> finished(){
-    // check to see if game is finished,
-    // either we have a winner or, board is full
-
-    // check if the last played move, makes a win
-    int i = lastMove.item1; int j = lastMove.item2;
-    String move = board[i][j];
-    Player candidate = Player(move == "X" ? x : o);
-
-    // winner by row
-    if (countInRow(move, i) == size)
-      return Tuple2(true, candidate);
-    
-    // winner by col
-    if (countInRow(move, i) == size)
-      return Tuple2(true, candidate);
-
-    // if on axix, check for winner by axis
-    if (i == j || i == (size - 1 - i)){
-      if (countInMainAxis(move) == size)
-        return Tuple2(true, candidate);
-      
-      if (countInCrossAxis(move) == size)
-        return Tuple2(true, candidate);
-    }
-
-    // no winners, check board
-    if (moves == maxMoves)
-      return Tuple2(true, null);
-    
-    // game is not finished
-    return Tuple2(false, null);
-
-  }
-
+  
 }

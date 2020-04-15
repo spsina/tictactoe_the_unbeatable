@@ -8,12 +8,17 @@ var o = PlayerType.O;
 class Player {
   PlayerType type;
   int key;
+  int utilization;
 
   Player(this.type){
-    if (type == PlayerType.X)
+    if (type == PlayerType.X){
       key = 0;
-    else
+      utilization = 1;
+    }
+    else{
       key = 1;
+      utilization = -1;
+    }
   }
 
   String getRepresentation() {

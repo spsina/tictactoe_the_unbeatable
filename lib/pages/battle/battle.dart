@@ -38,16 +38,15 @@ class Game extends State<GameBoard> {
   
   void playerMoveTo(i, j) async{
     if (widget.playingAs == board.player.type){
-      moveTo(i, j);
-      
-      // pass the game to AI now
-      var aiMove = await compute<Board,  Tuple2>(alphaBeta, board);
-      moveTo(aiMove.item1, aiMove.item2);
-      
+      moveTo(Tuple2(i,j));
+      Tuple2 aiMove = await compute<List< List < String > >, Tuple2 >(alphaBeta, board.board);
+
+      moveTo(aiMove.item2);
     }
   }
 
-  void moveTo(i, j) {
+  void moveTo(Tuple2 m) {
+    int i = m.item1; int j = m.item2;
     setState(() {
       board.moveTo(i, j);
       turnWidget = Turn(board.player, board.player.key);
