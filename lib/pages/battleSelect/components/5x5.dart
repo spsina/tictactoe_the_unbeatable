@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class FiveByFive extends StatelessWidget{
   /*
-    3x3 battle option
+    5x5 battle option
     with text description and the image
   */
   @override

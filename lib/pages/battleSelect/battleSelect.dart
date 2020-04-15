@@ -13,7 +13,6 @@ class BattleSelectPage extends StatelessWidget{
       Container(
         child: Column(
           children: <Widget>[
-            // TIC TAC TOE THE UNBEATABLE
               TopTitle(),
               BattleOptions(),
               Expanded(

@@ -8,7 +8,7 @@ import 'package:tictactoe/pages/generic/turn.dart';
 
 class GameBoard extends StatefulWidget {
   /*
-    The 3x3 game board
+    The size by size game board
   */
   final int size;
 
@@ -40,7 +40,6 @@ class Game extends State<GameBoard> {
   @override
   Widget build(BuildContext context) {
     // get the player 
-    
     
     double tileSize = MediaQuery. of(context).size.width / 9;
 
