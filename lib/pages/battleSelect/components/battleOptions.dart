@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
@@ -27,7 +28,7 @@ class BattleOptions extends StatelessWidget{
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Entry(GameBoard(3))),
+                MaterialPageRoute(builder: (context) => Entry(GameBoard(3, x))),
               );
             },
             child: ThreeByThree(),
@@ -41,7 +42,7 @@ class BattleOptions extends StatelessWidget{
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Entry(GameBoard(5))),
+                MaterialPageRoute(builder: (context) => Entry(GameBoard(5, x))),
               );
             },
           )

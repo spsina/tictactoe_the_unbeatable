@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game/board.dart';
+import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
@@ -11,8 +12,9 @@ class GameBoard extends StatefulWidget {
     The size by size game board
   */
   final int size;
+  final PlayerType playingAs;
 
-  GameBoard(this.size);
+  GameBoard(this.size, this.playingAs);
 
   Game createState() => Game();
 }
@@ -41,7 +43,7 @@ class Game extends State<GameBoard> {
   Widget build(BuildContext context) {
     // get the player 
     
-    double tileSize = MediaQuery. of(context).size.width / 9;
+    final double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
       child: Column(

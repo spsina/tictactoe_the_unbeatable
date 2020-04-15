@@ -2,6 +2,8 @@ enum PlayerType {
   X,
   O
 }
+var x = PlayerType.X;
+var o = PlayerType.O;
 
 class Player {
   PlayerType type;

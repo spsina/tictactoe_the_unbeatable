@@ -1,8 +1,6 @@
 import 'package:tictactoe/game/player.dart';
 import 'package:tuple/tuple.dart';
 
-var x = PlayerType.X;
-var o = PlayerType.O;
 
 class Board{
   List<List<String>> board;             // the game board
