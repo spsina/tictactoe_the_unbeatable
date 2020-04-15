@@ -2,6 +2,7 @@ import 'package:tictactoe/game/player.dart';
 import 'package:tuple/tuple.dart';
 var X = "X";
 var O = "O";
+var inf = 999999;
 
 String _player(List< List < String > > board) {
   int cx = 0;
@@ -139,20 +140,52 @@ Tuple2<bool, Player> terminal(List< List < String > > board){
 
 }
 
-Tuple2 maxValue(List< List < String > > board, alpha, beta){
+int utility(List< List < String > > board){
+  var pl = _player(board); 
+  var opp = pl == X ? O : X;
+
+  int u = 0;
+
+  for (var i = 0;i<board.length; i++){
+    int countr = countInRow(board, opp, i);
+    int countc = countInCol(board, opp, i);
+
+    if (countr == 0)
+      u++;
+    
+    if (countc == 0)
+      u++;
+  }
+
+  int ma = countInMainAxis(board, opp);
+  int ca = countInCrossAxis(board, opp);
+
+  if (ma == 0)
+    u++;
+  
+  if (ca == 0)
+    u++;
+  
+  return u;
+}
+
+Tuple2 maxValue(List< List < String > > board, alpha, beta, d){
   var finished = terminal(board);
   if (finished.item1){
     if(finished.item2 == null)
       return Tuple2(0, null);
-    return Tuple2(_player(board) == X ? 1 : -1, null);
+    return Tuple2(_player(board) == X ? inf : - inf, null);
   }
 
-  int val = - 99999999;
+  if (d == 0)
+    return Tuple2(utility(board), null);
+
+  int val = - inf;
   var action;
   for (var act in actions(board)){
-    var newData = minValue(result(board, act.item1, act.item2), alpha, beta);
+    var newData = minValue(result(board, act.item1, act.item2), alpha, beta, d-1);
 
-    if (newData.item1 > val){
+    if (newData.item1 >= val){
       val = newData.item1;
       action = act;
     }
@@ -167,20 +200,24 @@ Tuple2 maxValue(List< List < String > > board, alpha, beta){
 }
 
 
-Tuple2 minValue(List< List < String > > board, alpha, beta){
-var finished = terminal(board);
+Tuple2 minValue(List< List < String > > board, alpha, beta, d){
+  var finished = terminal(board);
+  
   if (finished.item1){
     if(finished.item2 == null)
       return Tuple2(0, null);
-    return Tuple2(_player(board) == X ? 1 : -1, null);
+    return Tuple2(_player(board) == X ?  inf : - inf, null);
   }
 
-  int val = 99999999;
+  if (d == 0)
+    return Tuple2(utility(board), null); 
+   
+  int val = inf;
   var action;
   for (var act in actions(board)){
-    var newData = maxValue(result(board, act.item1, act.item2), alpha, beta);
+    var newData = maxValue(result(board, act.item1, act.item2), alpha, beta, d - 1);
 
-    if (newData.item1 < val){
+    if (newData.item1 <= val){
       val = newData.item1;
       action = act;
     }
@@ -195,8 +232,9 @@ var finished = terminal(board);
 }
 
 Tuple2 alphaBeta(List< List < String > > board) {
+  int d = board.length == 3 ? inf : 5;
   if (_player(board) == O)
-    return maxValue(board, - 999999, 999999);
+    return maxValue(board, - 999999, 999999, d);
   
-  return minValue(board, - 999999, 999999);
+  return minValue(board, - 999999, 999999, d);
 }

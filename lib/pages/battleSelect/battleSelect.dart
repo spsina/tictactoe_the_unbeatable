@@ -19,10 +19,6 @@ class BattleSelectPage extends StatelessWidget{
                   child: Align(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Entry(WinPage(3))),
-                        );
                       },
                       child: AboutButton(),
                     ),

@@ -7,6 +7,8 @@ import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
+import 'package:tictactoe/pages/win/loose.dart';
+import 'package:tictactoe/pages/win/win.dart';
 import 'package:tuple/tuple.dart';
 
 
@@ -51,12 +53,29 @@ class Game extends State<GameBoard> {
       board.moveTo(i, j);
       turnWidget = Turn(board.player, board.player.key);
     });
+
+    var done = terminal(board.board);
+
+    if (done.item1){
+      if (done.item2 != null && done.item2.type == widget.playingAs){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Entry(WinPage(widget.size))),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Entry(LoosePage(widget.size))),
+        );
+      }
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
     // get the player 
-    
+
     final double tileSize = MediaQuery. of(context).size.width / 9;
 
     return Container(
