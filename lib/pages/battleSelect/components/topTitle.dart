@@ -7,9 +7,6 @@ class TopTitle extends StatelessWidget{
     TIC TAC TOE
     THE UNBEATABLE
   */
-  
-  var tictactoeText = "TIC TAC TOE";
-  var theUnbeatbleText = "THE UNBEATABLE";
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,7 @@ class TopTitle extends StatelessWidget{
                   width: 8 * tileSize,
                   child: FittedBox(
                     fit: BoxFit.contain,
-                    child: Text( tictactoeText,
+                    child: Text( "TIC TAC TOE",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                             color: Color(0xffF4F4F4),
@@ -43,7 +40,7 @@ class TopTitle extends StatelessWidget{
                   margin: EdgeInsets.only(top: tileSize / 5),
                   child: FittedBox(
                     fit: BoxFit.contain,
-                    child: Text(theUnbeatbleText,
+                    child: Text("THE UNBEATABLE",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xff8EC6C5),
