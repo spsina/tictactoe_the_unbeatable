@@ -166,7 +166,9 @@ int utility(List< List < String > > board){
   if (ca == 0)
     u++;
   
-  return u;
+  if (pl == X)
+    return u;
+  return -u;
 }
 
 Tuple2 maxValue(List< List < String > > board, alpha, beta, d){
@@ -233,8 +235,5 @@ Tuple2 minValue(List< List < String > > board, alpha, beta, d){
 
 Tuple2 alphaBeta(List< List < String > > board) {
   int d = board.length == 3 ? inf : 5;
-  if (_player(board) == O)
-    return maxValue(board, - 999999, 999999, d);
-  
-  return minValue(board, - 999999, 999999, d);
+  return maxValue(board, - 999999, 999999, d);
 }

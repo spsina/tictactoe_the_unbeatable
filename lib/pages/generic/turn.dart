@@ -3,16 +3,42 @@ import 'package:flutter/material.dart';
 import 'package:tictactoe/game/player.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
+enum GameState {
+  ONGOING,
+  WIN,
+  LOSE,
+  TIE,
+}
+
 class Turn extends StatelessWidget{
   final Player player;
   final int _key;
+  final GameState state; 
 
-  Turn(this.player, this._key) : super(key: ValueKey<int>(_key));
+  Turn(this.player, this._key, this.state) : super(key: ValueKey<int>(_key*state.hashCode.toInt()));
 
   @override
   Widget build(BuildContext context) {
     bool isX = player.type == PlayerType.X;
     double tileSize = MediaQuery. of(context).size.width / 9;
+    
+    var source;
+    var text;
+    if (state == GameState.ONGOING){
+      source = isX ? "assets/animations/battle/your_turn.flr"
+                    :"assets/animations/battle/thinking.flr";
+      text = isX ? ".:: YOUR TURN ::." : ".:: AI IS THINKING ::.";
+
+    } else if (state == GameState.WIN) {
+      source = "assets/animations/battle/win.flr";
+      text = "YOU WIN";
+    } else if (state == GameState.LOSE){
+      source = "assets/animations/battle/lose.flr";
+      text = "YOU LOSE";
+    } else {
+      source = "assets/animations/battle/tie.flr";
+      text = "NOT BAD, THAT WAS A TIE";
+    }
 
     return Container(
       margin: EdgeInsets.only(top: tileSize / 5),
@@ -26,14 +52,13 @@ class Turn extends StatelessWidget{
                 height: tileSize * 4,
                 margin: EdgeInsets.only(top:tileSize / 5),
                 child: FlareActor(
-                  isX ? "assets/animations/battle/your_turn.flr"
-                        :"assets/animations/battle/thinking.flr", 
+                  source,
                   alignment:Alignment.center, 
                   sizeFromArtboard: true, 
                   animation:"Alarm"
                 )
               ),
-              Text(isX ? ".:: YOUR TURN ::." : ".:: AI IS THINKING ::.", style: TextStyle(
+              Text(text, style: TextStyle(
                   color: Color(0xffF4F4F4),
                   fontSize: tileSize / 4
                 ),

@@ -54,7 +54,6 @@ class Board{
         player = Player(x);
     }
 
-    
   }
-  
+
 }

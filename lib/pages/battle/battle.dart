@@ -28,18 +28,22 @@ class GameBoard extends StatefulWidget {
 class Game extends State<GameBoard> {
   
   Board board;
-  Turn turnWidget;
+  Widget turnWidget;
+
+  void initialize(){
+    board = Board(widget.size);
+    turnWidget = Turn(board.player, board.player.key, GameState.ONGOING);
+  }
 
   @override
   void initState() {
-    board = Board(widget.size);
-    turnWidget = Turn(board.player, board.player.key);
+    initialize();
     super.initState();
   }
 
   
   void playerMoveTo(i, j) async{
-    if (widget.playingAs == board.player.type){
+    if (widget.playingAs == board.player.type && board.board[i][j] == "" && ! terminal(board.board).item1){
       moveTo(Tuple2(i,j));
       Tuple2 aiMove = await compute<List< List < String > >, Tuple2 >(alphaBeta, board.board);
 
@@ -48,27 +52,14 @@ class Game extends State<GameBoard> {
   }
 
   void moveTo(Tuple2 m) {
+    if (m == null)
+      return;
+    
     int i = m.item1; int j = m.item2;
     setState(() {
       board.moveTo(i, j);
-      turnWidget = Turn(board.player, board.player.key);
+      turnWidget = Turn(board.player, board.player.key, GameState.ONGOING);
     });
-
-    var done = terminal(board.board);
-
-    if (done.item1){
-      if (done.item2 != null && done.item2.type == widget.playingAs){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Entry(WinPage(widget.size))),
-        );
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Entry(LoosePage(widget.size))),
-        );
-      }
-    }
 
   }
 
@@ -77,6 +68,22 @@ class Game extends State<GameBoard> {
     // get the player 
 
     final double tileSize = MediaQuery. of(context).size.width / 9;
+    
+    var done = terminal(board.board);
+
+    if (done.item1){
+      if (done.item2 == null) {
+        setState(() {
+          turnWidget = Turn(board.player, board.player.key, GameState.TIE);
+        });
+      }else if (done.item2.type == widget.playingAs){
+        setState(() {
+          turnWidget = Turn(board.player, board.player.key, GameState.WIN);
+        });
+      } else {
+        turnWidget = Turn(board.player, board.player.key, GameState.LOSE);
+      }
+    }
 
     return Container(
       child: Column(
@@ -132,22 +139,40 @@ class Game extends State<GameBoard> {
             child: Align(
               child: Container(
                 height: tileSize,
-                color: Color(0xffff1e56),
-                child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
-                      );
-                    },
-                    child: Container(
-                      width: tileSize * 3,
-                      height: tileSize,
-                      child: Center( 
-                        child: Text("RESIGN", style: TextStyle(color: Colors.white),),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                      FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
+                        );
+                      },
+                      child: Container(
+                        width: tileSize * 3,
+                        height: tileSize,
+                        child: Center(
+                          child: Icon(Icons.home, size: 50, color: Color(0xff29a19c),)
+                        ) 
                       )
-                    )
-                  ),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          initialize();
+                        });
+                      },
+                      child: Container(
+                        width: tileSize * 3,
+                        height: tileSize,
+                        child: Center(
+                          child: Icon(Icons.replay, size: 50, color: Color(0xff29a19c),)
+                        ) 
+                      )
+                    ),
+                  ],
+                )
               ),
               alignment: Alignment.bottomCenter,
 

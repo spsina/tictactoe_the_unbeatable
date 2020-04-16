@@ -50,6 +50,9 @@ flutter:
     - assets/images/battleSelect/ai_turn.png
     - assets/animations/battle/thinking.flr
     - assets/animations/battle/your_turn.flr
+    - assets/animations/battle/lose.flr
+    - assets/animations/battle/win.flr
+    - assets/animations/battle/tie.flr
     - assets/animations/battleSelect/select.flr
   
 
