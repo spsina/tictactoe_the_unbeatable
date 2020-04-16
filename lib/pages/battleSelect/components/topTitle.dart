@@ -8,6 +8,9 @@ class TopTitle extends StatelessWidget{
     THE UNBEATABLE
   */
   
+  var tictactoeText = "TIC TAC TOE";
+  var theUnbeatbleText = "THE UNBEATABLE";
+
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
@@ -23,24 +26,30 @@ class TopTitle extends StatelessWidget{
               children: <Widget>[
                 // TIC TAC TOE
                 Container(
-                  child: Text("TIC TAC TOE",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xffF4F4F4),
-                      fontSize: tileSize / 1.3
-                      ),
+                  width: 8 * tileSize,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text( tictactoeText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                            color: Color(0xffF4F4F4),
+                          ),
                       )
+                  ),
                 ),
                 // THE UNBETABLE
                 Container(
+                  width: 6 * tileSize,
                   margin: EdgeInsets.only(top: tileSize / 5),
-                  child: Text("THE UNBEATABLE",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xff8EC6C5),
-                      fontSize: tileSize / 2
-                      ),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(theUnbeatbleText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xff8EC6C5),
+                        ),
                       )
+                  ),
                 ),
             ],
             ),
