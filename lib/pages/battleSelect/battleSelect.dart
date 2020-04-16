@@ -14,15 +14,19 @@ class BattleSelectPage extends StatelessWidget{
         child: Column(
           children: <Widget>[
               TopTitle(),
-              BattleOptions(),
               Expanded(
-                  child: Align(
-                    child: InkWell(
-                      onTap: () {
-                      },
-                      child: AboutButton(),
-                    ),
-                    alignment: FractionalOffset.bottomCenter,
+                flex: 4,
+                child: BattleOptions(),
+              ),
+              Expanded(
+                flex: 1,
+                child: Align(
+                  child: InkWell(
+                    onTap: () {
+                    },
+                    child: AboutButton(),
+                  ),
+                  alignment: FractionalOffset.bottomCenter,
                 ),
               ),
             ],
