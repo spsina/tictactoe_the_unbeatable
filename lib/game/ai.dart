@@ -164,31 +164,73 @@ Tuple2<bool, Player> terminal(List< List < String > > actual_board){
 
 }
 
-int utility(List< List < String > > board){
-  var pl = _player(board); 
+int winScore(int s, int op, int winby){
+  if (s == winby - 1 && op == 0)
+    return 400000;
+  if (op == winby - 1 && s == 0)
+    return -4000000;
+  if (s == winby - 2 && op == 0)
+    return 200000;
+  return 0;
+}
+
+int boardScore(List< List < String > >board, pl){
+  int score = 0;
+  int winby = 4;
+  var opp = pl == X ? O : X;
+  
+  for (var i = 0 ; i < board.length; i++){
+    int me = countInRow(board, pl, i);
+    int op = countInRow(board, opp, i);
+
+    score += winScore(me, op, winby);
+  }
+
+  for (var i = 0 ; i < board.length; i++){
+    int me = countInCol(board, pl, i);
+    int op = countInCol(board, opp, i);
+
+    score += winScore(me,op, winby);
+  }
+
+  int me = countInMainAxis(board, pl);
+  int op = countInMainAxis(board, opp);
+
+  score += winScore(me, op, winby);
+
+  me = countInCrossAxis(board, pl);
+  op = countInCrossAxis(board, opp);
+
+  score += winScore(me,op, winby);
+
+  return score;
+}
+
+
+int utility(List< List < String > > actual_board){
+  var pl = _player(actual_board); 
   var opp = pl == X ? O : X;
 
   int u = 0;
-
-  for (var i = 0;i<board.length; i++){
-    int countr = countInRow(board, opp, i);
-    int countc = countInCol(board, opp, i);
-
-    if (countr == 0)
-      u++;
-    
-    if (countc == 0)
-      u++;
-  }
-
-  int ma = countInMainAxis(board, opp);
-  int ca = countInCrossAxis(board, opp);
-
-  if (ma == 0)
-    u++;
   
-  if (ca == 0)
-    u++;
+  int wincount = 4;
+  int pad = actual_board.length - wincount;
+
+  if (pad <= 0)
+    return boardScore(actual_board, pl);
+
+  for (var i = 0; i <= pad; i ++){
+    for (var j = 0; j <= pad; j ++){
+      List< List < String > > board;
+      board = List<List<String>>.generate(wincount, (k) {
+          return List<String>.generate(wincount, (l) {
+            return actual_board[k + i][l + j];
+        }); 
+      });
+      u += boardScore(board, pl);
+      
+    }
+  }
   
   if (pl == X)
     return u;
@@ -258,6 +300,6 @@ Tuple2 minValue(List< List < String > > board, alpha, beta, d){
 }
 
 Tuple2 alphaBeta(List< List < String > > board) {
-  int d = board.length == 3 ? inf : 1;
+  int d = board.length == 3 ? inf : 4;
   return maxValue(board, - inf, inf, d);
 }
