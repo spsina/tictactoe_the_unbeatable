@@ -2,7 +2,7 @@ import 'package:tictactoe/game/player.dart';
 import 'package:tuple/tuple.dart';
 var X = "X";
 var O = "O";
-var inf = 999999;
+var inf = 9999999999999;
 
 String _player(List< List < String > > board) {
   int cx = 0;
@@ -87,43 +87,37 @@ int countInCrossAxis(List< List < String > > board, String target) {
   return count;
 }
 
-Tuple2<bool, Player> terminal(List< List < String > > board){
-  // check to see if game is finished,
-  // either we have a winner or, board is full
+bool targetWin(List< List < String > >board, String target){
 
-  // check if the last played move, makes a win
-  
   // winner by row
   for (var i = 0 ; i < board.length; i++){
-    if (countInRow(board, "X", i) == board.length)
-      return Tuple2(true, Player(x));
-    
-    if (countInRow(board, "O", i) == board.length)
-      return Tuple2(true, Player(o));
+    if (countInRow(board, target, i) == board.length)
+      return true;
   }
   
   for (var i = 0 ; i < board.length; i++){
-    if (countInCol(board, "X", i) == board.length)
-      return Tuple2(true, Player(x));
-    
-    if (countInCol(board, "O", i) == board.length)
-      return Tuple2(true, Player(o));
+    if (countInCol(board, target, i) == board.length)
+      return true;
   }
 
   // if on axix, check for winner by axis
-  if (countInMainAxis(board, "X") == board.length)
+  if (countInMainAxis(board, target) == board.length)
+    return true;
+  
+  if (countInCrossAxis(board, target) == board.length)
+    return true;
+  
+  return false;
+}
+
+Tuple2<bool, Player> gameFinished(List< List < String > > board){
+  
+  if (targetWin(board, "X"))
     return Tuple2(true, Player(x));
 
-  
-  if (countInMainAxis(board, "O") == board.length)
+  if (targetWin(board, "O"))
     return Tuple2(true, Player(o));
   
-  if (countInCrossAxis(board, "X") == board.length)
-    return Tuple2(true, Player(x));
-  
-  if (countInCrossAxis(board, "O") == board.length)
-    return Tuple2(true, Player(o));
-
   int cc  = 0;
   board.forEach((row) {
     row.forEach((cell) {
@@ -131,11 +125,41 @@ Tuple2<bool, Player> terminal(List< List < String > > board){
         cc++;
     });
   });
-  
 
   if (cc == 0)
     return Tuple2(true, null);
+
   // game is not finished
+  return Tuple2(false, null);
+
+}
+
+Tuple2<bool, Player> terminal(List< List < String > > actual_board){
+  // check to see if game is finished,
+  // either we have a winner or, board is full
+
+  // check if the last played move, makes a win
+  int wincount = 4;
+  int pad = actual_board.length - wincount;
+
+  if (pad <= 0)
+    return gameFinished(actual_board);
+
+  for (var i = 0; i <= pad; i ++){
+    for (var j = 0; j <= pad; j ++){
+      List< List < String > > board;
+      board = List<List<String>>.generate(wincount, (k) {
+          return List<String>.generate(wincount, (l) {
+            return actual_board[k + i][l + j];
+        }); 
+      });
+      var gf = gameFinished(board);
+
+      if (gf.item1)
+        return gf;
+    }
+  }
+
   return Tuple2(false, null);
 
 }
@@ -234,6 +258,6 @@ Tuple2 minValue(List< List < String > > board, alpha, beta, d){
 }
 
 Tuple2 alphaBeta(List< List < String > > board) {
-  int d = board.length == 3 ? inf : 5;
-  return maxValue(board, - 999999, 999999, d);
+  int d = board.length == 3 ? inf : 1;
+  return maxValue(board, - inf, inf, d);
 }
