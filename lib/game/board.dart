@@ -275,7 +275,12 @@ class Board{
       return 0;
     } else {
       int score = 0;
-      boxes(4).forEach((box) => score += boxScore(box));
+      var _boxes = boxes(4);
+      for (var i = 0 ; i  < _boxes.length; i++){
+        int tmpScore = boxScore(_boxes[i]);
+        if (tmpScore.abs() > score)
+          score = tmpScore;
+      }
       return score;
     }
   }

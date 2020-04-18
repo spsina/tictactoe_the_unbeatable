@@ -96,7 +96,7 @@ class BattleOptions extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(4, x,x))),
+                  MaterialPageRoute(builder: (context) => Entry(GameBoard(5, x,x))),
                 );
               },
               child: BattleOption("assets/images/battleSelect/5x5_challenge.png",
@@ -108,7 +108,7 @@ class BattleOptions extends StatelessWidget{
                         height: 1.5 * tileSize,
                         child: FittedBox(
                           fit: BoxFit.contain,
-                          child: Text("7x7", 
+                          child: Text("5x5", 
                             textAlign: TextAlign.left,
                             style: TextStyle ( 
                               color : Color(0xffffac41),
