@@ -206,7 +206,7 @@ class Board{
       
       return 0;
     } else {
-      throw 1;
+      
     }
   }
 

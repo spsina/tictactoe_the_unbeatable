@@ -17,7 +17,7 @@ Tuple2<int, Tuple2<int, int>> maxValue(Board board, int alpha, int beta, int dep
 
 
   for (var move in board.possibleMoves){
-    var data = minValue(result(board, move.item1, move.item2), alpha, beta, depth);
+    var data = minValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 > value){
       value = data.item1;
@@ -43,7 +43,7 @@ Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int dep
   var bestMove;
 
   for (var move in board.possibleMoves){
-    var data = maxValue(result(board, move.item1, move.item2), alpha, beta, depth);
+    var data = maxValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 < value){
       value = data.item1;
@@ -60,8 +60,14 @@ Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int dep
 }
 
 Tuple2 <int, int> alphabeta(Board board){
+
+  int d = inf;
+
+  if (board.size != 3)
+    d = 3;
+
   if (board.player == x)
-    return maxValue(board, -inf, inf, inf).item2;
+    return maxValue(board, -inf, inf, d).item2;
   
-  return minValue(board, -inf, inf, inf).item2;
+  return minValue(board, -inf, inf, d).item2;
 }
