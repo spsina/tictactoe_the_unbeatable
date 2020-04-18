@@ -42,7 +42,7 @@ class Game extends State<GameBoard> {
 
   
   Future<void> makeAIMove() async {
-    Tuple2 aiMove = await compute<Board, Tuple2 <int,int> >(alphabeta, board);
+    Tuple2 aiMove = await compute(alphabeta, board);
     moveTo(aiMove);
   }
 
