@@ -1,4 +1,3 @@
-import 'package:tictactoe/game/ai.dart';
 import 'package:tuple/tuple.dart';
 
 var x = "X";
@@ -129,6 +128,19 @@ class Board{
       }
     }
     return null;
+  }
+
+  Tuple2<bool, String> terminal(){
+    // (game finished, winner)
+
+    var theWinner = winner();
+    if (theWinner != null)
+      return Tuple2(true, theWinner);
+
+    if (possibleMoves.length == 0)
+      return Tuple2(true, null);
+    
+    return Tuple2(false, null);
   }
 
   static int countTargetInRow(List<List<String>> box, String target, int row){
