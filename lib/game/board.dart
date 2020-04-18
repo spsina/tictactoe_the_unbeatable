@@ -13,6 +13,10 @@ class Board{
   int moves;                              // number of moves made so far
   int maxMoves;                           // max number of moves (size * size)
 
+  double ration(){
+    return (possibleMoves.length/maxMoves);
+  }
+
   Board clone(){
     // return a clone of this board
     

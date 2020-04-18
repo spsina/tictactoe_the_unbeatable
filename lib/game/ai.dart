@@ -63,8 +63,12 @@ Tuple2 <int, int> alphabeta(Board board){
 
   int d = inf;
 
-  if (board.size != 3)
-    d = 3;
+  if (board.size != 3){
+    if (board.ration() > 0.8)
+      d = 4;
+    else
+      d = 5;
+  }
 
   if (board.player == x)
     return maxValue(board, -inf, inf, d).item2;

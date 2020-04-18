@@ -120,7 +120,7 @@ class BattleOptions extends StatelessWidget{
                         child: 
                         SingleChildScrollView(
                           child: Text (
-                            sevenBySeven, 
+                            fiveByfive, 
                             style: TextStyle ( 
                               color : Color(0xffdbdbdb),
                               fontFamily: "",
@@ -146,7 +146,7 @@ class BattleOptions extends StatelessWidget{
                   MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x, x))),
                 );
               },
-              child: BattleOption("assets/images/battleSelect/5x5_challenge.png",
+              child: BattleOption("assets/images/battleSelect/7x7.png",
                 Center(
                   child: Column (
                     children: <Widget>[
@@ -167,7 +167,7 @@ class BattleOptions extends StatelessWidget{
                         child: 
                         SingleChildScrollView(
                           child: Text (
-                            sevenBySeven, 
+                            fiveByfive, 
                             style: TextStyle ( 
                               color : Color(0xffdbdbdb),
                               fontFamily: "",
