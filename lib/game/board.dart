@@ -76,8 +76,10 @@ class Board{
   String winnerInBox(List<List<String>> box, int winby, int li, int lj){
     // if there is a winner - based on the last move - in the given box, return it
     // null other wise
+    var pl = [o, x];
+    for (var i = 0; i < pl.length; i ++){
+      var p = pl[i];
 
-    [o, x].forEach((p){
       // winner by row
       if (countTargetInRow(box, p, li) == winby)
         return p;
@@ -94,9 +96,8 @@ class Board{
       if (countInCrossAxis(box, p) == winby)
         return p;
       
-      return null;
-    });
-
+    }
+    
     // no winnners found
     return null;
   }
@@ -104,6 +105,10 @@ class Board{
   String winner(){
     // return the winner of the board
     // if no winners, return null
+
+    // no last move, don't check
+    if (lastMove.item1 == -1 && lastMove.item2 == -1)
+      return null;
 
     int winby = board.length == 3 ? 3 : 4;
 
@@ -115,13 +120,25 @@ class Board{
     // check for winner in each winby x winby boxes
     for (var i = 0 ; i <= pad; i ++){
       for (var j = 0; j <=pad ; j++){
+
+        // if last move, is not inside this box, don't botther
+        int startr = i;
+        int endr = i + winby - 1;
+        int startc = j;
+        int endc = j + winby - 1;
+
+        if (lastMove.item1 > endr || lastMove.item1 < startr)
+          continue;
+        if (lastMove.item2 > endc || lastMove.item2 < startc)
+          continue;
+
         var box = List<List<String>>.generate(winby, (k){
           return List<String>.generate(winby, (l){
             return board[k+i][l+j];
           });
         });
 
-        var winner = winnerInBox(box, winby, lastMove.item1-i, lastMove.item2 -j);
+        var winner = winnerInBox(box, winby, lastMove.item1 - i, lastMove.item2 -j);
         if (winner == null)
           continue;
         return winner;

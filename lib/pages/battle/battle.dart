@@ -40,17 +40,19 @@ class Game extends State<GameBoard> {
   }
 
   
-  Future<void> makeAIMove() async {
-    Tuple2 aiMove = await compute<List< List < String > >, Tuple2  >(alphaBeta, board.board);
-    moveTo(aiMove.item2);
-  }
+  // Future<void> makeAIMove() async {
+  //   Tuple2 aiMove = await compute<List< List < String > >, Tuple2  >(alphaBeta, board.board);
+  //   moveTo(aiMove.item2);
+  // }
 
   void playerMoveTo(i, j) async{
-    if (widget.playingAs == board.player && board.board[i][j] == "" && ! terminal(board.board).item1){
       moveTo(Tuple2(i,j));
+
+    // if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
+    //   moveTo(Tuple2(i,j));
       
-      await makeAIMove();
-    }
+    //   // await makeAIMove();
+    // }
   }
 
   void moveTo(Tuple2 m) {
@@ -71,7 +73,7 @@ class Game extends State<GameBoard> {
 
     final double tileSize = MediaQuery. of(context).size.width / 9;
     
-    var done = terminal(board.board);
+    var done = board.terminal();
 
     if (done.item1){
       if (done.item2 == null) {
