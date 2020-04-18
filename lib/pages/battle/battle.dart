@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tictactoe/game/ai.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
@@ -40,19 +41,16 @@ class Game extends State<GameBoard> {
   }
 
   
-  // Future<void> makeAIMove() async {
-  //   Tuple2 aiMove = await compute<List< List < String > >, Tuple2  >(alphaBeta, board.board);
-  //   moveTo(aiMove.item2);
-  // }
+  Future<void> makeAIMove() async {
+    Tuple2 aiMove = await compute<Board, Tuple2 <int,int> >(alphabeta, board);
+    moveTo(aiMove);
+  }
 
   void playerMoveTo(i, j) async{
+    if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
       moveTo(Tuple2(i,j));
-
-    // if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
-    //   moveTo(Tuple2(i,j));
-      
-    //   // await makeAIMove();
-    // }
+      await makeAIMove();
+    }
   }
 
   void moveTo(Tuple2 m) {

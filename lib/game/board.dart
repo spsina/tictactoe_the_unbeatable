@@ -30,6 +30,7 @@ class Board{
       });
     });
 
+    return cloned;
   }
 
   Board(this.size, this.player) {
