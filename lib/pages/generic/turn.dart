@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/game/player.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:tictactoe/game/board.dart';
 
 enum GameState {
   ONGOING,
@@ -11,15 +11,14 @@ enum GameState {
 }
 
 class Turn extends StatelessWidget{
-  final Player player;
-  final int _key;
+  final String player;
   final GameState state; 
 
-  Turn(this.player, this._key, this.state) : super(key: ValueKey<int>(_key*state.hashCode.toInt()));
+  Turn(this.player, this.state) : super(key: ValueKey<int>(state.hashCode.toInt()));
 
   @override
   Widget build(BuildContext context) {
-    bool isX = player.type == PlayerType.X;
+    bool isX = player == x;
     double tileSize = MediaQuery. of(context).size.width / 9;
     
     var source;

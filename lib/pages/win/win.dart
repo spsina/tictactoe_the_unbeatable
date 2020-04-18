@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/game/player.dart';
+import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
@@ -63,7 +63,7 @@ class WinPage extends StatelessWidget{
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Entry(GameBoard(boardSize, x))),
+                        MaterialPageRoute(builder: (context) => Entry(GameBoard(boardSize, x,x))),
                       );
                     },
                     child: Container(

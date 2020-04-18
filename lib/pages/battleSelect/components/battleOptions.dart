@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:marquee/marquee.dart';
-import 'package:tictactoe/game/player.dart';
+import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
@@ -49,7 +49,7 @@ class BattleOptions extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(3, x))),
+                  MaterialPageRoute(builder: (context) => Entry(GameBoard(3, x, x))),
                 );
               },
               child: BattleOption("assets/images/battleSelect/3x3_death.png",
@@ -96,7 +96,7 @@ class BattleOptions extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x))),
+                  MaterialPageRoute(builder: (context) => Entry(GameBoard(4, x,x))),
                 );
               },
               child: BattleOption("assets/images/battleSelect/5x5_challenge.png",
@@ -143,7 +143,7 @@ class BattleOptions extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x))),
+                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x, x))),
                 );
               },
               child: BattleOption("assets/images/battleSelect/5x5_challenge.png",

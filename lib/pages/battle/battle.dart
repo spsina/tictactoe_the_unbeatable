@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/game/ai.dart';
 import 'package:tictactoe/game/board.dart';
-import 'package:tictactoe/game/player.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
-import 'package:tictactoe/pages/win/loose.dart';
-import 'package:tictactoe/pages/win/win.dart';
 import 'package:tuple/tuple.dart';
 
 
@@ -16,10 +12,11 @@ class GameBoard extends StatefulWidget {
   /*
     The size by size game board
   */
-  final int size;
-  final PlayerType playingAs;
+  final int size;                   // size of the game board
+  final String playingAs;           // playing as
+  final String starter;             // player who starts the game
 
-  GameBoard(this.size, this.playingAs);
+  GameBoard(this.size, this.playingAs, this.starter);
 
   Game createState() => Game();
 }
@@ -31,8 +28,9 @@ class Game extends State<GameBoard> {
   Widget turnWidget;
 
   void initialize(){
-    board = Board(widget.size);
-    turnWidget = Turn(board.player, board.player.key, GameState.ONGOING);
+    board = Board(widget.size, widget.starter);
+    // makeAIMove();
+    turnWidget = Turn(board.player, GameState.ONGOING);
   }
 
   @override
@@ -42,12 +40,16 @@ class Game extends State<GameBoard> {
   }
 
   
-  void playerMoveTo(i, j) async{
-    if (widget.playingAs == board.player.type && board.board[i][j] == "" && ! terminal(board.board).item1){
-      moveTo(Tuple2(i,j));
-      Tuple2 aiMove = await compute<List< List < String > >, Tuple2 >(alphaBeta, board.board);
+  Future<void> makeAIMove() async {
+    Tuple2 aiMove = await compute<List< List < String > >, Tuple2  >(alphaBeta, board.board);
+    moveTo(aiMove.item2);
+  }
 
-      moveTo(aiMove.item2);
+  void playerMoveTo(i, j) async{
+    if (widget.playingAs == board.player && board.board[i][j] == "" && ! terminal(board.board).item1){
+      moveTo(Tuple2(i,j));
+      
+      await makeAIMove();
     }
   }
 
@@ -58,7 +60,7 @@ class Game extends State<GameBoard> {
     int i = m.item1; int j = m.item2;
     setState(() {
       board.moveTo(i, j);
-      turnWidget = Turn(board.player, board.player.key, GameState.ONGOING);
+      turnWidget = Turn(board.player, GameState.ONGOING);
     });
 
   }
@@ -74,14 +76,14 @@ class Game extends State<GameBoard> {
     if (done.item1){
       if (done.item2 == null) {
         setState(() {
-          turnWidget = Turn(board.player, board.player.key, GameState.TIE);
+          turnWidget = Turn(board.player,  GameState.TIE);
         });
-      }else if (done.item2.type == widget.playingAs){
+      }else if (done.item2 == widget.playingAs){
         setState(() {
-          turnWidget = Turn(board.player, board.player.key, GameState.WIN);
+          turnWidget = Turn(board.player, GameState.WIN);
         });
       } else {
-        turnWidget = Turn(board.player, board.player.key, GameState.LOSE);
+        turnWidget = Turn(board.player,  GameState.LOSE);
       }
     }
 
