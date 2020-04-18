@@ -183,7 +183,7 @@ class Board{
       if (box[i][i] == target)
         c++;
     }
-    return 0;
+    return c;
   }
 
   static int countInCrossAxis(List<List<String>> box, String target){
@@ -192,7 +192,75 @@ class Board{
       if (box[i][box.length - 1 - i] == target)
         c++;
     }
-    return 0;
+    return c;
+  }
+  
+  List <List <List < String >>> boxes(int winby){
+    // return a list of boxes of the current board
+
+    int pad = board.length - winby;
+    List <List <List < String >>> _boxes = List();
+
+    for (var i = 0 ; i <= pad; i ++){
+      for (var j = 0; j <=pad ; j++){
+        var box = List<List<String>>.generate(winby, (k){
+          return List<String>.generate(winby, (l){
+            return board[k+i][l+j];
+          });
+        });
+        _boxes.add(box);
+      }
+    }
+    return _boxes;
+  }
+
+  int boxScore(List <List < String >> box){
+    // score of the given box: sum of scores of each row, col, main axsis and cross axsis
+
+    int score = 0;
+
+    [x, o].forEach((_player) {
+      var opp = _player == x ? o : x; // the opponant
+      for (var i = 0; i < box.length; i ++){
+        int cr = countTargetInRow(box, opp, i);
+        int cc = countTargetInCol(box, opp, i);
+
+        if (cr == 0){
+          if (_player == x)
+            score += 1;
+          else
+            score -= 1;
+        }
+
+        if (cc == 0){
+          if (_player == x)
+            score += 1;
+          else
+            score -= 1;
+        }
+
+      }
+
+        int cma = countInMainAxis(box, opp);
+        int cca = countInCrossAxis(box, opp);
+
+        if (cma == 0){
+          if (_player == x)
+            score += 1;
+        else
+          score -= 1;
+        }
+      
+       if (cca == 0){
+          if (_player == x)
+            score += 1;
+        else
+          score -= 1;
+       }
+
+    });
+    
+    return score;
   }
 
   int utility(){
@@ -206,7 +274,9 @@ class Board{
       
       return 0;
     } else {
-      
+      int score = 0;
+      boxes(4).forEach((box) => score += boxScore(box));
+      return score;
     }
   }
 

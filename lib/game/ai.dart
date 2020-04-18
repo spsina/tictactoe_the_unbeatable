@@ -12,7 +12,7 @@ Tuple2<int, Tuple2<int, int>> maxValue(Board board, int alpha, int beta, int dep
   if (terminated.item1 || depth == 0)
     return Tuple2(board.utility(), null);
   
-  int value = - inf;
+  int value = - inf * inf;
   var bestMove;
 
 
@@ -39,7 +39,7 @@ Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int dep
   if (terminated.item1 || depth == 0)
     return Tuple2(board.utility(), null);
   
-  int value = inf;
+  int value = inf * inf;
   var bestMove;
 
   for (var move in board.possibleMoves){
