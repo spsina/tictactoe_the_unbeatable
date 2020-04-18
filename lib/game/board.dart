@@ -2,6 +2,7 @@ import 'package:tuple/tuple.dart';
 
 var x = "X";
 var o = "O";
+var inf = 99999999999999;
 
 class Board{
   List<List<String>> board;               // the game board
@@ -191,6 +192,21 @@ class Board{
         c++;
     }
     return 0;
+  }
+
+  int utility(){
+    // utitlity of the current board
+    var terminated = terminal();
+    if (terminated.item1){
+      if (terminated.item2 == x)
+        return inf;
+      else if (terminated.item2 == o)
+        return -inf;
+      
+      return 0;
+    } else {
+      throw 1;
+    }
   }
 
 }
