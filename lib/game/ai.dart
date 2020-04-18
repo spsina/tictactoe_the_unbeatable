@@ -29,6 +29,9 @@ Tuple2<int, Tuple2<int, int>> maxValue(Board board, int alpha, int beta, int dep
     if (alpha > beta)
       break;
 
+    if (value.abs() > 0.5 * inf)
+      break;
+
   }
 
   return Tuple2(value, bestMove);
@@ -54,6 +57,8 @@ Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int dep
     if (alpha > beta)
       break;
 
+    if (value.abs() > 0.5 * inf)
+      break;
   }
 
   return Tuple2(value, bestMove);
@@ -65,9 +70,11 @@ Tuple2 <int, int> alphabeta(Board board){
 
   if (board.size != 3){
     if (board.ration() > 0.8)
-      d = 4;
-    else
       d = 5;
+    else if (board.ration() > 0.5)
+      d = 5;
+    else if (board.ration() <= 0.5)
+      d = inf;
   }
 
   if (board.player == x)
