@@ -218,62 +218,74 @@ class Board{
     return _boxes;
   }
 
-  int getRawScore(int me, int opp, String p){
+  int getRawScore(int me, int opp, Tuple3 extra){
     int s = 0;
 
     if (opp == 0)
-      s ++;
-    
-    if (opp == 2 && me == 0 && player != p )
+      s += me + 1;
+    if (opp == 2 && me ==0)
       s -= 100;
-
+    if (opp == 3 && me == 0)
+      s -= 1000;
     return s;
   }
 
   int getTargetScore(List <List < String >> box, String target){
     int score = 0;
     String opp = target == x ? o : x;
+    var extra;
 
     for (var i = 0; i < box.length; i ++){
-      int op = countTargetInRow(box, opp, i);
-      int me = countTargetInRow(box, target, i);
-      int oppc = countTargetInCol(box, opp, i);
-      int mec = countTargetInCol(box, target, i);
-
-      if (op == 0)
-        score++;
-      if (op == 2 && me == 0)
-        score -= 100;
-      
-      if (oppc == 0)
-        score ++;
-      if (oppc == 2 && mec == 0)
-        score -= 100;
+      score += getRawScore(countTargetInRow(box, target, i), countTargetInRow(box, opp, i), extra);
+      score += getRawScore(countTargetInCol(box, target, i), countTargetInCol(box, opp, i), extra);
     }
 
-    int opma = countInMainAxis(box, opp);
-    int mema = countInMainAxis(box, target);
+    score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra) * 100;
+    score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra) * 100;
 
-    if (opma == 0)
-      score++;
-    if (opma == 2 && mema == 0)
-      score -= 100;
+    // int forks = 0;
+    // for (var i = 0 ; i < box.length; i++) {
+    //   for (var j = 0 ; j < box.length; j++){
+    //     if (box[i][j] == "" || box[i][j] != target)
+    //       continue;
+        
+    //     // left fork
+    //     if (i - 1 >=0 && j + 1 < box.length){
+    //       if (box[i-1][j] == box[i][j] && box[i][j+1] == box[i][j])
+    //         forks += 5;
+          
+    //     }
 
-    int opca = countInCrossAxis(box, opp);
-    int meca = countInCrossAxis(box, target);
+    //     // right fork
+    //     if (i - 1 >=0 && j - 1 >= 0){
+    //       if (box[i-1][j] == box[i][j] && box[i][j-1] == box[i][j])
+    //         forks ++;
+    //     }
 
-    if (opca == 0)
-      score++;
-    
-    if (opca == 2 && meca == 0)
-      score -= 100;
+    //     // top left fork
+    //     if (i + 1 < box.length && j + 1 < box.length){
+    //       if (box[i+1][j] == box[i][j] && box[i][j+1] == box[i][j])
+    //         forks ++;
+    //     }
+
+    //     // top right fork
+    //     if (i + 1 < box.length && j - 1 >= 0){
+    //       if (box[i+1][j] == box[i][j] && box[i][j-1] == box[i][j])
+    //         forks ++;
+    //     }
+    //   }
+    // }
+
+    // score += (forks * 1000);
+
+    // if (lforks != 0)
+    //   print("detected");
 
     return score;
   }
 
   int boxScore(List <List < String >> box){
     // score of the given box: sum of scores of each row, col, main axsis and cross axsis
-
     return getTargetScore(box, x) - getTargetScore(box, o);
   }
 
@@ -287,13 +299,24 @@ class Board{
         return -inf;
       
       return 0;
+    } else if (size == 5){
+      int score = 0;
+      var _boxes = boxes(4);
+      for (var i = 0 ; i  < _boxes.length; i++){
+        int tmpScore = boxScore(_boxes[i]);
+        if (tmpScore.abs() > score.abs())
+          score = tmpScore;
+        // score += tmpScore;
+      }
+      return score;
     } else {
       int score = 0;
       var _boxes = boxes(4);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
-        if (tmpScore.abs() > score)
+        if (tmpScore.abs() > score.abs())
           score = tmpScore;
+        // score += tmpScore;
       }
       return score;
     }
