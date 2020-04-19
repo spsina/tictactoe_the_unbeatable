@@ -243,44 +243,6 @@ class Board{
     score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra) * 100;
     score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra) * 100;
 
-    // int forks = 0;
-    // for (var i = 0 ; i < box.length; i++) {
-    //   for (var j = 0 ; j < box.length; j++){
-    //     if (box[i][j] == "" || box[i][j] != target)
-    //       continue;
-        
-    //     // left fork
-    //     if (i - 1 >=0 && j + 1 < box.length){
-    //       if (box[i-1][j] == box[i][j] && box[i][j+1] == box[i][j])
-    //         forks += 5;
-          
-    //     }
-
-    //     // right fork
-    //     if (i - 1 >=0 && j - 1 >= 0){
-    //       if (box[i-1][j] == box[i][j] && box[i][j-1] == box[i][j])
-    //         forks ++;
-    //     }
-
-    //     // top left fork
-    //     if (i + 1 < box.length && j + 1 < box.length){
-    //       if (box[i+1][j] == box[i][j] && box[i][j+1] == box[i][j])
-    //         forks ++;
-    //     }
-
-    //     // top right fork
-    //     if (i + 1 < box.length && j - 1 >= 0){
-    //       if (box[i+1][j] == box[i][j] && box[i][j-1] == box[i][j])
-    //         forks ++;
-    //     }
-    //   }
-    // }
-
-    // score += (forks * 1000);
-
-    // if (lforks != 0)
-    //   print("detected");
-
     return score;
   }
 
