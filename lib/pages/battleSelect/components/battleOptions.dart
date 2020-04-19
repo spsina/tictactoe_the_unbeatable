@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
-import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
+import 'package:tictactoe/pages/battleSelect/components/battleOption.dart';
 import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
 import 'package:tictactoe/pages/battleSelect/components/strings.dart';
 
@@ -189,7 +189,7 @@ class BattleOptions extends StatelessWidget{
               onTap: () {
                 _showPlayAsOptions(7, GameMode.LOCAL);
               },
-              child: BattleOption("assets/images/battleSelect/7x7.png",
+              child: BattleOption ("assets/images/battleSelect/7x7.png",
                 Center(
                   child: Column (
                     children: <Widget>[
