@@ -65,15 +65,19 @@ class Game extends State<GameBoard> {
   }
 
   void playerMoveTo(i, j) async {
+
+    // ignore the call if the game is finished
+    if (board.terminal().item1)
+      return ;
+
     // there are no constraints on a local game
     if (widget.gameMode == GameMode.LOCAL){
       moveTo(Tuple2(i, j));
     } else {
       // if it's not your turn,
-      // or the game is finished
       // or the cell is not empty, reject the move
       
-      if (board.player != widget.playingAs || board.board[i][j] != "" || board.terminal().item1)
+      if (board.player != widget.playingAs || board.board[i][j] != "")
         return;
       
       // make the move
