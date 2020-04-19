@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:marquee/marquee.dart';
-import 'package:tictactoe/game/board.dart';
-import 'package:tictactoe/main.dart';
-import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
-import 'package:tictactoe/pages/battleSelect/components/5x5.dart';
+import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
 import 'package:tictactoe/pages/battleSelect/components/strings.dart';
+
 
 class BattleOptions extends StatelessWidget{
   /*
@@ -19,6 +16,15 @@ class BattleOptions extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
+
+    void _showPlayAsOptions(int size) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PlayAs(size);
+        },
+      );
+    }
 
     return Container(
       margin: EdgeInsets.only(top: tileSize),
@@ -47,10 +53,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(3, x, x))),
-                );
+                _showPlayAsOptions(3);
               },
               child: BattleOption("assets/images/battleSelect/3x3_death.png",
                 Center(
@@ -94,10 +97,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(5, x,x))),
-                );
+                _showPlayAsOptions(5);
               },
               child: BattleOption("assets/images/battleSelect/5x5_challenge.png",
                 Center(
@@ -141,10 +141,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x, x))),
-                );
+                _showPlayAsOptions(7);
               },
               child: BattleOption("assets/images/battleSelect/7x7.png",
                 Center(
@@ -189,10 +186,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x, x, isSinglePlayer: false,))),
-                );
+                _showPlayAsOptions(7);
               },
               child: BattleOption("assets/images/battleSelect/7x7.png",
                 Center(
