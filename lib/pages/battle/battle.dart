@@ -16,8 +16,12 @@ class GameBoard extends StatefulWidget {
   final int size;                   // size of the game board
   final String playingAs;           // playing as
   final String starter;             // player who starts the game
+  bool isSinglePlayer;              // play with ai or with a firend
 
-  GameBoard(this.size, this.playingAs, this.starter);
+
+  GameBoard(this.size, this.playingAs, this.starter, {bool isSinglePlayer: true}){
+    this.isSinglePlayer = isSinglePlayer;
+  }
 
   Game createState() => Game();
 }
@@ -30,8 +34,11 @@ class Game extends State<GameBoard> {
 
   void initialize(){
     board = Board(widget.size, widget.starter);
-    // makeAIMove();
-    turnWidget = Turn(board.player, GameState.ONGOING);
+    
+    if (widget.isSinglePlayer && board.player == widget.starter && board.player != widget.playingAs)
+      makeAIMove();
+    
+    turnWidget = Turn(board.player, GameState.ONGOING,null, isSinglePlayer: widget.isSinglePlayer,);
   }
 
   @override
@@ -47,7 +54,9 @@ class Game extends State<GameBoard> {
   }
 
   void playerMoveTo(i, j) async{
-    if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
+    if (!widget.isSinglePlayer&& ! board.terminal().item1)
+      moveTo(Tuple2(i,j));
+    else if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
       moveTo(Tuple2(i,j));
       await makeAIMove();
     }
@@ -60,7 +69,7 @@ class Game extends State<GameBoard> {
     int i = m.item1; int j = m.item2;
     setState(() {
       board.moveTo(i, j);
-      turnWidget = Turn(board.player, GameState.ONGOING);
+      turnWidget = Turn(board.player, GameState.ONGOING,null, isSinglePlayer: widget.isSinglePlayer);
     });
 
   }
@@ -76,14 +85,16 @@ class Game extends State<GameBoard> {
     if (done.item1){
       if (done.item2 == null) {
         setState(() {
-          turnWidget = Turn(board.player,  GameState.TIE);
+          turnWidget = Turn(board.player,  GameState.TIE,null, isSinglePlayer: widget.isSinglePlayer);
         });
-      }else if (done.item2 == widget.playingAs){
+      }else if (done.item2 == widget.playingAs && widget.isSinglePlayer){
         setState(() {
-          turnWidget = Turn(board.player, GameState.WIN);
+          turnWidget = Turn(board.player, GameState.WIN,null, isSinglePlayer: widget.isSinglePlayer);
         });
+      } else if (done.item2 != widget.playingAs && widget.isSinglePlayer) {
+        turnWidget = Turn(board.player,  GameState.LOSE,null, isSinglePlayer: widget.isSinglePlayer);
       } else {
-        turnWidget = Turn(board.player,  GameState.LOSE);
+        turnWidget = Turn(board.player,  GameState.WIN, done.item2, isSinglePlayer: widget.isSinglePlayer);
       }
     }
 

@@ -59,6 +59,7 @@ Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int dep
   return Tuple2(value, bestMove);
 }
 
+
 Tuple2 <int, int> alphabeta(Board board){
 
   int d = inf;

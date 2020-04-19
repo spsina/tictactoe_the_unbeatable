@@ -182,6 +182,54 @@ class BattleOptions extends StatelessWidget{
                   )
               ),
             ),
+            
+            InkWell(
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Color(0xaaff1e56),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Entry(GameBoard(7, x, x, isSinglePlayer: false,))),
+                );
+              },
+              child: BattleOption("assets/images/battleSelect/7x7.png",
+                Center(
+                  child: Column (
+                    children: <Widget>[
+                      Container(
+                        width: 2 * tileSize,
+                        height: 1.5 * tileSize,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text("7x7", 
+                            textAlign: TextAlign.left,
+                            style: TextStyle ( 
+                              color : Color(0xffffac41),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: 
+                        SingleChildScrollView(
+                          child: Text (
+                            fiveByfive, 
+                            style: TextStyle ( 
+                              color : Color(0xffdbdbdb),
+                              fontFamily: "",
+                              fontSize: 14
+                            ),
+                          ),
+                        )
+                        
+                      ),
+                    ],
+                  ),
+                  )
+              ),
+            ),
           
           ],
         ),

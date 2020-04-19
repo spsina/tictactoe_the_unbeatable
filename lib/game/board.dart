@@ -218,53 +218,63 @@ class Board{
     return _boxes;
   }
 
+  int getRawScore(int me, int opp, String p){
+    int s = 0;
+
+    if (opp == 0)
+      s ++;
+    
+    if (opp == 2 && me == 0 && player != p )
+      s -= 100;
+
+    return s;
+  }
+
+  int getTargetScore(List <List < String >> box, String target){
+    int score = 0;
+    String opp = target == x ? o : x;
+
+    for (var i = 0; i < box.length; i ++){
+      int op = countTargetInRow(box, opp, i);
+      int me = countTargetInRow(box, target, i);
+      int oppc = countTargetInCol(box, opp, i);
+      int mec = countTargetInCol(box, target, i);
+
+      if (op == 0)
+        score++;
+      if (op == 2 && me == 0)
+        score -= 100;
+      
+      if (oppc == 0)
+        score ++;
+      if (oppc == 2 && mec == 0)
+        score -= 100;
+    }
+
+    int opma = countInMainAxis(box, opp);
+    int mema = countInMainAxis(box, target);
+
+    if (opma == 0)
+      score++;
+    if (opma == 2 && mema == 0)
+      score -= 100;
+
+    int opca = countInCrossAxis(box, opp);
+    int meca = countInCrossAxis(box, target);
+
+    if (opca == 0)
+      score++;
+    
+    if (opca == 2 && meca == 0)
+      score -= 100;
+
+    return score;
+  }
+
   int boxScore(List <List < String >> box){
     // score of the given box: sum of scores of each row, col, main axsis and cross axsis
 
-    int score = 0;
-
-    [x, o].forEach((_player) {
-      var opp = _player == x ? o : x; // the opponant
-      for (var i = 0; i < box.length; i ++){
-        int cr = countTargetInRow(box, opp, i);
-        int cc = countTargetInCol(box, opp, i);
-
-        if (cr == 0){
-          if (_player == x)
-            score += 1;
-          else
-            score -= 1;
-        }
-
-        if (cc == 0){
-          if (_player == x)
-            score += 1;
-          else
-            score -= 1;
-        }
-
-      }
-
-        int cma = countInMainAxis(box, opp);
-        int cca = countInCrossAxis(box, opp);
-
-        if (cma == 0){
-          if (_player == x)
-            score += 1;
-        else
-          score -= 1;
-        }
-      
-       if (cca == 0){
-          if (_player == x)
-            score += 1;
-        else
-          score -= 1;
-       }
-
-    });
-    
-    return score;
+    return getTargetScore(box, x) - getTargetScore(box, o);
   }
 
   int utility(){

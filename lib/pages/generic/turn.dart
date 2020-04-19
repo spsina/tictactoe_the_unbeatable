@@ -12,9 +12,13 @@ enum GameState {
 
 class Turn extends StatelessWidget{
   final String player;
-  final GameState state; 
+  final GameState state;
+  bool isSinglePlayer;
+  final String winner;
 
-  Turn(this.player, this.state) : super(key: ValueKey<int>(state.hashCode.toInt()));
+  Turn(this.player, this.state, this.winner, {bool isSinglePlayer: true}) : super(key: ValueKey<int>(state.hashCode.toInt())){
+    this.isSinglePlayer = isSinglePlayer;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +30,18 @@ class Turn extends StatelessWidget{
     if (state == GameState.ONGOING){
       source = isX ? "assets/animations/battle/your_turn.flr"
                     :"assets/animations/battle/thinking.flr";
-      text = isX ? ".:: YOUR TURN ::." : ".:: AI IS THINKING ::.";
+      if (isSinglePlayer)
+        text = isX ? ".:: YOUR TURN ::." : ".:: AI IS THINKING ::.";
+      else
+        text = isX ? ".:: WAITING FOR 'X' TO PLAY ::." : ".:: WAITING FOR 'O' TO PLAY ::.";
+
 
     } else if (state == GameState.WIN) {
       source = "assets/animations/battle/win.flr";
-      text = "YOU WIN";
+      if (isSinglePlayer)
+        text = "YOU WIN";
+      else
+        text = winner + " WINS";
     } else if (state == GameState.LOSE){
       source = "assets/animations/battle/lose.flr";
       text = "YOU LOSE";
