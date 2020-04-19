@@ -6,9 +6,14 @@ import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/game/board.dart';
 
 class PlayAs extends StatelessWidget{
-  final int size;
+  
+  // initializes a new game board
+  // always sets the game starter to X
 
-  PlayAs(this.size);
+  final int size;             // game board size
+  final GameMode gameMode;    // game mode
+
+  PlayAs(this.size, this.gameMode);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, x, x))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, x, x, gameMode))),
                 );
               },
               child: Container(
@@ -44,7 +49,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, o, x))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, o, x, gameMode))),
                 );
               },
               child: Container(

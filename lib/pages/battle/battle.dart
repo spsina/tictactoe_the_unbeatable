@@ -8,21 +8,20 @@ import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
 import 'package:tuple/tuple.dart';
 
+enum GameMode {
+  AI,
+  LOCAL,
+  ONLINE
+}
 
 class GameBoard extends StatefulWidget {
-  /*
-    The size by size game board
-  */
+
   final int size;                   // size of the game board
   final String playingAs;           // playing as
   final String starter;             // player who starts the game
-  bool isSinglePlayer;              // play with ai or with a firend
+  final GameMode gameMode;          // AI, LOCAL, ONLINE
 
-
-  GameBoard(this.size, this.playingAs, this.starter, {bool isSinglePlayer: true}){
-    this.isSinglePlayer = isSinglePlayer;
-  }
-
+  GameBoard(this.size, this.playingAs, this.starter, this.gameMode);
   Game createState() => Game();
 }
 
@@ -35,10 +34,22 @@ class Game extends State<GameBoard> {
   void initialize(){
     board = Board(widget.size, widget.starter);
     
-    if (widget.isSinglePlayer && board.player == widget.starter && board.player != widget.playingAs)
-      makeAIMove();
-    
-    turnWidget = Turn(board.player, GameState.ONGOING,null, isSinglePlayer: widget.isSinglePlayer,);
+    turnWidget = Turn(this);
+
+    // if the starter of the game is not the same as the player
+    if (widget.starter != widget.playingAs) {
+
+      // if playing agaist AI, wait for AI move
+      if (widget.gameMode == GameMode.AI)
+        makeAIMove();
+      else if (widget.gameMode == GameMode.ONLINE) {
+        // todo: wait for opponent move
+      } else if (widget.gameMode == GameMode.LOCAL) {
+        // on a local game, players decide who starts first
+      }
+
+    }
+
   }
 
   @override
@@ -53,49 +64,63 @@ class Game extends State<GameBoard> {
     moveTo(aiMove);
   }
 
-  void playerMoveTo(i, j) async{
-    if (!widget.isSinglePlayer&& ! board.terminal().item1)
+  void playerMoveTo(i, j) async {
+    // there are no constraints on a local game
+    if (widget.gameMode == GameMode.LOCAL){
+      moveTo(Tuple2(i, j));
+    } else {
+      // if it's not your turn,
+      // or the game is finished
+      // or the cell is not empty, reject the move
+      
+      if (board.player != widget.playingAs || board.board[i][j] != "" || board.terminal().item1)
+        return;
+      
+      // make the move
       moveTo(Tuple2(i,j));
-    else if (widget.playingAs == board.player && board.board[i][j] == "" && ! board.terminal().item1){
-      moveTo(Tuple2(i,j));
-      await makeAIMove();
+
+      // hand the board to the opponent
+      if (widget.gameMode == GameMode.AI)
+        await makeAIMove();
+      else if (widget.gameMode == GameMode.ONLINE) {
+        // todo: wait for opponent move
+      }
+
     }
   }
 
   void moveTo(Tuple2 m) {
+
+    // not sure why it happens, but sometimes this function is called with a null move
+    // rejecting the null move does not seem to break the game
     if (m == null)
       return;
     
     int i = m.item1; int j = m.item2;
     setState(() {
+
+      // make the move on the board
       board.moveTo(i, j);
-      turnWidget = Turn(board.player, GameState.ONGOING,null, isSinglePlayer: widget.isSinglePlayer);
+
+      // update the turn widget
+      turnWidget = Turn(this);
     });
 
   }
 
   @override
   Widget build(BuildContext context) {
-    // get the player 
-
     final double tileSize = MediaQuery. of(context).size.width / 9;
     
+    // check if the game is finished
     var done = board.terminal();
-
     if (done.item1){
-      if (done.item2 == null) {
-        setState(() {
-          turnWidget = Turn(board.player,  GameState.TIE,null, isSinglePlayer: widget.isSinglePlayer);
-        });
-      }else if (done.item2 == widget.playingAs && widget.isSinglePlayer){
-        setState(() {
-          turnWidget = Turn(board.player, GameState.WIN,null, isSinglePlayer: widget.isSinglePlayer);
-        });
-      } else if (done.item2 != widget.playingAs && widget.isSinglePlayer) {
-        turnWidget = Turn(board.player,  GameState.LOSE,null, isSinglePlayer: widget.isSinglePlayer);
-      } else {
-        turnWidget = Turn(board.player,  GameState.WIN, done.item2, isSinglePlayer: widget.isSinglePlayer);
-      }
+      // if the game is finished
+
+      setState(() {
+        // update the turn widget
+        turnWidget = Turn(this);
+      });
     }
 
     return Container(

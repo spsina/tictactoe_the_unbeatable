@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/3x3.dart';
 import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
 import 'package:tictactoe/pages/battleSelect/components/strings.dart';
@@ -17,11 +18,11 @@ class BattleOptions extends StatelessWidget{
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
 
-    void _showPlayAsOptions(int size) {
+    void _showPlayAsOptions(int size, GameMode gameMode) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return PlayAs(size);
+          return PlayAs(size, gameMode);
         },
       );
     }
@@ -53,7 +54,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                _showPlayAsOptions(3);
+                _showPlayAsOptions(3, GameMode.AI);
               },
               child: BattleOption("assets/images/battleSelect/3x3_death.png",
                 Center(
@@ -97,7 +98,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                _showPlayAsOptions(5);
+                _showPlayAsOptions(5, GameMode.AI);
               },
               child: BattleOption("assets/images/battleSelect/5x5_challenge.png",
                 Center(
@@ -141,7 +142,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                _showPlayAsOptions(7);
+                _showPlayAsOptions(7, GameMode.AI);
               },
               child: BattleOption("assets/images/battleSelect/7x7.png",
                 Center(
@@ -186,7 +187,7 @@ class BattleOptions extends StatelessWidget{
               highlightColor: Colors.transparent,
               splashColor: Color(0xaaff1e56),
               onTap: () {
-                _showPlayAsOptions(7);
+                _showPlayAsOptions(7, GameMode.LOCAL);
               },
               child: BattleOption("assets/images/battleSelect/7x7.png",
                 Center(

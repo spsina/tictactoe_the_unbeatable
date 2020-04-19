@@ -4,7 +4,6 @@ import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
-import 'package:tictactoe/pages/win/win.dart';
 
 class BattleSelectPage extends StatelessWidget{
   @override
