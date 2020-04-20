@@ -63,6 +63,9 @@ class Board{
 
   void moveTo(i, j){
     
+    if (terminal().item1)
+      return;
+
     // make the move
     if (board[i][j] == ""){
       board[i][j] = player;
@@ -234,10 +237,12 @@ class Board{
     int score = 0;
     String opp = target == x ? o : x;
     var extra;
-
+    
     for (var i = 0; i < box.length; i ++){
       score += getRawScore(countTargetInRow(box, target, i), countTargetInRow(box, opp, i), extra);
       score += getRawScore(countTargetInCol(box, target, i), countTargetInCol(box, opp, i), extra);
+
+
     }
 
     score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra) * 100;
@@ -273,7 +278,7 @@ class Board{
       return score;
     } else {
       int score = 0;
-      var _boxes = boxes(4);
+      var _boxes = boxes(3);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
         if (tmpScore.abs() > score.abs())
@@ -282,6 +287,20 @@ class Board{
       }
       return score;
     }
+  }
+
+  String id () {
+    String _id = "";
+    board.forEach((row) {
+      row.forEach((cell){
+        if (cell == "")
+          _id += " ";
+        else
+          _id += cell;
+      });
+    });
+
+    return _id;
   }
 
 }

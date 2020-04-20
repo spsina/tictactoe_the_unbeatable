@@ -165,7 +165,7 @@ class BattleOptions extends StatelessWidget{
                         child: 
                         SingleChildScrollView(
                           child: Text (
-                            fiveByfive, 
+                            sevenBySeven, 
                             style: TextStyle ( 
                               color : Color(0xffdbdbdb),
                               fontFamily: "",
@@ -210,7 +210,7 @@ class BattleOptions extends StatelessWidget{
                         child: 
                         SingleChildScrollView(
                           child: Text (
-                            fiveByfive, 
+                            localFriend, 
                             style: TextStyle ( 
                               color : Color(0xffdbdbdb),
                               fontFamily: "",

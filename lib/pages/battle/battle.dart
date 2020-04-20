@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/game/ai.dart';
+import '../../game/ai.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
@@ -60,7 +60,7 @@ class Game extends State<GameBoard> {
 
   
   Future<void> makeAIMove() async {
-    Tuple2 aiMove = await compute(alphabeta, board);
+    Tuple2 aiMove = await compute(AI.alphabeta, board);
     moveTo(aiMove);
   }
 
@@ -83,7 +83,10 @@ class Game extends State<GameBoard> {
       // make the move
       moveTo(Tuple2(i,j));
 
-      // hand the board to the opponent
+      // hand the board to the opponent if game did not terminat after your move
+      if (board.terminal().item1)
+        return;
+      
       if (widget.gameMode == GameMode.AI)
         await makeAIMove();
       else if (widget.gameMode == GameMode.ONLINE) {
