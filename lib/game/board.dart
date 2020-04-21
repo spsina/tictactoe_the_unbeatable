@@ -17,6 +17,13 @@ class Board{
     return (possibleMoves.length/maxMoves);
   }
 
+  List<Tuple2<int,int>> getMoves () {
+    if (terminal().item1)
+      return List();
+    
+    return possibleMoves;
+  }
+
   Board clone(){
     // return a clone of this board
     

@@ -15,70 +15,108 @@ class _Cache {
 
 class Node {
   Board board;
-  String player;
-  int wins = 0;
+  int totalValue = 0;
   int simulations = 0;
   Node parent;
   Tuple2<int,int> move;
   List<Node> children = List();
 
-  Node(this.board, this.player, this.wins, this.simulations, this.parent, this.move, [this.children]);
+  double avg(){
+    return totalValue.toDouble() / simulations.toDouble();
+  }
+  double theVal(){return avg() * simulations.toDouble();}
+  Node(this.board, this.totalValue, this.simulations, this.parent, this.move);
 }
 
 class AI {
   static final _random = new Random();
-
+  static DateTime deadLine;
   static Board result(Board base, i, j){
     var r = base.clone();
     r.moveTo(i, j);
     return r;
   }
 
-  static String playout(Board board){
+  static String aiPlayingAs = o;
+
+  static int rollout(Board board){
     var terminated = board.terminal();
+    
     if (terminated.item1){
-      return terminated.item2;
+      if (terminated.item2 == aiPlayingAs)
+        return 1;
+      else if (terminated == null)
+        return 0;
+      else
+        return -1;
     }
 
     var nxtMove = board.possibleMoves[_random.nextInt(board.possibleMoves.length)];
 
-    return playout(result(board, nxtMove.item1, nxtMove.item2));
+    return rollout(result(board, nxtMove.item1, nxtMove.item2));
   }
 
-  static void updateAndPropagate(Node node, bool isWin){
-    if (isWin)
-      node.wins++;
+  static void updateAndPropagate(Node node, int value){
+    node.totalValue += value;
     node.simulations ++;
-
     if (node.parent != null)
-      updateAndPropagate(node.parent, isWin);
+      updateAndPropagate(node.parent, value);
+  }
+  static double ucb(Node node){
+    return node.avg()+ 5 * sqrt(log(node.parent.simulations) / node.simulations);
+  }
+  static Node ucb1Best(List<Node> nodes){
+    double bestValue = ucb(nodes[0]);
+    var bestNode = nodes[0];
+
+    for (var i = 1; i <nodes.length; i++){
+      if (nodes[i].simulations == 0)
+        return nodes[i];
+      var val = ucb(nodes[i]);
+      if (val > bestValue){
+        bestValue = val;
+        bestNode = nodes[i];
+      }
+    }
+
+    return bestNode;
   }
 
-  static void execute(Node node){
-    var playOutResult = playout(node.board);
-    if (playOutResult == node.player || playOutResult == null)
-      updateAndPropagate(node, true);
-    updateAndPropagate(node, false);
+  static Node traverse(Node root){
+
+    if (root.children.length == 0)
+      expand(root);
+
+    var node = root;
+    while (node.children.length > 0){
+      node = ucb1Best(node.children);
+    }
+
+    return node;
+
   }
 
-  static Node pickUnvisited(Node node){
-    
+  static void expand(Node node) {
+      node.board.getMoves().forEach((move){
+      Node n = Node(result(node.board, move.item1, move.item2), 0, 0, node, move);
+      node.children.add(n);
+    });
   }
+
 
   static Tuple2<int,int> mcts(Board _board) {
     Board board = _board.clone();
-    var pl = board.player;
-    Node root = Node(board, board.player, 0,0,null, null);
+    Node root = Node(board, 0, 0, null, null);
+    int l = (50000 * (2-_board.ration())).toInt();
+    for (var i = 0 ; i < l; i ++){
+      var node = traverse(root);
+      updateAndPropagate(node, rollout(node.board));
 
-    // initialize
-    board.possibleMoves.forEach((move){
-      Node n = Node(result(board, move.item1, move.item2),
-       board.player, 0, 0, root, move);
-      root.children.add(n);
-      execute(n);
-    });
+      // print(i.toString() + "\t/\t" + l.toString());
+    }
 
-
+    var bestNode = root.children.reduce((curr, next) => curr.theVal() >= next.theVal() ? curr: next);
+    return bestNode.move;
   }
 
   static bool useCache = true;
@@ -155,18 +193,14 @@ class AI {
   static Tuple2 <int, int> alphabeta(Board board){
 
     int d = inf;
+    aiPlayingAs = board.player;
 
     if (board.size == 5){
-      if (board.ration() > 0.8)
-        d = 5;
-      else if (board.ration() > 0.3)
-        d = 5;
-      else if (board.ration() <= 0.3)
-        d = inf;
+      return mcts(board);
     } else if (board.size == 7) {
+      deadLine= DateTime.now().add(Duration(minutes: 1));
       return mcts(board);
     }
-
 
     useCache = true;
     if (board.player == x) {
