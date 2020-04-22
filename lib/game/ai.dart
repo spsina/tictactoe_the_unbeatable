@@ -1,5 +1,7 @@
 import 'package:tictactoe/game/board.dart';
 import 'package:tuple/tuple.dart';
+import 'dart:math';
+const double infinity = 1.0 / 0.0;
 
 Board result(Board base, i, j){
   var r = base.clone();
@@ -21,12 +23,12 @@ int cmp(Tuple2<int, int > p1, Tuple2<int ,int > p2, Tuple2<int,int> base){
   return d1 - d2;
 }
 
-Tuple2<int, Tuple2<int, int>> maxValue(Board board, int alpha, int beta, int depth){
+Tuple2<double, Tuple2<int, int>> maxValue(Board board, double alpha, double beta, int depth){
   var terminated = board.terminal();
   if (terminated.item1 || depth == 0)
-    return Tuple2(board.utility(), null);
+    return Tuple2(board.utility().toDouble(), null);
   
-  int value = - inf * inf;
+  double value = - infinity;
   var bestMove;
 
   board.possibleMoves.sort( (a, b) {
@@ -51,12 +53,12 @@ Tuple2<int, Tuple2<int, int>> maxValue(Board board, int alpha, int beta, int dep
   return Tuple2(value, bestMove);
 }
 
-Tuple2<int, Tuple2<int, int>> minValue(Board board, int alpha, int beta, int depth){
+Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta, int depth){
   var terminated = board.terminal();
   if (terminated.item1 || depth == 0)
-    return Tuple2(board.utility(), null);
+    return Tuple2(board.utility().toDouble(), null);
   
-  int value = inf * inf;
+  double value = infinity;
   var bestMove;
   
   board.possibleMoves.sort( (a, b) {
@@ -93,18 +95,34 @@ Tuple2 <int, int> alphabeta(Board board){
     else if (board.ration() <= 0.3)
       d = inf;
   } else if (board.size == 7) {
+    if (board.possibleMoves.length == 48){
+      if (board.lastMove.item1 == 3) {
+        var theMoves = List();
+        for (var i in [-1, 1]) {
+          for (var j in [-1, 1]) {
+            if (board.possibleMoves.contains(
+                Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j)))
+              theMoves.add(
+                  Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j));
+          }
+        }
+        int index = Random().nextInt(theMoves.length - 1);
+        return theMoves[index];
+      }
+    }
+
     if (board.ration() > 0.8)
       d = 4;
-    else if (board.ration() > 0.3)
+    else if (board.ration() > 0.2)
       d = 4;
-    else if (board.ration() <= 0.3)
+    else if (board.ration() <= 0.2)
       d = inf;
   }
 
 
 
   if (board.player == x)
-    return maxValue(board, -inf, inf, d).item2;
+    return maxValue(board, -infinity, infinity, d).item2;
   
-  return minValue(board, -inf, inf, d).item2;
+  return minValue(board, -infinity, infinity, d).item2;
 }

@@ -1,8 +1,9 @@
+import 'package:tictactoe/game/ai.dart';
 import 'package:tuple/tuple.dart';
 
 var x = "X";
 var o = "O";
-var inf = 99999999999999;
+var inf = 999999999999999999;
 
 class Board{
   List<List<String>> board;               // the game board
@@ -220,13 +221,14 @@ class Board{
 
   int getRawScore(int me, int opp, Tuple3 extra){
     int s = 0;
-
     if (opp == 0)
-      s += me + 1;
-    if (opp == 2 && me ==0)
-      s -= 100;
-    if (opp == 3 && me == 0)
-      s -= 1000;
+      s ++;
+    if (opp == 3 && me == 1)
+    s += 1000000;
+    if (opp == 2 && me == 0)
+    s -= 100000;
+    if (opp == 3 && me == -0)
+    s -= 10000000000;
     return s;
   }
 
@@ -240,8 +242,8 @@ class Board{
       score += getRawScore(countTargetInCol(box, target, i), countTargetInCol(box, opp, i), extra);
     }
 
-    score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra) * 100;
-    score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra) * 100;
+    score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra);
+    score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra);
 
     return score;
   }
@@ -252,7 +254,7 @@ class Board{
   }
 
   int utility(){
-    // utitlity of the current board
+    // utility of the current board
     var terminated = terminal();
     if (terminated.item1){
       if (terminated.item2 == x)
@@ -266,9 +268,7 @@ class Board{
       var _boxes = boxes(4);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
-        if (tmpScore.abs() > score.abs())
-          score = tmpScore;
-        // score += tmpScore;
+        score += tmpScore;
       }
       return score;
     } else {
@@ -276,9 +276,7 @@ class Board{
       var _boxes = boxes(4);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
-        if (tmpScore.abs() > score.abs())
-          score = tmpScore;
-        // score += tmpScore;
+         score += tmpScore;
       }
       return score;
     }
