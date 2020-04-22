@@ -84,6 +84,37 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
 
 
 Tuple2 <int, int> alphabeta(Board board){
+  // opening move
+  if (board.possibleMoves.length == board.maxMoves){
+    // you are the starter of the game
+    // choose the middle
+    int middle = board.size ~/ 2;
+    return Tuple2(middle, middle);
+  }
+  // if it's the first move, always place a symbol diagonal to the opponent
+  else if (board.possibleMoves.length == board.maxMoves -1){
+      var theMoves = List();
+      for (var i = -1; i<2; i+=2) {
+        for (var j = -1; j < 2;j+=2) {
+          // this generates all the four possible diagonal positions of the last move
+          var pos = Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j);
+          if (board.possibleMoves.contains(
+              // the generated position may not be avalibale
+              // depending on the position of the last move
+              // so check first
+              pos))
+
+            // store the available position, to select a random later
+            theMoves.add(pos);
+        }
+      }
+      // this does not happen, but if no moves, just ignore the opening
+      // strategy and let the ai choose the opening move
+      if (theMoves.length > 0) {
+        int index = Random().nextInt(theMoves.length - 1);
+        return theMoves[index];
+      }
+    }
 
   int d = inf;
 
@@ -95,22 +126,6 @@ Tuple2 <int, int> alphabeta(Board board){
     else if (board.ration() <= 0.3)
       d = inf;
   } else if (board.size == 7) {
-    if (board.possibleMoves.length == 48){
-      if (board.lastMove.item1 == 3) {
-        var theMoves = List();
-        for (var i in [-1, 1]) {
-          for (var j in [-1, 1]) {
-            if (board.possibleMoves.contains(
-                Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j)))
-              theMoves.add(
-                  Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j));
-          }
-        }
-        int index = Random().nextInt(theMoves.length - 1);
-        return theMoves[index];
-      }
-    }
-
     if (board.ration() > 0.8)
       d = 4;
     else if (board.ration() > 0.2)
@@ -118,7 +133,6 @@ Tuple2 <int, int> alphabeta(Board board){
     else if (board.ration() <= 0.2)
       d = inf;
   }
-
 
 
   if (board.player == x)
