@@ -13,6 +13,7 @@ class Board{
   int size;                               // board size
   int moves;                              // number of moves made so far
   int maxMoves;                           // max number of moves (size * size)
+  int winCount;                          // number of symbols in a line to win
 
   double ration(){
     return (possibleMoves.length/maxMoves);
@@ -22,7 +23,7 @@ class Board{
     // return a clone of this board
     
     Board cloned = Board(size, player);
-    cloned.moves = moves; cloned.maxMoves = maxMoves;
+    cloned.moves = moves; cloned.maxMoves = maxMoves; cloned.winCount = winCount;
     cloned.lastMove = Tuple2(lastMove.item1, lastMove.item2);
 
     cloned.possibleMoves = List<Tuple2<int,int>>.generate(possibleMoves.length, (i){
@@ -38,7 +39,7 @@ class Board{
     return cloned;
   }
 
-  Board(this.size, this.player) {
+  Board(this.size, this.player, [winCount=4]) {
     possibleMoves = List<Tuple2<int,int>>();
 
     // setup the board
@@ -60,6 +61,11 @@ class Board{
     // no moves yet
     moves = 0;
 
+    if (winCount > size)
+      this.winCount = size;
+    else
+      this.winCount = winCount;
+
   }
 
   void moveTo(i, j){
@@ -80,7 +86,7 @@ class Board{
 
   }
 
-  String winnerInBox(List<List<String>> box, int winby, int li, int lj){
+  String winnerInBox(List<List<String>> box, int li, int lj){
     // if there is a winner - based on the last move - in the given box, return it
     // null other wise
     var pl = [o, x];
@@ -88,19 +94,19 @@ class Board{
       var p = pl[i];
 
       // winner by row
-      if (countTargetInRow(box, p, li) == winby)
+      if (countTargetInRow(box, p, li) == winCount)
         return p;
       
       // winner by col
-      if (countTargetInCol(box, p, lj) == winby)
+      if (countTargetInCol(box, p, lj) == winCount)
         return p;
       
       // winner by main axis
-      if (countInMainAxis(box, p) == winby)
+      if (countInMainAxis(box, p) == winCount)
         return p;
       
       // winner by cross axsis
-      if (countInCrossAxis(box, p) == winby)
+      if (countInCrossAxis(box, p) == winCount)
         return p;
       
     }
@@ -117,12 +123,10 @@ class Board{
     if (lastMove.item1 == -1 && lastMove.item2 == -1)
       return null;
 
-    int winby = board.length == 3 ? 3 : 4;
-
-    if (winby == 3)
-      return winnerInBox(board, winby, lastMove.item1, lastMove.item2);
+    if (board.length == 3)
+      return winnerInBox(board, lastMove.item1, lastMove.item2);
     
-    int pad = board.length - winby;
+    int pad = board.length - winCount;
 
     // check for winner in each winby x winby boxes
     for (var i = 0 ; i <= pad; i ++){
@@ -130,22 +134,22 @@ class Board{
 
         // if last move, is not inside this box, don't botther
         int startr = i;
-        int endr = i + winby - 1;
+        int endr = i + winCount - 1;
         int startc = j;
-        int endc = j + winby - 1;
+        int endc = j + winCount - 1;
 
         if (lastMove.item1 > endr || lastMove.item1 < startr)
           continue;
         if (lastMove.item2 > endc || lastMove.item2 < startc)
           continue;
 
-        var box = List<List<String>>.generate(winby, (k){
-          return List<String>.generate(winby, (l){
+        var box = List<List<String>>.generate(winCount, (k){
+          return List<String>.generate(winCount, (l){
             return board[k+i][l+j];
           });
         });
 
-        var winner = winnerInBox(box, winby, lastMove.item1 - i, lastMove.item2 -j);
+        var winner = winnerInBox(box, lastMove.item1 - i, lastMove.item2 -j);
         if (winner == null)
           continue;
         return winner;
@@ -223,11 +227,11 @@ class Board{
     int s = 0;
     if (opp == 0)
       s ++;
-    if (opp == 3 && me == 1)
+    if (opp == winCount - 1 && me == 1)
     s += 1000000;
-    if (opp == 2 && me == 0)
+    if (opp == winCount - 2 && me == 0)
     s -= 100000;
-    if (opp == 3 && me == -0)
+    if (opp == winCount - 1 && me == -0)
     s -= 10000000000;
     return s;
   }
@@ -265,7 +269,7 @@ class Board{
       return 0;
     } else if (size == 5){
       int score = 0;
-      var _boxes = boxes(4);
+      var _boxes = boxes(winCount);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
         score += tmpScore;
@@ -273,7 +277,7 @@ class Board{
       return score;
     } else {
       int score = 0;
-      var _boxes = boxes(4);
+      var _boxes = boxes(winCount);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
          score += tmpScore;
