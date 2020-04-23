@@ -110,9 +110,11 @@ Tuple2 <int, int> alphabeta(Board board){
       }
       // this does not happen, but if no moves, just ignore the opening
       // strategy and let the ai choose the opening move
-      if (theMoves.length > 0) {
+      if (theMoves.length > 1) {
         int index = Random().nextInt(theMoves.length - 1);
         return theMoves[index];
+      } else if (theMoves.length == 1){
+        return theMoves[0];
       }
     }
 

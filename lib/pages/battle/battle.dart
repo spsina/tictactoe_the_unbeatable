@@ -218,7 +218,11 @@ class Game extends State<GameBoard> {
             backgroundColor: Colors.blue,
             label: 'RESTART THE GAME',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => initialize()
+            onTap: () {
+              setState(() {
+                initialize();
+              });
+            }
           ),
         ],
       ),
