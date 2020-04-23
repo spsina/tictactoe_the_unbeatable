@@ -127,100 +127,104 @@ class Game extends State<GameBoard> {
       });
     }
 
-    return Container(
-      child: Column(
-        children: <Widget>[
-          AnimatedSwitcher(
-            duration: Duration(milliseconds: 500),
-            child: turnWidget,
-          ),
-          Container (
-            margin: EdgeInsets.only(top: tileSize/ 2),
-            child: Column (
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // a list of row, each containig a list of cols
-              children: List<Widget>.generate(board.size, (i) {
-                // generate a row
-                return Container(
-                  margin: EdgeInsets.only(top: tileSize/5, right: 10, left:10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List<Widget>.generate(board.size, (j) {
-                      // each cell
-                      return Material(
-                        color: (i == board.lastMove.item1 && j == board.lastMove.item2) ? Color(0xffffac41) : Color(0xffd3d6db),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: InkWell(
-                          splashColor: Color(0xfff4f4f4),
-                          onTap: (){ 
-                            playerMoveTo(i, j);
-                          },
-                          child: Container(
-                            
-                            width: (9 - (board.size+1)*0.2)/widget.size * tileSize,
-                            height: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
-                            child: Center(
-                              child: Text(board.board[i][j], textAlign: TextAlign.center, style: TextStyle(
-                                  fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
-                                  color: board.board[i][j] == "X" ? Color(0xff11999e):Color(0xff3c3c3c)
-                                ),
-                              ),
-                            )
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                );
-              }),
-            )
-          ),
-          Expanded(
-            child: Align(
-              child: Container(
-                height: tileSize,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                      FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
-                        );
-                      },
-                      child: Container(
-                        width: tileSize * 3,
-                        height: tileSize,
-                        child: Center(
-                          child: Icon(Icons.home, size: 50, color: Color(0xff29a19c),)
-                        ) 
-                      )
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          initialize();
-                        });
-                      },
-                      child: Container(
-                        width: tileSize * 3,
-                        height: tileSize,
-                        child: Center(
-                          child: Icon(Icons.replay, size: 50, color: Color(0xff29a19c),)
-                        ) 
-                      )
-                    ),
-                  ],
-                )
-              ),
-              alignment: Alignment.bottomCenter,
+    return Scaffold(
+      backgroundColor: Color(0xff1B2429),
 
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 500),
+              child: turnWidget,
             ),
-          )
-        ],
+            Container (
+                margin: EdgeInsets.only(top: tileSize/ 2),
+                child: Column (
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // a list of row, each containig a list of cols
+                  children: List<Widget>.generate(board.size, (i) {
+                    // generate a row
+                    return Container(
+                      margin: EdgeInsets.only(top: tileSize/5, right: 10, left:10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List<Widget>.generate(board.size, (j) {
+                          // each cell
+                          return Material(
+                            color: (i == board.lastMove.item1 && j == board.lastMove.item2) ? Color(0xffffac41) : Color(0xffd3d6db),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: InkWell(
+                              splashColor: Color(0xfff4f4f4),
+                              onTap: (){
+                                playerMoveTo(i, j);
+                              },
+                              child: Container(
+
+                                  width: (9 - (board.size+1)*0.2)/widget.size * tileSize,
+                                  height: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
+                                  child: Center(
+                                    child: Text(board.board[i][j], textAlign: TextAlign.center, style: TextStyle(
+                                        fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
+                                        color: board.board[i][j] == "X" ? Color(0xff11999e):Color(0xff3c3c3c)
+                                    ),
+                                    ),
+                                  )
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    );
+                  }),
+                )
+            ),
+            Expanded(
+              child: Align(
+                child: Container(
+                    height: tileSize,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
+                              );
+                            },
+                            child: Container(
+                                width: tileSize * 3,
+                                height: tileSize,
+                                child: Center(
+                                    child: Icon(Icons.home, size: 50, color: Color(0xff29a19c),)
+                                )
+                            )
+                        ),
+                        FlatButton(
+                            onPressed: () {
+                              setState(() {
+                                initialize();
+                              });
+                            },
+                            child: Container(
+                                width: tileSize * 3,
+                                height: tileSize,
+                                child: Center(
+                                    child: Icon(Icons.replay, size: 50, color: Color(0xff29a19c),)
+                                )
+                            )
+                        ),
+                      ],
+                    )
+                ),
+                alignment: Alignment.bottomCenter,
+
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

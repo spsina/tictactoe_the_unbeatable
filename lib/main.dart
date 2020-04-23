@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 void main() {
@@ -27,12 +28,7 @@ class Entry extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Gearus'),
       title: "TIC TAC TOE, THE UNBEATABLE",
-      home: Scaffold(
-        backgroundColor: Color(0xff1B2429),
-        body: Container( child:
-          page
-        )
-        )
+      home: page
       );
   }
 
