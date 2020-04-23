@@ -31,7 +31,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, x, x, gameMode))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: 4,))),
                 );
               },
               child: Container(
@@ -49,7 +49,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size, o, x, gameMode))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: 4,))),
                 );
               },
               child: Container(

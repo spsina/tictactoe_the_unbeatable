@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
-import 'package:tictactoe/pages/battleSelect/components/playAsDialog.dart';
+import 'package:tictactoe/pages/battleSelect/components/dialogs.dart';
 
 import 'battleOption.dart';
 

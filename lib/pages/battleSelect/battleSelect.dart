@@ -6,6 +6,8 @@ import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 
+import 'components/dialogs.dart';
+
 class BattleSelectPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class BattleSelectPage extends StatelessWidget{
             backgroundColor: Colors.blue,
             label: 'CUSTOM BOARD',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => print('SECOND CHILD'),
+            onTap: () => showCustomBoardCreate(context),
           ),
           SpeedDialChild(
             child: Icon(Icons.info),

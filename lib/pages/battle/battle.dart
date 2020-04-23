@@ -20,8 +20,9 @@ class GameBoard extends StatefulWidget {
   final String playingAs;           // playing as
   final String starter;             // player who starts the game
   final GameMode gameMode;          // AI, LOCAL, ONLINE
+  final int winBy;
 
-  GameBoard(this.size, this.playingAs, this.starter, this.gameMode);
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy});
   Game createState() => Game();
 }
 
@@ -32,7 +33,7 @@ class Game extends State<GameBoard> {
   Widget turnWidget;
 
   void initialize(){
-    board = Board(widget.size, widget.starter);
+    board = Board(widget.size, widget.starter, widget.winBy);
     
     turnWidget = Turn(this);
 

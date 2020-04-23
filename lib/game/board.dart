@@ -22,8 +22,8 @@ class Board{
   Board clone(){
     // return a clone of this board
     
-    Board cloned = Board(size, player);
-    cloned.moves = moves; cloned.maxMoves = maxMoves; cloned.winCount = winCount;
+    Board cloned = Board(size, player, winCount);
+    cloned.moves = moves; cloned.maxMoves = maxMoves;
     cloned.lastMove = Tuple2(lastMove.item1, lastMove.item2);
 
     cloned.possibleMoves = List<Tuple2<int,int>>.generate(possibleMoves.length, (i){
@@ -39,7 +39,7 @@ class Board{
     return cloned;
   }
 
-  Board(this.size, this.player, [winCount=4]) {
+  Board(this.size, this.player, this.winCount) {
     possibleMoves = List<Tuple2<int,int>>();
 
     // setup the board
@@ -60,11 +60,6 @@ class Board{
     
     // no moves yet
     moves = 0;
-
-    if (winCount > size)
-      this.winCount = size;
-    else
-      this.winCount = winCount;
 
   }
 

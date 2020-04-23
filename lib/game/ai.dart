@@ -126,13 +126,12 @@ Tuple2 <int, int> alphabeta(Board board){
       d = 5;
     else if (board.ration() <= 0.3)
       d = inf;
-  } else{
+  } else if (board.size <= 7){
+    d = 4;
+  }
+  else if (board.size > 7){
     if (board.ration() > 0.8)
-      d = 4;
-    else if (board.ration() > 0.2)
-      d = 4;
-    else if (board.ration() <= 0.2)
-      d = inf;
+      d = 3;
   }
 
 
