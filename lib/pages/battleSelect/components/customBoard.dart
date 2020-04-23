@@ -31,7 +31,7 @@ class _CustomBoardState extends State<CustomBoard> {
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
-    TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.5);
+    TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.8);
 
     return AlertDialog (
       backgroundColor: Color(0xff222831),

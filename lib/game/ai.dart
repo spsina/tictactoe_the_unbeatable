@@ -128,12 +128,18 @@ Tuple2 <int, int> alphabeta(Board board){
       d = inf;
   } else if (board.size <= 7){
     d = 4;
+    if (board.ration() <= 0.5)
+      d = 5;
   }
   else if (board.size > 7){
-    if (board.ration() > 0.8)
       d = 3;
+      if (board.ration() <= 0.5)
+        d = 4;
+      else if (board.ration() <= 0.25)
+        d = 5;
   }
 
+  print("D: " + d.toString());
 
   if (board.player == x)
     return maxValue(board, -infinity, infinity, d).item2;
