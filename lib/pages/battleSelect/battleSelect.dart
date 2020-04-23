@@ -32,19 +32,11 @@ class BattleSelectPage extends StatelessWidget{
         marginBottom: 20,
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
-        // this is ignored if animatedIcon is non null
-        // child: Icon(Icons.add),
         visible: true,
-        // If true user is forced to close dial manually
-        // by tapping main button and overlay is not rendered.
         closeManually: false,
         curve: Curves.bounceIn,
         overlayColor: Colors.black,
         overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 8.0,
@@ -55,7 +47,6 @@ class BattleSelectPage extends StatelessWidget{
               backgroundColor: Colors.red,
               label: 'PLAY WITH A FIREND',
               labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () => print('PLAY WITH RANDOM OPPONENT')
           ),
           SpeedDialChild(
             child: Icon(Icons.add_circle),
@@ -69,7 +60,6 @@ class BattleSelectPage extends StatelessWidget{
             backgroundColor: Colors.green,
             label: 'ABOUT US',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => print('SECOND CHILD'),
           ),
         ],
       ),
