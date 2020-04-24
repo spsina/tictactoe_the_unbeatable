@@ -10,11 +10,15 @@ class BattleOptionWrapper extends StatelessWidget{
   final String title;
   final Color titleColor;
   final int size;
+  final String aiPlayer;
+  final String starter;
   final GameMode gameMode;
   final String description;
   final String imgPath;
+  final int winBy;
   
-  BattleOptionWrapper({this.title, this.titleColor, this.description, this.size, this.gameMode, this.imgPath});
+  BattleOptionWrapper({this.title, this.titleColor, this.description,
+   this.size, this.gameMode, this.imgPath, this.aiPlayer, this.starter, this.winBy});
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +56,9 @@ class BattleOptionWrapper extends StatelessWidget{
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("AI PLAYER: YOU CHOOSE", style: _styleInfo ),
-                  Text("STARTING PLAYER: X", style: _styleInfo,),
-                  Text("WIN BY 4 IN A LINE", style: _styleInfo ),
+                  Text("AI PLAYER: " + aiPlayer, style: _styleInfo ),
+                  Text("STARTING PLAYER: " + starter, style: _styleInfo,),
+                  Text("WIN BY " + winBy.toString() + " IN A LINE", style: _styleInfo ),
                   Container (
                     margin: EdgeInsets.only(top:20),
                     child: Row(
