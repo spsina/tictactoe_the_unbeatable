@@ -3,7 +3,7 @@ import 'package:tuple/tuple.dart';
 
 var x = "X";
 var o = "O";
-var inf = 999999999999999999;
+var inf = 1000000000000000000;
 
 class Board{
   List<List<String>> board;               // the game board

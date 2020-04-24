@@ -12,8 +12,9 @@ class PlayAs extends StatelessWidget{
 
   final int size;             // game board size
   final GameMode gameMode;    // game mode
+  final int winBy;
 
-  PlayAs(this.size, this.gameMode);
+  PlayAs(this.size, this.gameMode, this.winBy);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: 4,))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy,))),
                 );
               },
               child: Container(
@@ -49,7 +50,7 @@ class PlayAs extends StatelessWidget{
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: 4,))),
+                  MaterialPageRoute(builder: (context) => Entry (GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy,))),
                 );
               },
               child: Container(

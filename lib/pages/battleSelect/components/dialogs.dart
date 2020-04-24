@@ -5,11 +5,11 @@ import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
 
 import 'customBoard.dart';
 
-void showPlayAsOptions(BuildContext context, int size, GameMode gameMode) {
+void showPlayAsOptions(BuildContext context, int size, GameMode gameMode, int winBy) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return PlayAs(size, gameMode);
+      return PlayAs(size, gameMode, winBy);
     },
   );
 }
