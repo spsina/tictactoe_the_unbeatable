@@ -64,55 +64,58 @@ class BattleOptionWrapper extends StatelessWidget{
                   ),
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
-                  Text("STARTING PLAYER: " + starter, style: _styleInfo,),
-                  Text("WIN BY " + winBy.toString() + " IN A LINE", style: _styleInfo ),
-                  Opacity(
-                    opacity: isCustom ? 1.0: 0.0,
-                    child: Container (
-                      margin: EdgeInsets.only(top:20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Container(
-                            child: GestureDetector(
-                              onTap: (){
-                                if (!isCustom){
-                                  return;
-                                }
-                              },
-                              child: Icon(Icons.share, color: Colors.white),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
+                    Text("STARTING PLAYER: " + starter, style: _styleInfo,),
+                    Text("WIN BY " + winBy.toString() + " IN A LINE", style: _styleInfo ),
+                    Opacity(
+                      opacity: isCustom ? 1.0: 0.0,
+                      child: Container (
+                        margin: EdgeInsets.only(top:20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  if (!isCustom){
+                                    return;
+                                  }
+                                },
+                                child: Icon(Icons.share, color: Colors.white),
+                              ),
                             ),
-                          ),
-                          Container(
-                            child: GestureDetector(
-                              onTap: (){
-                                if (!isCustom){
-                                  return;
-                                }
-                              },
-                              child: Icon(Icons.edit, color: Colors.white),
+                            Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  if (!isCustom){
+                                    return;
+                                  }
+                                },
+                                child: Icon(Icons.edit, color: Colors.white),
+                              ),
                             ),
-                          ),
-                          Container(
-                            child: GestureDetector(
-                              onTap: (){
-                                if (!isCustom){
-                                  return;
-                                }
-                              },
-                              child: Icon(Icons.delete, color: Colors.red),
+                            Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  if (!isCustom){
+                                    return;
+                                  }
+                                },
+                                child: Icon(Icons.delete, color: Colors.red),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),

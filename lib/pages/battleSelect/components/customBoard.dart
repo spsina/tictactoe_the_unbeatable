@@ -10,8 +10,13 @@ class CustomBoard extends StatefulWidget{
   // initializes a new game board
   // always sets the game starter to X
 
+  _CustomBoardState currentState;
+
   @override
-  _CustomBoardState createState() => _CustomBoardState();
+  _CustomBoardState createState() {
+    currentState = _CustomBoardState();
+    return currentState;
+  }
 }
 
 class _CustomBoardState extends State<CustomBoard> {
@@ -21,6 +26,9 @@ class _CustomBoardState extends State<CustomBoard> {
   bool withAi = true;
   String aiPlayer = "O";
   String starter = "X";
+  GameMode gameMode = GameMode.AI;
+
+  var aiPlayerWidget;
 
   String playingAs(){
     var _playingAs;
@@ -32,120 +40,165 @@ class _CustomBoardState extends State<CustomBoard> {
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
     TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.8);
-
-    return Container (
-      child: Container (
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text("BOARD SIZE: ", style: _style,),
-                  Text(boardSize.toInt().toString(), style: _style,)
-                ],
+    setState(() {
+      if (gameMode == GameMode.AI) {
+        aiPlayerWidget = FittedBox(
+          fit: BoxFit.contain,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Text("AI PLAYER", style: _style,),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  dropdownColor: Colors.black,
+                  value: aiPlayer,
+                  elevation: 20,
+                  onChanged: (String value) {
+                    setState(() {
+                      aiPlayer = value;
+                    });
+                  },
+                  items: <String>["X", "O"].map<DropdownMenuItem<String>>((
+                      String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,
+                        style: TextStyle(fontFamily: "", color: Colors.white),),
+                    );
+                  }).toList(),
+                ),
               )
-            ),
-            Slider(
+            ],
+          ),
+        );
+      } else if (gameMode == GameMode.ONLINE) {
+        aiPlayerWidget = Center(
+            child:Text("YOU WILL BE THE STARTING PLAYER", style: TextStyle(color: Colors.grey, fontFamily: ""),)
+        );
+      } else {
+        aiPlayerWidget = SizedBox();
+      }
+    });
+
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          // Game size
+          Container(
+            child: Text("BOARD SIZE " + boardSize.toInt().toString(), style: _style,),
+          ),
+          Container(
+            child: Slider(
               value: boardSize,
               min: 3,
               max: 10,
               onChanged: (val) {
                 setState(() {
                   boardSize = val;
-                  if (boardSize < winBy)
+                  if (winBy > boardSize)
                     winBy = boardSize;
                 });
               },
             ),
-            Container(
-              child:Text("WIN BY " + winBy.toInt().toString() +" IN A LINE", style: _style,)
-            ),
-            Slider(
-              value: winBy,
-              min: 3,
-              max:boardSize,
-              onChanged: (val) {
-                setState(() {
-                  winBy = val;
-                });
-              },
-            ),
-            Text("PLAY AGAINST AI", style: _style,),
-            Checkbox(
-              value: withAi,
-              onChanged: (val) {
-                setState(() {
-                  withAi = val;
-                });
-              },
-            ),
-            AnimatedOpacity(
-              opacity: withAi? 1.0:0.0,
-              duration: Duration(milliseconds: 100),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("AI PLAYER", style: _style,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text("X", style: _style,),
-                        Switch(
-                          value: aiPlayer == "X" ? false : true,
-                          onChanged: (val) {
-                            setState(() {
-                              aiPlayer = aiPlayer == "X" ? "O" : "X";
-                            });
-                          },
-                        ),
-                        Text("O", style: _style,),
-                      ],
-                    )
-                  ],
+          ),
+          // win by
+          Container(
+            child: Text("WIN BY " + winBy.toInt().toString() + " IN A LINE", style: _style,),
+          ),
+          Slider(
+            value: winBy,
+            min: 3,
+            max: boardSize,
+            onChanged: (val) {
+              setState(() {
+                winBy = val;
+              });
+            },
+          ),
+          FittedBox(
+            fit: BoxFit.contain,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text("GAME MODE", style: _style,),
                 ),
-              ),
-
+                Container(
+                  margin: EdgeInsets.only(left:20),
+                  child: DropdownButton<GameMode>(
+                    underline: SizedBox(),
+                    dropdownColor: Colors.black,
+                    value: gameMode,
+                    elevation: 20,
+                    onChanged: (GameMode value) {
+                      setState(() {
+                        gameMode=value;
+                      });
+                      },
+                    items: <GameMode>[GameMode.AI, GameMode.ONLINE, GameMode.LOCAL]
+                        .map<DropdownMenuItem<GameMode>>((GameMode value) {
+                      var strVal;
+                      if (value == GameMode.AI)
+                        strVal = "1 PLAYER";
+                      else if (value == GameMode.ONLINE)
+                        strVal = "2 PLAYERS - ONLINE";
+                      else
+                        strVal = "2 PLAYERS - OFFLINE ";
+                      return DropdownMenuItem<GameMode>(
+                        value: value,
+                        child: Text(strVal, style: TextStyle(fontFamily: "", color: Colors.white),),
+                      );
+                    }).toList(),
+                  ),
+                )
+              ],
             ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Text("STARTING PLAYER", style: _style,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text("X", style: _style,),
-                      Switch(
-                        value: starter == "X" ? false : true,
-                        onChanged: (val) {
-                          setState(() {
-                            starter = starter == "X" ? "O" : "X";
-                          });
-                        },
-                      ),
-                      Text("O", style: _style,),
-                    ],
-                  )
-                ],
-              ),
+          ),
+          FittedBox(
+            fit: BoxFit.contain,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text("STARTING PLAYER", style: _style,),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left:20),
+                  child: DropdownButton<String>(
+                    underline: SizedBox(),
+                    dropdownColor: Colors.black,
+                    value: starter,
+                    elevation: 20,
+                    onChanged: (String value) {
+                      setState(() {
+                        starter=value;
+                      });
+                      },
+                    items: <String>["X", "O"]
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value, style: TextStyle(fontFamily: "", color: Colors.white),),
+                      );
+                    }).toList(),
+                  ),
+                )
+              ],
             ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry (
-                      GameBoard(size: boardSize.toInt(),
-                    playingAs: withAi ? playingAs() : "X" , starter: starter,gameMode: withAi ? GameMode.AI : GameMode.LOCAL, winBy: winBy.toInt(),))),
-                );
-              },
-              color: Color(0xffffac41),
-              child: Icon(Icons.play_arrow, color: Colors.white,),
-            )
-          ],
-        ),
+          ),
+          Container(
+            child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                child: aiPlayerWidget
+            ),
+          ),
+        ],
       ),
     );
   }
