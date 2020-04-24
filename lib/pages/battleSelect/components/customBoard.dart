@@ -33,9 +33,8 @@ class _CustomBoardState extends State<CustomBoard> {
     double tileSize = MediaQuery. of(context).size.width / 9;
     TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.8);
 
-    return AlertDialog (
-      backgroundColor: Color(0xff222831),
-      content: Container (
+    return Container (
+      child: Container (
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisSize: MainAxisSize.min,

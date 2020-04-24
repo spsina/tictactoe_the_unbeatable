@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tictactoe/main.dart';
-import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
-import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
 
-import 'components/dialogs.dart';
-import 'customBoardPage.dart';
+import 'battleSelect.dart';
+import 'components/customBoard.dart';
 
-class BattleSelectPage extends StatelessWidget{
+class CustomBoardPage extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
@@ -18,12 +16,25 @@ class BattleSelectPage extends StatelessWidget{
     return Scaffold(
       backgroundColor: Color(0xff1B2429),
       body: Container(
+        margin: EdgeInsets.only(top: tileSize * 1.2),
+
         child: Column(
           children: <Widget>[
-            TopTitle(),
-            Expanded(
-              flex: 4,
-              child: BattleOptions(),
+            Container(
+              width: 8 * tileSize,
+              child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text( "PLAY A CUSTOM BOARD",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xffF4F4F4),
+                    ),
+                  )
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(20),
+              child: CustomBoard(),
             ),
           ],
         ),
@@ -45,23 +56,13 @@ class BattleSelectPage extends StatelessWidget{
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.group_add),
+              child: Icon(Icons.home),
               backgroundColor: Colors.red,
-              label: 'PLAY WITH A FIREND',
+              label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.add_circle),
-            backgroundColor: Colors.blue,
-            label: 'CUSTOM BOARD',
-            labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => navigate(context, CustomBoardPage())
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.info),
-            backgroundColor: Colors.green,
-            label: 'ABOUT US',
-            labelStyle: TextStyle(fontSize: 14.0),
+              onTap: () {
+                navigate(context, BattleSelectPage());
+              }
           ),
         ],
       ),
