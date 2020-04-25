@@ -49,6 +49,7 @@ flutter:
     - assets/images/battleSelect/5x5_challenge.png
     - assets/images/battleSelect/3x3_death.png
     - assets/images/battleSelect/7x7.png
+    - assets/images/battleSelect/waiting.png
     - assets/images/win/win.png
     - assets/images/win/loose.png
     - assets/images/battleSelect/wheel.png

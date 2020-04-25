@@ -18,16 +18,37 @@ class CustomBoardPage extends StatefulWidget{
   _CustomBoardPageState createState() => _CustomBoardPageState();
 }
 
+enum GeneralState {
+  CREATE, // Creating new game
+  WAITING // waiting for opponent to join the game
+}
+
 class _CustomBoardPageState extends State<CustomBoardPage> {
   IOWebSocketChannel channel;
   WebSocket socket;
   Widget buttonChild;
   bool loading = false;
+  String gameId;
+  Widget bodyWidget;
+
+  GeneralState generalState = GeneralState.CREATE;
 
   final _customBoard = CustomBoard();
 
   void socketListener(dynamic message) {
     var dictData = jsonDecode(message.toString());
+    setState(() {
+      loading = false;
+
+      if (dictData['status'] == 201) {
+        gameId = dictData['gameId'];
+        generalState = GeneralState.WAITING;
+      } else {
+        toastError("An error has occured while requesting an online game");
+      }
+    });
+    // game id generated successfully
+
     print("[Server] " + dictData.toString());
   }
 
@@ -46,28 +67,32 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
     });
     try {
       var jsonData = jsonEncode(request);
-      await createConnection("ws://10.0.2.2:9091");
+      await createConnection("ws://10.0.2.2:9090");
       channel.sink.add(jsonData);
     } catch (err) {
       setState(() {
         loading = false;
-        Fluttertoast.showToast(
-            msg: "Could not connect to the server",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        toastError("Could not connect to the server");
       });
     }
   }
 
   @override
-  void dispose() {
+  void deactivate() {
     socket.close();
-    super.dispose();
+    super.deactivate();
+  }
+
+  void toastError(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   @override
@@ -78,6 +103,141 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
       buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
     } else {
       buttonChild = CircularProgressIndicator(backgroundColor: Colors.white);
+    }
+
+    // Two different general states might happen
+    // 1 - User wants to create a custom level
+    // 2 - User is waiting for an online opponent to join the game
+
+    if (generalState == GeneralState.CREATE){
+      setState(() {
+        // UI For the state that user wants to create a custom board
+        bodyWidget = Container (
+          child: Column (
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xff000000),
+                          blurRadius: 20.0, // has the effect of softening the shadow
+                          spreadRadius: 5.0, // has the effect of extending the shadow
+                        )
+                      ]
+                  ),
+                  margin: EdgeInsets.only(top:30),
+                  padding: EdgeInsets.all(20),
+                  child: _customBoard
+              ),
+              InkWell(
+                onTap: () {
+                  if (loading)
+                    return;
+                  if (_customBoard.currentState.gameMode != GameMode.ONLINE) {
+                    GameBoard game = GameBoard(
+                      size: _customBoard.currentState.boardSize.toInt(),
+                      playingAs: _customBoard.currentState.playingAs(),
+                      starter: _customBoard.currentState.starter,
+                      gameMode: _customBoard.currentState.gameMode,
+                      winBy: _customBoard.currentState.winBy.toInt(),
+                    );
+                    navigate(context, game);
+                  } else {
+                    // create an online game
+                    var request = {
+                      "type": "POST",
+                      "size": _customBoard.currentState.boardSize.toInt(),
+                      "winBy": _customBoard.currentState.winBy.toInt(),
+                      "starter": _customBoard.currentState.starter
+                    };
+                    requestGameId(request);
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(10),
+                  color: Color(0xffff1e56),
+                  child: Center(
+                    child: buttonChild,
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      });
+    } else {
+      setState(() {
+        // UI for when the user is waiting for an opponent
+        bodyWidget = Container(
+          margin: EdgeInsets.only(top:30),
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xff000000),
+                  blurRadius: 20.0, // has the effect of softening the shadow
+                  spreadRadius: 5.0, // has the effect of extending the shadow
+                )
+              ]
+          ),
+          child: Column(
+            children: <Widget>[
+              Center (
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        width: 6 * tileSize,
+                        child: FittedBox(
+                            child:Text(gameId,
+                              style: TextStyle(color: Colors.white, ),
+                              textAlign: TextAlign.center,
+                            )
+                        )
+                    ),
+                    IconButton(
+                      onPressed: (){},
+                      icon: Icon(Icons.share, color: Colors.white,),
+                    )
+                  ],
+                )
+              ),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  width: 5 * tileSize,
+                  child: FittedBox (
+                      child: Image.asset("assets/images/battleSelect/waiting.png")
+                  )
+                )
+              ),
+              Center (
+                child: Container(
+                    width: 7 * tileSize,
+                    child: FittedBox(
+                      child:Text("WAITING FOR YOUR OPPONENT TO JOIN", style: TextStyle(color: Colors.white),),
+                    )
+                ),
+              ),
+              Center (
+                child: Container(
+                    margin: EdgeInsets.all(20),
+                    width: 6 * tileSize,
+                    height: tileSize,
+                    child: SingleChildScrollView(
+                      child:Text("""AN OPPONENT CAN JOIN THE GAME USING THE ABOVE GAME ID AT THE 'PLAY WITH A FRIEND' SECTION UNDER THE MAIN MENU AT THE HOME PAGE""",
+                      style: TextStyle(color: Colors.white, fontSize: 10, fontFamily: ""),
+                        textAlign: TextAlign.center,
+                      )
+                    )
+                ),
+              ),
+            ],
+          ),
+        );
+      });
     }
 
     return Scaffold(
@@ -100,58 +260,8 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
                 ),
               ),
             ),
-            Container(
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xff000000),
-                        blurRadius: 20.0, // has the effect of softening the shadow
-                        spreadRadius: 5.0, // has the effect of extending the shadow
-                        offset: Offset(
-                          0.0, // horizontal, move right 10
-                          0.0, // vertical, move down 10
-                        ),
-                      )
-                    ]
-                ),
-              margin: EdgeInsets.only(top:30),
-              padding: EdgeInsets.all(20),
-              child: _customBoard
-            ),
-            InkWell(
-              onTap: () {
-                if (loading)
-                  return;
-                if (_customBoard.currentState.gameMode != GameMode.ONLINE) {
-                  GameBoard game = GameBoard(
-                    size: _customBoard.currentState.boardSize.toInt(),
-                    playingAs: _customBoard.currentState.playingAs(),
-                    starter: _customBoard.currentState.starter,
-                    gameMode: _customBoard.currentState.gameMode,
-                    winBy: _customBoard.currentState.winBy.toInt(),
-                  );
-                  navigate(context, game);
-                } else {
-                  // create an online game
-                  var request = {
-                    "type": "POST",
-                    "size": _customBoard.currentState.boardSize.toInt(),
-                    "winBy": _customBoard.currentState.winBy.toInt(),
-                    "starter": _customBoard.currentState.starter
-                  };
-                  requestGameId(request);
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(10),
-                color: Color(0xffff1e56),
-                child: Center(
-                  child: buttonChild,
-                ),
-              ),
-            )
-          ],
+            bodyWidget
+           ],
         ),
       ),
       floatingActionButton: SpeedDial(

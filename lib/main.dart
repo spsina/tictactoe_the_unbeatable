@@ -20,7 +20,6 @@ void main() {
 
 class Entry extends StatelessWidget{
   final Widget page;
-  
   Entry(this.page);
 
   @override
