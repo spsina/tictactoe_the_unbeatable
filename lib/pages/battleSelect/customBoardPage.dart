@@ -215,6 +215,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
+                socket.close();
                 navigate(context, BattleSelectPage());
               }
           ),
