@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:web_socket_channel/io.dart';
@@ -31,6 +32,7 @@ class _JoinGameState extends State<JoinGame> {
   void getGameInfo () async {
     setState(() {
       loading = true;
+      gameId = gameIdController.text;
     });
     try {
       await createConnection("ws://192.168.1.50:9090");
@@ -47,6 +49,23 @@ class _JoinGameState extends State<JoinGame> {
     }
   }
 
+  void joinAndPlay() {
+    // join and notify the opponent
+    channel.sink.add(jsonEncode({
+      'type': "JOIN",
+      'rmode': 'full',
+      'gameId': gameId
+    }));
+
+    // start the game
+    navigate(context, GameBoard(
+      size: gameInfoUi.size,
+      winBy: gameInfoUi.winBy,
+      gameMode: GameMode.ONLINE,
+      playingAs: gameInfoUi.playAs,
+      starter: gameInfoUi.playAs == "X"? "O":"X",)
+    );
+  }
 
   void socketListener(dynamic message) {
     var dictData = jsonDecode(message.toString());
@@ -61,7 +80,10 @@ class _JoinGameState extends State<JoinGame> {
         gameInfoUi = GameInfoUi(size: game['size'], winBy: game['winBy'], playAs: game['starter'] == "X" ? "O" : "X");
         buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
       });
-    } else {
+    } else if (dictData['status'] == 301) {
+      // ignore
+    }
+    else {
       toastError("Invalid Game ID");
     }
     print("[Server] " + dictData.toString());
@@ -78,7 +100,7 @@ class _JoinGameState extends State<JoinGame> {
 
   @override
   Widget build(BuildContext context) {
-    gameIdController.text = "xhbFS5yKF";
+    gameIdController.text = "wswZqbg5i";
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     var enterGameIdUi = Column(
@@ -148,7 +170,10 @@ class _JoinGameState extends State<JoinGame> {
                     onTap: () {
                       if (loading)
                         return;
-                      getGameInfo();
+                      if (isGameInfoMode)
+                        joinAndPlay();
+                      else
+                        getGameInfo();
                     },
                     child: Container(
                       margin: EdgeInsets.all(20),
