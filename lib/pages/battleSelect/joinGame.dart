@@ -12,11 +12,23 @@ import 'package:web_socket_channel/io.dart';
 import 'battleSelect.dart';
 
 class JoinGame extends StatefulWidget{
+  final String initialGameId;
+
+  const JoinGame({Key key, this.initialGameId}) : super(key: key);
   @override
   _JoinGameState createState() => _JoinGameState();
 }
 
 class _JoinGameState extends State<JoinGame> {
+
+  @override
+  initState() {
+    if (widget.initialGameId != null){
+      gameIdController.text = widget.initialGameId;
+    }
+    super.initState();
+  }
+
   bool loading = false;
   bool isGameInfoMode = false;
 

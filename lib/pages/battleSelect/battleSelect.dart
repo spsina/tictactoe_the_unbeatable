@@ -7,11 +7,41 @@ import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:uni_links/uni_links.dart';
 
 import 'components/dialogs.dart';
 import 'customBoardPage.dart';
 
-class BattleSelectPage extends StatelessWidget{
+class BattleSelectPage extends StatefulWidget{
+
+  @override
+  _BattleSelectPageState createState() => _BattleSelectPageState();
+}
+
+class _BattleSelectPageState extends State<BattleSelectPage> {
+  Future<Null> initUniLinks() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      String initialLink = await getInitialLink();
+      // Parse the link and warn the user, if it is not correct,
+      // but keep in mind it could be `null`.
+
+      Uri uri = Uri.parse(initialLink);
+      var gameId = uri.queryParameters['gameId'];
+
+      if (gameId != null && gameId != "")
+        navigate(context, JoinGame(initialGameId: gameId,));
+
+    } catch(err) {
+      // Handle exception by warning the user their action did not succeed
+      // return?
+    }
+  }
+
+  _BattleSelectPageState() {
+    initUniLinks();
+  }
+
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
@@ -69,5 +99,4 @@ class BattleSelectPage extends StatelessWidget{
       ),
     );
   }
-
 }
