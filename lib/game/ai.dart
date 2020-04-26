@@ -35,7 +35,7 @@ Tuple2<double, Tuple2<int, int>> maxValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves){
+  for (var move in board.possibleMoves.take(50)){
     var data = minValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 > value){
@@ -65,7 +65,7 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves){
+  for (var move in board.possibleMoves.take(50)){
     var data = maxValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 < value){
@@ -135,7 +135,7 @@ Tuple2 <int, int> alphabeta(Board board){
   d= 4;
   }
   else if (board.size > 7){
-      d = 3;
+      d = 4;
       if (board.ration() <= 0.5)
         d = 4;
       else if (board.ration() <= 0.25)

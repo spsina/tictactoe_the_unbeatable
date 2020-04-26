@@ -156,7 +156,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
             child: Container(
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.all(10),
-              color: Color(0xffff1e56),
+              color: Color(0xffffac41),
               child: Center(
                 child: buttonChild,
               ),
@@ -215,6 +215,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
+                if (socket != null)
                 socket.close();
                 navigate(context, BattleSelectPage());
               }

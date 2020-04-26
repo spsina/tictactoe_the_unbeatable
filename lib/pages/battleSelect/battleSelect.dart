@@ -5,6 +5,7 @@ import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
+import 'package:tictactoe/pages/battleSelect/joinGame.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
 
 import 'components/dialogs.dart';
@@ -45,10 +46,11 @@ class BattleSelectPage extends StatelessWidget{
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.group_add),
-              backgroundColor: Colors.red,
-              label: 'PLAY WITH A FIREND',
-              labelStyle: TextStyle(fontSize: 14.0),
+            child: Icon(Icons.group_add),
+            backgroundColor: Colors.red,
+            label: 'PLAY WITH A FIREND',
+            labelStyle: TextStyle(fontSize: 14.0),
+            onTap: ()=> navigate(context, JoinGame())
           ),
           SpeedDialChild(
             child: Icon(Icons.add_circle),

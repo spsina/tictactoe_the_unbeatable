@@ -14,7 +14,7 @@ class JoinGame extends StatefulWidget{
 class _JoinGameState extends State<JoinGame> {
   bool loading = false;
 
-  var buttonChild;
+  var buttonChild = Icon(Icons.group_add, color: Colors.white,);
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +57,20 @@ class _JoinGameState extends State<JoinGame> {
                       child: Column(
                         children: <Widget>[
                           Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
-                                width: 200,
+                                width: 8 * tileSize,
                                 child: TextField(
                                   style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
+                                    hintStyle: TextStyle(color: Colors.grey),
                                     border: InputBorder.none,
-                                    hintText: 'Enter a search term'
+                                    hintText: 'ENTER A GAME ID'
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           )
                         ],
@@ -82,7 +84,7 @@ class _JoinGameState extends State<JoinGame> {
                     child: Container(
                       margin: EdgeInsets.all(20),
                       padding: EdgeInsets.all(10),
-                      color: Color(0xffff1e56),
+                      color: Color(0xffffac41),
                       child: Center(
                         child: buttonChild,
                       ),
