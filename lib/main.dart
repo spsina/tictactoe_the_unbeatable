@@ -38,7 +38,7 @@ class Entry extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Gearus'),
       title: "TIC TAC TOE, THE UNBEATABLE",
-      home: JoinGame()
+      home: page
       );
   }
 
