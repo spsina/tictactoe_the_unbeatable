@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:web_socket_channel/io.dart';
 
 import 'battleSelect.dart';
 
@@ -13,12 +17,93 @@ class JoinGame extends StatefulWidget{
 
 class _JoinGameState extends State<JoinGame> {
   bool loading = false;
+  bool isGameInfoMode = false;
+
+  WebSocket socket;
+  IOWebSocketChannel channel;
+  String gameId;
+  GameInfoUi gameInfoUi;
+
+  final gameIdController = TextEditingController();
 
   var buttonChild = Icon(Icons.group_add, color: Colors.white,);
 
+  void getGameInfo () async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      await createConnection("ws://192.168.1.50:9090");
+      channel.sink.add(jsonEncode({
+        'type': "JOIN",
+        'rmode': 'partial',
+        'gameId': gameIdController.text
+      }));
+    } catch(err) {
+      toastError("Could not connect to the server");
+      setState(() {
+        loading = true;
+      });
+    }
+  }
+
+
+  void socketListener(dynamic message) {
+    var dictData = jsonDecode(message.toString());
+    setState(() {
+      loading = false;
+    });
+    // game id generated successfully
+    if (dictData['status'] == 200) {
+      var game = dictData['game'];
+      setState(() {
+        isGameInfoMode = true;
+        gameInfoUi = GameInfoUi(size: game['size'], winBy: game['winBy'], playAs: game['starter'] == "X" ? "O" : "X");
+        buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
+      });
+    } else {
+      toastError("Invalid Game ID");
+    }
+    print("[Server] " + dictData.toString());
+  }
+
+  Future<IOWebSocketChannel> createConnection(url) async {
+    socket = await WebSocket
+        .connect(url)
+        .timeout(Duration(seconds: 15));
+    channel = IOWebSocketChannel(socket);
+    channel.stream.listen(this.socketListener);
+    return channel;
+  }
+
   @override
   Widget build(BuildContext context) {
+    gameIdController.text = "xhbFS5yKF";
     double tileSize = MediaQuery. of(context).size.width / 9;
+
+    var enterGameIdUi = Column(
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: 8 * tileSize,
+              child: TextField(
+                controller: gameIdController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none,
+                    hintText: 'ENTER A GAME ID'
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+
     return Scaffold(
       backgroundColor: Color(0xff1B2429),
       body: Container(
@@ -54,32 +139,16 @@ class _JoinGameState extends State<JoinGame> {
                       ),
                       margin: EdgeInsets.only(top:30),
                       padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Container(
-                                width: 8 * tileSize,
-                                child: TextField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none,
-                                    hintText: 'ENTER A GAME ID'
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 200),
+                        child: isGameInfoMode ? gameInfoUi : enterGameIdUi,
                       )
                   ),
                   InkWell(
                     onTap: () {
                       if (loading)
                         return;
+                      getGameInfo();
                     },
                     child: Container(
                       margin: EdgeInsets.all(20),
