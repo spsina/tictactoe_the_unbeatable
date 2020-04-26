@@ -5,6 +5,8 @@ import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/game/board.dart';
 
+import '../../battle/battle.dart';
+
 class CustomBoard extends StatefulWidget{
 
   // initializes a new game board
@@ -42,19 +44,16 @@ class _CustomBoardState extends State<CustomBoard> {
     TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.8);
     setState(() {
       if (gameMode == GameMode.AI) {
-        aiPlayerWidget = FittedBox(
-          fit: BoxFit.contain,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+        aiPlayerWidget = Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 child: Text("AI PLAYER", style: _style,),
               ),
               Container(
-                margin: EdgeInsets.only(left: 20),
                 child: DropdownButton<String>(
                   underline: SizedBox(),
-                  dropdownColor: Colors.black,
+                  //dropdownColor: Colors.black,
                   value: aiPlayer,
                   elevation: 20,
                   onChanged: (String value) {
@@ -73,8 +72,7 @@ class _CustomBoardState extends State<CustomBoard> {
                 ),
               )
             ],
-          ),
-        );
+          );
       } else if (gameMode == GameMode.ONLINE) {
         aiPlayerWidget = Center(
             child:Text("YOU WILL BE THE STARTING PLAYER", style: TextStyle(color: Colors.grey, fontFamily: ""),)
@@ -87,7 +85,7 @@ class _CustomBoardState extends State<CustomBoard> {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           // Game size
           Container(
@@ -121,19 +119,16 @@ class _CustomBoardState extends State<CustomBoard> {
               });
             },
           ),
-          FittedBox(
-            fit: BoxFit.contain,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   child: Text("GAME MODE", style: _style,),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left:20),
                   child: DropdownButton<GameMode>(
+                    //dropdownColor: Colors.black,  
                     underline: SizedBox(),
-                    dropdownColor: Colors.black,
                     value: gameMode,
                     elevation: 20,
                     onChanged: (GameMode value) {
@@ -159,20 +154,16 @@ class _CustomBoardState extends State<CustomBoard> {
                 )
               ],
             ),
-          ),
-          FittedBox(
-            fit: BoxFit.contain,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   child: Text("STARTING PLAYER", style: _style,),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left:20),
                   child: DropdownButton<String>(
                     underline: SizedBox(),
-                    dropdownColor: Colors.black,
+                    //dropdownColor: Colors.black,
                     value: starter,
                     elevation: 20,
                     onChanged: (String value) {
@@ -191,11 +182,10 @@ class _CustomBoardState extends State<CustomBoard> {
                 )
               ],
             ),
-          ),
           Container(
             child: AnimatedSwitcher(
                 duration: Duration(milliseconds: 300),
-                child: aiPlayerWidget
+                child: aiPlayerWidget,
             ),
           ),
         ],
