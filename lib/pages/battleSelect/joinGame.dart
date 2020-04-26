@@ -35,7 +35,7 @@ class _JoinGameState extends State<JoinGame> {
       gameId = gameIdController.text;
     });
     try {
-      await createConnection("ws://192.168.1.50:9090");
+      await createConnection("ws://cafepay.app:9090");
       channel.sink.add(jsonEncode({
         'type': "JOIN",
         'rmode': 'partial',
@@ -101,8 +101,13 @@ class _JoinGameState extends State<JoinGame> {
   }
 
   @override
+  void deactivate() {
+    socket.close();
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    gameIdController.text = "ueSwKHPzJ";
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     var enterGameIdUi = Column(

@@ -53,8 +53,6 @@ class Game extends State<GameBoard> {
         initialize();
       });
     }
-
-    print("[Server] " + dictData.toString());
   }
 
   Future<IOWebSocketChannel> createConnection(url) async {
@@ -67,26 +65,27 @@ class Game extends State<GameBoard> {
   }
 
   void initialize() async{
-    if (socket != null) {
-      socket.close();
-    }
+
     ready = false;
 
     board = Board(widget.size, widget.starter, widget.winBy);
     
     turnWidget = Turn(this);
 
-    // if game mode is online. establish a connection to server
-    try {
-      await createConnection('ws://192.168.1.50:9090');
-      channel.sink.add(jsonEncode({
-        'type': 'JOIN',
-        'rmode': 'full',
-        'gameId': widget.gameId
-      }));
-    } catch (err) {
-      print("Error");
-      navigate(context, BattleSelectPage());
+
+    if (widget.gameMode == GameMode.ONLINE && socket == null) {
+      // if game mode is online. establish a connection to server
+      try {
+        await createConnection('ws://cafepay.app:9090');
+        channel.sink.add(jsonEncode({
+          'type': 'JOIN',
+          'rmode': 'full',
+          'gameId': widget.gameId
+        }));
+      } catch (err) {
+        toastError("Try again later");
+        navigate(context, BattleSelectPage());
+      }
     }
 
     // if the starter of the game is not the same as the player
@@ -115,6 +114,12 @@ class Game extends State<GameBoard> {
     super.initState();
   }
 
+  @override
+  void deactivate() {
+    if (socket != null)
+      socket.close();
+    super.deactivate();
+  }
   
   Future<void> makeAIMove() async {
     Tuple2 aiMove = await compute(alphabeta, board);
@@ -182,10 +187,6 @@ class Game extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-
-    if (!ready) {
-      return SizedBox();
-    }
 
     final double tileSize = MediaQuery. of(context).size.width / 9;
     

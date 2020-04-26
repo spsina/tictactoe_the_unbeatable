@@ -80,7 +80,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
     });
     try {
       var jsonData = jsonEncode(request);
-      await createConnection("ws://192.168.1.50:9090");
+      await createConnection("ws://cafepay.app:9090");
       channel.sink.add(jsonData);
     } catch (err) {
       setState(() {
@@ -214,7 +214,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 if (socket != null)
-                socket.close();
+                  socket.close();
                 navigate(context, BattleSelectPage());
               }
           ),
