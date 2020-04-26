@@ -43,7 +43,7 @@ class WaitingForOpponentUi extends StatelessWidget{
                   ),
                   IconButton(
                     onPressed: (){
-                      Share.share("""Let's play tic tac toe.\nGame Id: """ + gameId);
+                      Share.share("""Let's play tic tac toe.\nGame Id: """ + gameId + "\nhttps://l37.ir/game/tictactoe/play?gameId=" + gameId);
                     },
                     icon: Icon(Icons.share, color: Colors.white,),
                   )
