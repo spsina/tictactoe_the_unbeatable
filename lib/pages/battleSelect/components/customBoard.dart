@@ -53,7 +53,7 @@ class _CustomBoardState extends State<CustomBoard> {
               Container(
                 child: DropdownButton<String>(
                   underline: SizedBox(),
-                  dropdownColor: Colors.grey,
+                  //dropdownColor: Colors.grey,
                   value: aiPlayer,
                   elevation: 20,
                   onChanged: (String value) {
@@ -125,33 +125,41 @@ class _CustomBoardState extends State<CustomBoard> {
                 Container(
                   child: Text("GAME MODE", style: _style,),
                 ),
-                Container(
-                  child: DropdownButton<GameMode>(
-                    dropdownColor: Colors.grey,
-                    underline: SizedBox(),
-                    value: gameMode,
-                    elevation: 20,
-                    onChanged: (GameMode value) {
-                      setState(() {
-                        gameMode=value;
-                      });
-                      },
-                    items: <GameMode>[GameMode.AI, GameMode.ONLINE, GameMode.LOCAL]
-                        .map<DropdownMenuItem<GameMode>>((GameMode value) {
-                      var strVal;
-                      if (value == GameMode.AI)
-                        strVal = "1 PLAYER";
-                      else if (value == GameMode.ONLINE)
-                        strVal = "2 PLAYERS - ONLINE";
-                      else
-                        strVal = "2 PLAYERS - OFFLINE ";
-                      return DropdownMenuItem<GameMode>(
-                        value: value,
-                        child: Text(strVal, style: TextStyle(fontFamily: "", color: Colors.white),),
-                      );
-                    }).toList(),
+                Flexible(
+                  child: Container(
+                    width: 150,
+                    child: DropdownButton<GameMode>(
+                      //dropdownColor: Colors.grey,
+                      underline: SizedBox(),
+                      isExpanded: true,
+                      isDense: false,
+                      value: gameMode,
+                      elevation: 20,
+                      onChanged: (GameMode value) {
+                        setState(() {
+                          gameMode=value;
+                        });
+                        },
+                      items: <GameMode>[GameMode.AI, GameMode.ONLINE, GameMode.LOCAL]
+                          .map<DropdownMenuItem<GameMode>>((GameMode value) {
+                        var strVal;
+                        if (value == GameMode.AI)
+                          strVal = "1 PLAYER";
+                        else if (value == GameMode.ONLINE)
+                          strVal = "2 PLAYERS - ONLINE";
+                        else
+                          strVal = "2 PLAYERS - OFFLINE";
+                        return DropdownMenuItem<GameMode>(
+                          value: value,
+                          child: SizedBox(
+                            width: 200,
+                            child: Text(strVal,textAlign: TextAlign.right ,style: TextStyle(fontFamily: "", color: Colors.white),),
+                        ),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             Row(
@@ -163,7 +171,7 @@ class _CustomBoardState extends State<CustomBoard> {
                 Container(
                   child: DropdownButton<String>(
                     underline: SizedBox(),
-                    dropdownColor: Colors.grey,
+                    //dropdownColor: Colors.grey,
                     value: starter,
                     elevation: 20,
                     onChanged: (String value) {
