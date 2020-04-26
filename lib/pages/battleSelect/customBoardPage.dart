@@ -36,6 +36,8 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
 
   void socketListener(dynamic message) {
     var dictData = jsonDecode(message.toString());
+    print("[Server] " + dictData.toString());
+
     setState(() {
       loading = false;
 
@@ -43,16 +45,24 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         gameId = dictData['gameId'];
         generalState = GeneralState.WAITING;
       } else if (dictData['status'] == 301) {
-        // opponent joined start the game
-        print("Opponent joined");
+        var game = GameBoard(
+          size: _customBoard.currentState.boardSize.toInt(),
+          winBy: _customBoard.currentState.winBy.toInt(),
+          starter: _customBoard.currentState.starter,
+          playingAs: _customBoard.currentState.starter,
+          gameMode: GameMode.ONLINE,
+          gameId: gameId,
+        );
+
+        // close the current channel
+        socket.close();
+        navigate(context, game);
       }
         else {
         toastError("An error has occured while requesting an online game");
       }
     });
     // game id generated successfully
-
-    print("[Server] " + dictData.toString());
   }
 
   Future<IOWebSocketChannel> createConnection(url) async {
@@ -82,6 +92,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
 
   @override
   void deactivate() {
+    if (socket != null)
     socket.close();
     super.deactivate();
   }

@@ -57,13 +57,15 @@ class _JoinGameState extends State<JoinGame> {
       'gameId': gameId
     }));
 
+    socket.close();
     // start the game
     navigate(context, GameBoard(
       size: gameInfoUi.size,
       winBy: gameInfoUi.winBy,
       gameMode: GameMode.ONLINE,
       playingAs: gameInfoUi.playAs,
-      starter: gameInfoUi.playAs == "X"? "O":"X",)
+      gameId: gameId,
+      starter: gameInfoUi.playAs == "X"? "O":"X",),
     );
   }
 
@@ -100,7 +102,7 @@ class _JoinGameState extends State<JoinGame> {
 
   @override
   Widget build(BuildContext context) {
-    gameIdController.text = "wswZqbg5i";
+    gameIdController.text = "ueSwKHPzJ";
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     var enterGameIdUi = Column(
@@ -212,6 +214,8 @@ class _JoinGameState extends State<JoinGame> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
+                if (socket != null)
+                  socket.close();
                 navigate(context, BattleSelectPage());
               }
           ),

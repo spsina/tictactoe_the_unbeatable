@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +9,10 @@ import 'package:tictactoe/game/ai.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
+import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
 import 'package:tuple/tuple.dart';
+import 'package:web_socket_channel/io.dart';
 
 enum GameMode {
   AI,
@@ -16,27 +21,73 @@ enum GameMode {
 }
 
 class GameBoard extends StatefulWidget {
-
+  final String gameId;              // used for online game
   final int size;                   // size of the game board
   final String playingAs;           // playing as
   final String starter;             // player who starts the game
   final GameMode gameMode;          // AI, LOCAL, ONLINE
   final int winBy;
 
-  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy});
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId});
   Game createState() => Game();
 }
 
 
 class Game extends State<GameBoard> {
-  
+
+  WebSocket socket;
+  IOWebSocketChannel channel;
   Board board;
   Widget turnWidget;
 
-  void initialize(){
+  bool ready = false;
+
+  void socketListener(dynamic message) {
+    var dictData = jsonDecode(message.toString());
+
+    if (dictData['status'] == 300) {
+      var move = dictData['move'];
+      moveTo(Tuple2(move['x'], move['y']));
+    } else if (dictData['status'] == 600) {
+      setState(() {
+        initialize();
+      });
+    }
+
+    print("[Server] " + dictData.toString());
+  }
+
+  Future<IOWebSocketChannel> createConnection(url) async {
+    socket = await WebSocket
+        .connect(url)
+        .timeout(Duration(seconds: 15));
+    channel = IOWebSocketChannel(socket);
+    channel.stream.listen(this.socketListener);
+    return channel;
+  }
+
+  void initialize() async{
+    if (socket != null) {
+      socket.close();
+    }
+    ready = false;
+
     board = Board(widget.size, widget.starter, widget.winBy);
     
     turnWidget = Turn(this);
+
+    // if game mode is online. establish a connection to server
+    try {
+      await createConnection('ws://192.168.1.50:9090');
+      channel.sink.add(jsonEncode({
+        'type': 'JOIN',
+        'rmode': 'full',
+        'gameId': widget.gameId
+      }));
+    } catch (err) {
+      print("Error");
+      navigate(context, BattleSelectPage());
+    }
 
     // if the starter of the game is not the same as the player
     if (widget.starter != widget.playingAs) {
@@ -51,6 +102,10 @@ class Game extends State<GameBoard> {
       }
 
     }
+
+    setState(() {
+      ready = true;
+    });
 
   }
 
@@ -89,7 +144,18 @@ class Game extends State<GameBoard> {
       if (widget.gameMode == GameMode.AI)
         await makeAIMove();
       else if (widget.gameMode == GameMode.ONLINE) {
-        // todo: wait for opponent move
+        // board cast the move first
+        channel.sink.add(jsonEncode({
+          'type': 'PUT',
+          'rmode': 'move',
+          'gameId': widget.gameId,
+          'move': {
+            'x': i,
+            'y': j
+          }
+        }));
+
+        // wait for the opponent move now
       }
 
     }
@@ -116,6 +182,11 @@ class Game extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (!ready) {
+      return SizedBox();
+    }
+
     final double tileSize = MediaQuery. of(context).size.width / 9;
     
     // check if the game is finished
@@ -207,6 +278,8 @@ class Game extends State<GameBoard> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
+                if (socket != null)
+                  socket.close();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
@@ -220,6 +293,14 @@ class Game extends State<GameBoard> {
             labelStyle: TextStyle(fontSize: 14.0),
             onTap: () {
               setState(() {
+                if (widget.gameMode == GameMode.ONLINE) {
+                  // notify other player to reset the game as well
+                  channel.sink.add(jsonEncode({
+                    'type': 'PUT',
+                    'rmode': 'reset',
+                    'gameId': widget.gameId
+                  }));
+                }
                 initialize();
               });
             }
