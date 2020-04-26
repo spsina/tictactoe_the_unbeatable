@@ -7,8 +7,7 @@ import 'package:tictactoe/game/board.dart';
 
 import '../../battle/battle.dart';
 
-class CustomBoard extends StatefulWidget{
-
+class CustomBoard extends StatefulWidget {
   // initializes a new game board
   // always sets the game starter to X
 
@@ -22,7 +21,6 @@ class CustomBoard extends StatefulWidget{
 }
 
 class _CustomBoardState extends State<CustomBoard> {
-
   double boardSize = 4;
   double winBy = 4;
   bool withAi = true;
@@ -32,7 +30,7 @@ class _CustomBoardState extends State<CustomBoard> {
 
   var aiPlayerWidget;
 
-  String playingAs(){
+  String playingAs() {
     var _playingAs;
     _playingAs = aiPlayer == "X" ? "O" : "X";
     return _playingAs;
@@ -40,43 +38,50 @@ class _CustomBoardState extends State<CustomBoard> {
 
   @override
   Widget build(BuildContext context) {
-    double tileSize = MediaQuery. of(context).size.width / 9;
+    double tileSize = MediaQuery.of(context).size.width / 9;
     TextStyle _style = TextStyle(color: Colors.white, fontSize: tileSize / 2.8);
     setState(() {
       if (gameMode == GameMode.AI) {
         aiPlayerWidget = Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                child: Text("AI PLAYER", style: _style,),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              child: Text(
+                "AI PLAYER",
+                style: _style,
               ),
-              Container(
-                child: DropdownButton<String>(
-                  underline: SizedBox(),
-                  //dropdownColor: Colors.black,
-                  value: aiPlayer,
-                  elevation: 20,
-                  onChanged: (String value) {
-                    setState(() {
-                      aiPlayer = value;
-                    });
-                  },
-                  items: <String>["X", "O"].map<DropdownMenuItem<String>>((
-                      String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value,
-                        style: TextStyle(fontFamily: "", color: Colors.white),),
-                    );
-                  }).toList(),
-                ),
-              )
-            ],
-          );
+            ),
+            Container(
+              child: DropdownButton<String>(
+                underline: SizedBox(),
+                //dropdownColor: Colors.black,
+                value: aiPlayer,
+                elevation: 20,
+                onChanged: (String value) {
+                  setState(() {
+                    aiPlayer = value;
+                  });
+                },
+                items: <String>["X", "O"]
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(fontFamily: "", color: Colors.white),
+                    ),
+                  );
+                }).toList(),
+              ),
+            )
+          ],
+        );
       } else if (gameMode == GameMode.ONLINE) {
         aiPlayerWidget = Center(
-            child:Text("YOU WILL BE THE STARTING PLAYER", style: TextStyle(color: Colors.grey, fontFamily: ""),)
-        );
+            child: Text(
+          "YOU WILL BE THE STARTING PLAYER",
+          style: TextStyle(color: Colors.grey, fontFamily: ""),
+        ));
       } else {
         aiPlayerWidget = SizedBox();
       }
@@ -89,7 +94,10 @@ class _CustomBoardState extends State<CustomBoard> {
         children: <Widget>[
           // Game size
           Container(
-            child: Text("BOARD SIZE " + boardSize.toInt().toString(), style: _style,),
+            child: Text(
+              "BOARD SIZE " + boardSize.toInt().toString(),
+              style: _style,
+            ),
           ),
           Container(
             child: Slider(
@@ -99,15 +107,17 @@ class _CustomBoardState extends State<CustomBoard> {
               onChanged: (val) {
                 setState(() {
                   boardSize = val;
-                  if (winBy > boardSize)
-                    winBy = boardSize;
+                  if (winBy > boardSize) winBy = boardSize;
                 });
               },
             ),
           ),
           // win by
           Container(
-            child: Text("WIN BY " + winBy.toInt().toString() + " IN A LINE", style: _style,),
+            child: Text(
+              "WIN BY " + winBy.toInt().toString() + " IN A LINE",
+              style: _style,
+            ),
           ),
           Slider(
             value: winBy,
@@ -120,24 +130,34 @@ class _CustomBoardState extends State<CustomBoard> {
             },
           ),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  child: Text("GAME MODE", style: _style,),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  "GAME MODE",
+                  style: _style,
                 ),
-                Container(
+              ),
+              Flexible(
+                child: Container(
+                  height: 48,
                   child: DropdownButton<GameMode>(
-                    //dropdownColor: Colors.black,  
+                    //dropdownColor: Colors.black,
+                    isExpanded: true,
+                    isDense: false,
                     underline: SizedBox(),
                     value: gameMode,
                     elevation: 20,
                     onChanged: (GameMode value) {
                       setState(() {
-                        gameMode=value;
+                        gameMode = value;
                       });
-                      },
-                    items: <GameMode>[GameMode.AI, GameMode.ONLINE, GameMode.LOCAL]
-                        .map<DropdownMenuItem<GameMode>>((GameMode value) {
+                    },
+                    items: <GameMode>[
+                      GameMode.AI,
+                      GameMode.ONLINE,
+                      GameMode.LOCAL
+                    ].map<DropdownMenuItem<GameMode>>((GameMode value) {
                       var strVal;
                       if (value == GameMode.AI)
                         strVal = "1 PLAYER";
@@ -147,45 +167,55 @@ class _CustomBoardState extends State<CustomBoard> {
                         strVal = "2 PLAYERS - OFFLINE ";
                       return DropdownMenuItem<GameMode>(
                         value: value,
-                        child: Text(strVal, style: TextStyle(fontFamily: "", color: Colors.white),),
+                        child: Text(
+                          strVal,
+                          style: TextStyle(fontFamily: "", color: Colors.white),
+                        ),
                       );
                     }).toList(),
                   ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  child: Text("STARTING PLAYER", style: _style,),
                 ),
-                Container(
-                  child: DropdownButton<String>(
-                    underline: SizedBox(),
-                    //dropdownColor: Colors.black,
-                    value: starter,
-                    elevation: 20,
-                    onChanged: (String value) {
-                      setState(() {
-                        starter=value;
-                      });
-                      },
-                    items: <String>["X", "O"]
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value, style: TextStyle(fontFamily: "", color: Colors.white),),
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  "STARTING PLAYER",
+                  style: _style,
+                ),
+              ),
+              Container(
+                child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  //dropdownColor: Colors.black,
+                  value: starter,
+                  elevation: 20,
+                  onChanged: (String value) {
+                    setState(() {
+                      starter = value;
+                    });
+                  },
+                  items: <String>["X", "O"]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(fontFamily: "", color: Colors.white),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              )
+            ],
+          ),
           Container(
             child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
-                child: aiPlayerWidget,
+              duration: Duration(milliseconds: 300),
+              child: aiPlayerWidget,
             ),
           ),
         ],
