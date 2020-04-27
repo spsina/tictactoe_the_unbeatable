@@ -52,6 +52,8 @@ class WebSocketConnection {
 
     masterListener(jsonEncode(droppedMsg));
 
+    toastError("Your connection was dropped");
+
     // web socket connection has dropped
     isOn = false;
   }

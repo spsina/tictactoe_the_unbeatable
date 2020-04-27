@@ -60,6 +60,11 @@ class Game extends State<GameBoard> {
       setState(() {
         initialize();
       });
+    } else if (dictData['status'] == 204) {
+      toastError("Your opponent left the game");
+      navigate(context, BattleSelectPage());
+    } else if (dictData['status'] == -1 ) {
+      navigate(context, BattleSelectPage());
     }
   }
 

@@ -44,6 +44,7 @@ class _JoinGameState extends State<JoinGame> {
       loading = true;
       gameId = gameIdController.text;
     });
+
     bool result = await wsc.send({
       'type': "JOIN",
       'rmode': 'partial',
@@ -100,8 +101,6 @@ class _JoinGameState extends State<JoinGame> {
         starter: gameInfoUi.playAs == "X"? "O":"X",),
       );
     } else if (dictData['status'] == -1) {
-      toastError("Your opponent left the game");
-
       // set the state to enter game id
       setState(() {
         isGameInfoMode = false;
