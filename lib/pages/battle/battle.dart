@@ -44,59 +44,34 @@ class Game extends State<GameBoard> {
 
   final Color defaultBackgroundColor = Color(0xfff4f4f4);
 
-  WebSocket socket;
-  IOWebSocketChannel channel;
   Board board;
   Widget turnWidget;
-
-
   bool ready = false;
 
-
-  void socketListener(dynamic message) {
-    var dictData = jsonDecode(message.toString());
+  void socketListener(dictData) {
 
     if (dictData['status'] == 300) {
+      // a new move haas been made
       var move = dictData['move'];
       moveTo(Tuple2(move['x'], move['y']));
+
     } else if (dictData['status'] == 600) {
+      // a game reset has been submitted by the opponent
       setState(() {
         initialize();
       });
     }
   }
 
-  Future<IOWebSocketChannel> createConnection(url) async {
-    socket = await WebSocket
-        .connect(url)
-        .timeout(Duration(seconds: 15));
-    channel = IOWebSocketChannel(socket);
-    channel.stream.listen(this.socketListener);
-    return channel;
-  }
-
   void initialize() async{
 
     ready = false;
-
     board = Board(widget.size, widget.starter, widget.winBy);
-    
     turnWidget = Turn(this);
 
-
-    if (widget.gameMode == GameMode.ONLINE && socket == null) {
+    if (widget.gameMode == GameMode.ONLINE) {
       // if game mode is online. establish a connection to server
-      try {
-        await createConnection('ws://cafepay.app:9090');
-        channel.sink.add(jsonEncode({
-          'type': 'JOIN',
-          'rmode': 'full',
-          'gameId': widget.gameId
-        }));
-      } catch (err) {
-        toastError("Try again later");
-        navigate(context, BattleSelectPage());
-      }
+      wsc.subscribe(socketListener);
     }
 
     // if the starter of the game is not the same as the player
@@ -125,10 +100,26 @@ class Game extends State<GameBoard> {
     super.initState();
   }
 
+  void clearGame() {
+    // send a delete request for game with id gameId
+    if (widget.gameId != null) {
+      wsc.send({
+        'type': "DELETE",
+        'gameId': widget.gameId
+      });
+    }
+  }
+
+  void clearConnection() {
+    // clear game and unsubscribe
+    clearGame();
+    wsc.unsubscribe(socketListener);
+
+  }
+
   @override
   void deactivate() {
-    if (socket != null)
-      socket.close();
+    clearConnection();
     super.deactivate();
   }
   
@@ -161,7 +152,7 @@ class Game extends State<GameBoard> {
         await makeAIMove();
       else if (widget.gameMode == GameMode.ONLINE) {
         // board cast the move first
-        channel.sink.add(jsonEncode({
+        wsc.send({
           'type': 'PUT',
           'rmode': 'move',
           'gameId': widget.gameId,
@@ -169,8 +160,7 @@ class Game extends State<GameBoard> {
             'x': i,
             'y': j
           }
-        }));
-
+        });
         // wait for the opponent move now
       }
 
@@ -293,8 +283,7 @@ class Game extends State<GameBoard> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                if (socket != null)
-                  socket.close();
+                clearConnection();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
@@ -310,11 +299,13 @@ class Game extends State<GameBoard> {
               setState(() {
                 if (widget.gameMode == GameMode.ONLINE) {
                   // notify other player to reset the game as well
-                  channel.sink.add(jsonEncode({
-                    'type': 'PUT',
-                    'rmode': 'reset',
-                    'gameId': widget.gameId
-                  }));
+                  wsc.send(
+                      {
+                        'type': 'PUT',
+                        'rmode': 'reset',
+                        'gameId': widget.gameId
+                      }
+                  );
                 }
                 initialize();
               });

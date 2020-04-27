@@ -66,8 +66,11 @@ class WebSocketConnection {
     _subscribers.remove(func);
   }
 
-  void send(dynamic dictMsg) {
+  void send(dynamic dictMsg) async{
     // send json encoded dictMsg to the server
+
+    await ensureConnection();
+
     if (isOn)
       _channel.sink.add(jsonEncode(dictMsg));
     else
