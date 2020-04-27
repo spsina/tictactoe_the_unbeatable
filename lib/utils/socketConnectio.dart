@@ -66,15 +66,19 @@ class WebSocketConnection {
     _subscribers.remove(func);
   }
 
-  void send(dynamic dictMsg) async{
+  Future<bool> send(dynamic dictMsg) async{
     // send json encoded dictMsg to the server
 
     await ensureConnection();
 
-    if (isOn)
+    if (isOn) {
       _channel.sink.add(jsonEncode(dictMsg));
-    else
+      return true;
+    }
+    else {
       toastError("No active connection to the server");
+      return false;
+    }
   }
 
   void masterListener(dynamic msg) {
