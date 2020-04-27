@@ -65,8 +65,12 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
 
         // lunch the game board
         navigate(context, game);
-      }
-        else {
+      } else if (dictData['status'] == -1) {
+        toastError("Your connection was dropped");
+        setState(() {
+          generalState = GeneralState.CREATE;
+        });
+      } else {
         toastError("Could not create an online game");
       }
     });
