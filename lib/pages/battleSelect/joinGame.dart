@@ -57,24 +57,23 @@ class _JoinGameState extends State<JoinGame> {
     });
   }
 
-  void joinAndPlay() {
+  void joinAndPlay() async {
     // join and notify the opponent
-    wsc.send({
+    setState(() {
+      loading = true;
+    });
+    bool result = await wsc.send({
       'type': "JOIN",
       'rmode': 'full',
       'gameId': gameId
     });
 
-    wsc.unsubscribe(socketListener);
-    // start the game
-    navigate(context, GameBoard(
-      size: gameInfoUi.size,
-      winBy: gameInfoUi.winBy,
-      gameMode: GameMode.ONLINE,
-      playingAs: gameInfoUi.playAs,
-      gameId: gameId,
-      starter: gameInfoUi.playAs == "X"? "O":"X",),
-    );
+    if (!result) {
+      setState(() {
+        loading = false;
+        isGameInfoMode = false;
+      });
+    }
   }
 
   void socketListener(dictData) {
@@ -82,15 +81,26 @@ class _JoinGameState extends State<JoinGame> {
       loading = false;
     });
 
-    if (dictData['status'] == 200) {
+    if (dictData['status'] == 199) {
       var game = dictData['game'];
       setState(() {
         isGameInfoMode = true;
         gameInfoUi = GameInfoUi(size: game['size'], winBy: game['winBy'], playAs: game['starter'] == "X" ? "O" : "X");
         buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
       });
+    } else if (dictData['status'] == 200){
+      wsc.unsubscribe(socketListener);
+      // start the game
+      navigate(context, GameBoard(
+        size: gameInfoUi.size,
+        winBy: gameInfoUi.winBy,
+        gameMode: GameMode.ONLINE,
+        playingAs: gameInfoUi.playAs,
+        gameId: gameId,
+        starter: gameInfoUi.playAs == "X"? "O":"X",),
+      );
     } else if (dictData['status'] == -1) {
-      toastError("Your connection was dropped");
+      toastError("Your opponent left the game");
 
       // set the state to enter game id
       setState(() {
@@ -100,6 +110,11 @@ class _JoinGameState extends State<JoinGame> {
       toastError("Invalid Game ID");
 
       // set the state to enter game id
+      setState(() {
+        isGameInfoMode = false;
+      });
+    } else {
+      toastError("Your opponent propabley left the game");
       setState(() {
         isGameInfoMode = false;
       });
