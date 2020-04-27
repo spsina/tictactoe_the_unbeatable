@@ -89,11 +89,26 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
 
   }
 
-  @override
-  void deactivate() {
+  void clearGame() {
+    // send a delete request for game with id gameId
+    if (gameId != null) {
+      wsc.send({
+        'type': "DELETE",
+        'gameId': gameId
+      });
+    }
+  }
+
+  void clearConnection() {
+    // clear game and unsubscribe
+    clearGame();
     wsc.unsubscribe(socketListener);
 
-    // todo remove the game
+  }
+
+  @override
+  void deactivate() {
+    clearConnection();
     super.deactivate();
   }
 
@@ -213,7 +228,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                wsc.unsubscribe(socketListener);
+                clearConnection();
                 navigate(context, BattleSelectPage());
               }
           ),
