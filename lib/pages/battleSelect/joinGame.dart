@@ -90,7 +90,7 @@ class _JoinGameState extends State<JoinGame> {
         buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
       });
     } else if (dictData['status'] == -1) {
-      toastError("Your opponent left the game");
+      toastError("Your connection was dropped");
 
       // set the state to enter game id
       setState(() {
