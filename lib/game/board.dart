@@ -222,10 +222,8 @@ class Board{
     int s = 0;
     if (opp == 0)
       s ++;
-    if (opp == winCount - 1 && me == 1)
-    s += 10;
     if (opp == winCount - 2 && me == 0)
-    s -= 1;
+    s -= 100;
     if (opp == winCount - 1 && me == -0)
       s -= 10000;
     return s;

@@ -226,8 +226,8 @@ class Game extends State<GameBoard> {
                           // each cell
                           return Material(
                             color: (i == board.lastMove.item1 && j == board.lastMove.item2) ?
-                            board.board[i][j] == 'X' ? Color(0xffff6363) : Color(0xffffbd69):
-                            board.board[i][j] == 'X' ? Color(0xaaff6363) : board.board[i][j] == 'O' ? Color(0xaaffbd69) :
+                            board.board[i][j] == 'X' ? Color(0xff005082) : Color(0xffffbd69):
+                            board.board[i][j] == 'X' ? Color(0xaa005082) : board.board[i][j] == 'O' ? Color(0xaaffbd69) :
                                 Color(0xfff4f4f4)
                             ,
                             shape: RoundedRectangleBorder(
