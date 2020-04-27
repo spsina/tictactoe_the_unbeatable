@@ -40,7 +40,16 @@ class Game extends State<GameBoard> {
   Board board;
   Widget turnWidget;
 
+  final Color xBackgroundColor = Color(0xaa005082);
+  final Color xNewBackgroundColor = Color(0xff005082);
+
+  final Color oBackgroundColor =  Color(0xaaffbd69);
+  final Color oNewBackgroundColor = Color(0xffffbd69);
+
+  final Color defaultBackgroundColor = Color(0xfff4f4f4);
+
   bool ready = false;
+
 
   void socketListener(dynamic message) {
     var dictData = jsonDecode(message.toString());
@@ -226,9 +235,9 @@ class Game extends State<GameBoard> {
                           // each cell
                           return Material(
                             color: (i == board.lastMove.item1 && j == board.lastMove.item2) ?
-                            board.board[i][j] == 'X' ? Color(0xff005082) : Color(0xffffbd69):
-                            board.board[i][j] == 'X' ? Color(0xaa005082) : board.board[i][j] == 'O' ? Color(0xaaffbd69) :
-                                Color(0xfff4f4f4)
+                            board.board[i][j] == 'X' ? xNewBackgroundColor : oNewBackgroundColor:
+                            board.board[i][j] == 'X' ? xBackgroundColor : board.board[i][j] == 'O' ? oBackgroundColor :
+                                defaultBackgroundColor
                             ,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)
