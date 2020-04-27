@@ -1,15 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
-import 'package:web_socket_channel/io.dart';
-
 import 'battleSelect.dart';
+import 'package:tictactoe/main.dart';
 
 class JoinGame extends StatefulWidget{
   final String initialGameId;
@@ -20,56 +16,56 @@ class JoinGame extends StatefulWidget{
 }
 
 class _JoinGameState extends State<JoinGame> {
+  bool loading = false;                                               // indicates if there is any request being processed
+  bool isGameInfoMode = false;                                        // game info UI or enter gameId ui
+  String gameId;                                                      // game id
+  GameInfoUi gameInfoUi;                                              // Widget that shows retrieved info about a game
+  final gameIdController = TextEditingController();
+  var buttonChild = Icon(Icons.group_add, color: Colors.white,);      // add, play, loading
+
+
+  _JoinGameState() {
+    wsc.subscribe(socketListener);
+  }
 
   @override
   initState() {
+    // this widget might be invoked from a link,
+    // so if there is an initial gameId present
+    // set it as the text of gameId input
     if (widget.initialGameId != null){
       gameIdController.text = widget.initialGameId;
     }
     super.initState();
   }
 
-  bool loading = false;
-  bool isGameInfoMode = false;
-
-  WebSocket socket;
-  IOWebSocketChannel channel;
-  String gameId;
-  GameInfoUi gameInfoUi;
-
-  final gameIdController = TextEditingController();
-
-  var buttonChild = Icon(Icons.group_add, color: Colors.white,);
-
   void getGameInfo () async {
     setState(() {
       loading = true;
       gameId = gameIdController.text;
     });
-    try {
-      await createConnection("ws://cafepay.app:9090");
-      channel.sink.add(jsonEncode({
-        'type': "JOIN",
-        'rmode': 'partial',
-        'gameId': gameIdController.text
-      }));
-    } catch(err) {
-      toastError("Could not connect to the server");
-      setState(() {
-        loading = true;
-      });
-    }
+    bool result = await wsc.send({
+      'type': "JOIN",
+      'rmode': 'partial',
+      'gameId': gameIdController.text
+      }
+    );
+
+    setState(() {
+      if (!result)
+        loading = false;
+    });
   }
 
   void joinAndPlay() {
     // join and notify the opponent
-    channel.sink.add(jsonEncode({
+    wsc.send({
       'type': "JOIN",
       'rmode': 'full',
       'gameId': gameId
-    }));
+    });
 
-    socket.close();
+    wsc.unsubscribe(socketListener);
     // start the game
     navigate(context, GameBoard(
       size: gameInfoUi.size,
@@ -81,12 +77,11 @@ class _JoinGameState extends State<JoinGame> {
     );
   }
 
-  void socketListener(dynamic message) {
-    var dictData = jsonDecode(message.toString());
+  void socketListener(dictData) {
     setState(() {
       loading = false;
     });
-    // game id generated successfully
+
     if (dictData['status'] == 200) {
       var game = dictData['game'];
       setState(() {
@@ -94,27 +89,32 @@ class _JoinGameState extends State<JoinGame> {
         gameInfoUi = GameInfoUi(size: game['size'], winBy: game['winBy'], playAs: game['starter'] == "X" ? "O" : "X");
         buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
       });
-    } else if (dictData['status'] == 301) {
-      // ignore
-    }
-    else {
+    } else if (dictData['status'] == -1) {
+      toastError("Your opponent left the game");
+
+      // set the state to enter game id
+      setState(() {
+        isGameInfoMode = false;
+      });
+    } else if (dictData['status'] == 404) {
       toastError("Invalid Game ID");
+
+      // set the state to enter game id
+      setState(() {
+        isGameInfoMode = false;
+      });
     }
-    print("[Server] " + dictData.toString());
   }
 
-  Future<IOWebSocketChannel> createConnection(url) async {
-    socket = await WebSocket
-        .connect(url)
-        .timeout(Duration(seconds: 15));
-    channel = IOWebSocketChannel(socket);
-    channel.stream.listen(this.socketListener);
-    return channel;
+  void clearConnection() {
+    // unsubscribe
+    wsc.unsubscribe(socketListener);
+
   }
 
   @override
   void deactivate() {
-    socket.close();
+    clearConnection();
     super.deactivate();
   }
 
@@ -231,8 +231,7 @@ class _JoinGameState extends State<JoinGame> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                if (socket != null)
-                  socket.close();
+                clearConnection();
                 navigate(context, BattleSelectPage());
               }
           ),
