@@ -225,7 +225,11 @@ class Game extends State<GameBoard> {
                         children: List<Widget>.generate(board.size, (j) {
                           // each cell
                           return Material(
-                            color: (i == board.lastMove.item1 && j == board.lastMove.item2) ? Color(0xffffac41) : Color(0xffd3d6db),
+                            color: (i == board.lastMove.item1 && j == board.lastMove.item2) ?
+                            board.board[i][j] == 'X' ? Color(0xffff6363) : Color(0xffffbd69):
+                            board.board[i][j] == 'X' ? Color(0xaaff6363) : board.board[i][j] == 'O' ? Color(0xaaffbd69) :
+                                Color(0xfff4f4f4)
+                            ,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)
                             ),
@@ -235,13 +239,12 @@ class Game extends State<GameBoard> {
                                 playerMoveTo(i, j);
                               },
                               child: Container(
-
                                   width: (9 - (board.size+1)*0.2)/widget.size * tileSize,
                                   height: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
                                   child: Center(
                                     child: Text(board.board[i][j], textAlign: TextAlign.center, style: TextStyle(
                                         fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
-                                        color: board.board[i][j] == "X" ? Color(0xff11999e):Color(0xff3c3c3c)
+                                        color: Colors.white
                                     ),
                                     ),
                                   )

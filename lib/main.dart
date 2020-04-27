@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 
@@ -19,17 +20,22 @@ void main() async{
   runApp(Entry(BattleSelectPage()));
 }
 
-class Entry extends StatelessWidget{
+class Entry extends StatefulWidget{
   final Widget page;
 
   Entry(this.page);
+
+  @override
+  _EntryState createState() => _EntryState();
+}
+
+class _EntryState extends State<Entry> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Gearus'),
       title: "TIC TAC TOE, THE UNBEATABLE",
-      home: page
+      home: widget.page
       );
   }
-
 }

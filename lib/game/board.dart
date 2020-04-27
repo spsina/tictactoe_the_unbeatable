@@ -3,7 +3,7 @@ import 'package:tuple/tuple.dart';
 
 var x = "X";
 var o = "O";
-var inf = 1000000000000000000;
+var inf = 92200000000000;
 
 class Board{
   List<List<String>> board;               // the game board
@@ -222,14 +222,12 @@ class Board{
     int s = 0;
     if (opp == 0)
       s ++;
-    if (me == winCount - 1 && opp == 0)
-      s += 1000000;
     if (opp == winCount - 1 && me == 1)
-    s += 1000000;
+    s += 10;
     if (opp == winCount - 2 && me == 0)
-    s -= 100000;
+    s -= 1;
     if (opp == winCount - 1 && me == -0)
-    s -= 10000000000;
+      s -= 10000;
     return s;
   }
 
@@ -269,6 +267,8 @@ class Board{
       var _boxes = boxes(winCount);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
+//        if (score.abs() < tmpScore.abs())
+//          score = tmpScore;
         score += tmpScore;
       }
       return score;
@@ -278,6 +278,8 @@ class Board{
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
          score += tmpScore;
+//        if (score.abs() < tmpScore.abs())
+//          score = tmpScore;
       }
       return score;
     }
