@@ -83,14 +83,12 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
       loading = true;
     });
 
-    // ensure connection
-    if (!wsc.isOn)
-      await wsc.ensureConnection();
+    bool result = await wsc.send(request);
 
-    // send game creations request through the global wsc
-    if (wsc.isOn)
-      wsc.send(request);
-
+    setState(() {
+      if (!result)
+        loading = false;
+    });
   }
 
   void clearGame() {
@@ -107,7 +105,6 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
     // clear game and unsubscribe
     clearGame();
     wsc.unsubscribe(socketListener);
-
   }
 
   @override
