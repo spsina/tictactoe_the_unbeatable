@@ -35,11 +35,7 @@ class GameBoard extends StatefulWidget {
 
 class Game extends State<GameBoard> {
 
-  WebSocket socket;
-  IOWebSocketChannel channel;
-  Board board;
-  Widget turnWidget;
-
+  // color fields used to paint the game board
   final Color xBackgroundColor = Color(0xaa005082);
   final Color xNewBackgroundColor = Color(0xff005082);
 
@@ -47,6 +43,12 @@ class Game extends State<GameBoard> {
   final Color oNewBackgroundColor = Color(0xffffbd69);
 
   final Color defaultBackgroundColor = Color(0xfff4f4f4);
+
+  WebSocket socket;
+  IOWebSocketChannel channel;
+  Board board;
+  Widget turnWidget;
+
 
   bool ready = false;
 
