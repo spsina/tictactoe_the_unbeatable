@@ -13,6 +13,7 @@ class WebSocketConnection {
 
   WebSocketConnection({this.url, this.timeout=15}){
     _subscribers = Set();
+    establishConnection();
   }
 
   void establishConnection() async {
@@ -27,6 +28,14 @@ class WebSocketConnection {
     } catch(err) {
       toastError("Could not connect to the server");
       isOn = false;
+    }
+  }
+
+  void ensureConnection() {
+    // try to establish a connection if no active connections
+    if (!isOn){
+      _socket.close();
+      establishConnection();
     }
   }
 

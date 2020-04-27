@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
+import 'package:tictactoe/utils/socketConnectio.dart';
 
-
+WebSocketConnection wsc;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
+
 
   // to hide only bottom bar:
   SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.top]);
