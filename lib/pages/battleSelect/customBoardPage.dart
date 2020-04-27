@@ -1,15 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/waitingForOpponentUi.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
-import 'package:web_socket_channel/io.dart';
-
 import 'battleSelect.dart';
 import 'components/customBoard.dart';
 
@@ -24,27 +19,39 @@ enum GeneralState {
 }
 
 class _CustomBoardPageState extends State<CustomBoardPage> {
-  IOWebSocketChannel channel;
-  WebSocket socket;
-  Widget buttonChild;
-  bool loading = false;
-  String gameId = "NA";
-
-  GeneralState generalState = GeneralState.CREATE;
-
+  // UI for generating a custom board, generated data can also be accessed from this object
   final _customBoard = CustomBoard();
 
-  void socketListener(dynamic message) {
-    var dictData = jsonDecode(message.toString());
-    print("[Server] " + dictData.toString());
+  Widget buttonChild;                                 // child widget of the inkwell widget, it's either play icon or loading icon
+  bool loading = false;                               // indicates if some request is being sent or received
+  String gameId;                                      // an online generated gameId
+  GeneralState generalState = GeneralState.CREATE;    // overall state of the widget
+
+  _CustomBoardPageState() {
+    // subscribe to the global wsc
+    wsc.subscribe(socketListener);
+  }
+
+  void socketListener(dynamic dictData) {
+    // a dictionary message is expected
 
     setState(() {
       loading = false;
 
       if (dictData['status'] == 201) {
+        // game creation has been successful
         gameId = dictData['gameId'];
+
+        // set the general state to waiting,
+        // this indicates that the user is
+        // waiting for an opponent to join the game
         generalState = GeneralState.WAITING;
+
+
       } else if (dictData['status'] == 301) {
+        // this means, an opponent has joined the game
+
+        // prepare the game board
         var game = GameBoard(
           size: _customBoard.currentState.boardSize.toInt(),
           winBy: _customBoard.currentState.winBy.toInt(),
@@ -54,46 +61,39 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
           gameId: gameId,
         );
 
-        // close the current channel
-        socket.close();
+        wsc.unsubscribe(socketListener);
+
+        // lunch the game board
         navigate(context, game);
       }
         else {
-        toastError("An error has occured while requesting an online game");
+        toastError("Could not create an online game");
       }
     });
-    // game id generated successfully
-  }
-
-  Future<IOWebSocketChannel> createConnection(url) async {
-    socket = await WebSocket
-        .connect(url)
-        .timeout(Duration(seconds: 15));
-    channel = IOWebSocketChannel(socket);
-    channel.stream.listen(this.socketListener);
-    return channel;
   }
 
   void requestGameId(request) async{
+    // sends the request for a new online game
+    // and sets the loading to true
     setState(() {
       loading = true;
     });
-    try {
-      var jsonData = jsonEncode(request);
-      await createConnection("ws://cafepay.app:9090");
-      channel.sink.add(jsonData);
-    } catch (err) {
-      setState(() {
-        loading = false;
-        toastError("Could not connect to the server");
-      });
-    }
+
+    // ensure connection
+    if (!wsc.isOn)
+      await wsc.ensureConnection();
+
+    // send game creations request through the global wsc
+    if (wsc.isOn)
+      wsc.send(request);
+
   }
 
   @override
   void deactivate() {
-    if (socket != null)
-    socket.close();
+    wsc.unsubscribe(socketListener);
+
+    // todo remove the game
     super.deactivate();
   }
 
@@ -213,8 +213,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               label: 'HOME',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                if (socket != null)
-                  socket.close();
+                wsc.unsubscribe(socketListener);
                 navigate(context, BattleSelectPage());
               }
           ),

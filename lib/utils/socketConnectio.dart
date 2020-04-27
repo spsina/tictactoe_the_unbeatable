@@ -16,7 +16,7 @@ class WebSocketConnection {
     establishConnection();
   }
 
-  void establishConnection() async {
+  Future<void> establishConnection() async {
     // establish a connection with the server
     try {
       _socket = await WebSocket
@@ -31,11 +31,11 @@ class WebSocketConnection {
     }
   }
 
-  void ensureConnection() {
+  Future<void> ensureConnection() async {
     // try to establish a connection if no active connections
     if (!isOn){
       _socket.close();
-      establishConnection();
+      await establishConnection();
     }
   }
 
