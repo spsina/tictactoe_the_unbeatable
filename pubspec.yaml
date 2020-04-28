@@ -48,24 +48,16 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/images/bg/bg.jpg
-    - assets/images/battleSelect/choose_your_battle.png
     - assets/images/battleSelect/5x5_challenge.png
     - assets/images/battleSelect/3x3_death.png
     - assets/images/battleSelect/7x7.png
     - assets/images/battleSelect/waiting.png
-    - assets/images/win/win.png
-    - assets/images/win/loose.png
     - assets/images/battleSelect/wheel.png
-    - assets/images/battleSelect/your_turn.png
-    - assets/images/battleSelect/ai_turn.png
     - assets/animations/battle/thinking.flr
     - assets/animations/battle/your_turn.flr
     - assets/animations/battle/lose.flr
     - assets/animations/battle/win.flr
     - assets/animations/battle/tie.flr
-    - assets/animations/battleSelect/select.flr
-  
 
   fonts:
     - family: Gearus

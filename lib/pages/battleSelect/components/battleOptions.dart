@@ -64,6 +64,11 @@ class BattleOptions extends StatelessWidget{
               isCustom: false,
 
             ),
+            BattleOptionWrapper(
+              imgPath: "assets/images/battleSelect/wheel.png",
+              isCustom: true,
+              color: Colors.white,
+            ),
           ],
         ),
       )
