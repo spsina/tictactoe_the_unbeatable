@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -143,7 +140,7 @@ class Game extends State<GameBoard> {
   }
   
   Future<void> makeAIMove() async {
-    Tuple2 aiMove = await compute(alphabeta, board);
+    Tuple2 aiMove = await compute(alphaBeta, board);
     moveTo(aiMove);
   }
 

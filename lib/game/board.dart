@@ -13,7 +13,7 @@ class Board{
   int size;                               // board size
   int moves;                              // number of moves made so far
   int maxMoves;                           // max number of moves (size * size)
-  int winCount;                          // number of symbols in a line to win
+  int winCount;                           // number of symbols in a line to win
 
   double ration(){
     return (possibleMoves.length/maxMoves);
@@ -46,7 +46,7 @@ class Board{
     board = List<List<String>>.generate(size, (i) {
         return List<String>.generate(size, (j) {
           
-          // add this cell to free celss
+          // add this cell to possible moves
           possibleMoves.add(Tuple2(i,j));
 
           return "";
@@ -71,12 +71,12 @@ class Board{
       
       lastMove = Tuple2(i,j);
       possibleMoves.remove(Tuple2(i,j));
+
       moves++;
+
       // switch the player
-      if (player == x)
-        player = o;
-      else
-        player =x;
+      player = player == x ? o : x;
+
     }
 
   }
@@ -100,13 +100,13 @@ class Board{
       if (countInMainAxis(box, p) == winCount)
         return p;
       
-      // winner by cross axsis
+      // winner by cross axis
       if (countInCrossAxis(box, p) == winCount)
         return p;
       
     }
     
-    // no winnners found
+    // no winners found
     return null;
   }
 
@@ -123,15 +123,13 @@ class Board{
     
     int pad = board.length - winCount;
 
-    // check for winner in each winby x winby boxes
+    // check for winner in each winby x winby box
     for (var i = 0 ; i <= pad; i ++){
       for (var j = 0; j <=pad ; j++){
 
-        // if last move, is not inside this box, don't botther
-        int startr = i;
-        int endr = i + winCount - 1;
-        int startc = j;
-        int endc = j + winCount - 1;
+        // if last move, is not inside this box, don't bother
+        int startr = i; int endr = i + winCount - 1;
+        int startc = j; int endc = j + winCount - 1;
 
         if (lastMove.item1 > endr || lastMove.item1 < startr)
           continue;
@@ -145,8 +143,10 @@ class Board{
         });
 
         var winner = winnerInBox(box, lastMove.item1 - i, lastMove.item2 -j);
+
         if (winner == null)
           continue;
+
         return winner;
       }
     }
@@ -219,6 +219,7 @@ class Board{
   }
 
   int getRawScore(int me, int opp, Tuple3 extra){
+    // score policy function
     int s = 0;
     if (opp == 0)
       s ++;
@@ -230,6 +231,9 @@ class Board{
   }
 
   int getTargetScore(List <List < String >> box, String target){
+    // calculate target score by adding raw scores of
+    // each row, col, main axis and cross axis
+
     int score = 0;
     String opp = target == x ? o : x;
     var extra;
@@ -246,12 +250,14 @@ class Board{
   }
 
   int boxScore(List <List < String >> box){
-    // score of the given box: sum of scores of each row, col, main axsis and cross axsis
+    // score of the given box in non terminal states
     return getTargetScore(box, x) - getTargetScore(box, o);
   }
 
   int utility(){
     // utility of the current board
+    // used by the minimax algorithm
+
     var terminated = terminal();
     if (terminated.item1){
       if (terminated.item2 == x)
@@ -260,24 +266,12 @@ class Board{
         return -inf;
       
       return 0;
-    } else if (size == 5){
-      int score = 0;
-      var _boxes = boxes(winCount);
-      for (var i = 0 ; i  < _boxes.length; i++){
-        int tmpScore = boxScore(_boxes[i]);
-//        if (score.abs() < tmpScore.abs())
-//          score = tmpScore;
-        score += tmpScore;
-      }
-      return score;
     } else {
       int score = 0;
       var _boxes = boxes(winCount);
       for (var i = 0 ; i  < _boxes.length; i++){
         int tmpScore = boxScore(_boxes[i]);
-         score += tmpScore;
-//        if (score.abs() < tmpScore.abs())
-//          score = tmpScore;
+        score += tmpScore;
       }
       return score;
     }
