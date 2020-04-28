@@ -24,7 +24,9 @@ class CustomBoard extends StatefulWidget{
 class _CustomBoardState extends State<CustomBoard> {
 
   double boardSize = 4;
+  int _boardSize = 4;
   double winBy = 4;
+  int _winBy = 4;
   bool withAi = true;
   String aiPlayer = "O";
   String starter = "X";
@@ -81,7 +83,7 @@ class _CustomBoardState extends State<CustomBoard> {
         aiPlayerWidget = SizedBox();
       }
     });
-
+  
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,16 +95,20 @@ class _CustomBoardState extends State<CustomBoard> {
           ),
           Container(
             child: Slider(
-              value: boardSize,
-              min: 3,
+              value: _boardSize.toDouble(),
+              min: 4,
               max: 10,
+              divisions: 6,
+              label: '$_boardSize',
+              inactiveColor: Colors.black,
+              activeColor: Color(0xaaffbd69),
               onChanged: (val) {
                 setState(() {
-                  boardSize = val;
+                  _boardSize = val.round();
                   if (winBy > boardSize)
                     winBy = boardSize;
                 });
-              },
+              }, 
             ),
           ),
           // win by
@@ -110,12 +116,16 @@ class _CustomBoardState extends State<CustomBoard> {
             child: Text("WIN BY " + winBy.toInt().toString() + " IN A LINE", style: _style,),
           ),
           Slider(
-            value: winBy,
+            value: _winBy.toDouble(),
             min: 3,
             max: boardSize,
+            divisions: boardSize.round() - 3,
+            label: "$_winBy",
+            inactiveColor: Colors.black,
+            activeColor: Color(0xaaffbd69),
             onChanged: (val) {
               setState(() {
-                winBy = val;
+                _winBy = val.round();
               });
             },
           ),

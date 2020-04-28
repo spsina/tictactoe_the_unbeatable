@@ -13,14 +13,3 @@ void showPlayAsOptions(BuildContext context, int size, GameMode gameMode, int wi
     },
   );
 }
-
-
-void showCustomBoardCreate(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return CustomBoard();
-    },
-  );
-}
-

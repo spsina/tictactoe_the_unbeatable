@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/dialogs.dart';
+import 'package:tictactoe/pages/battleSelect/customBoardPage.dart';
+import 'package:tictactoe/pages/generic/helper.dart';
 
 import 'battleOption.dart';
 
@@ -15,10 +17,11 @@ class BattleOptionWrapper extends StatelessWidget{
   final String starter;              // player that starts the game
   final GameMode gameMode;           // Local, with ai, or online
   final String imgPath;              // an image to be shown for the level
-  final int winBy;
-  final bool isCustom;
+  final int winBy;                   // number of symbols in a line to win
+  final bool isCustom;               // is it an option created by the user
 
-  const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer, this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
+  const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer,
+    this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
 
   String get aiPlayerStr {
     if (aiPlayer == AIPlayer.X)
@@ -38,6 +41,39 @@ class BattleOptionWrapper extends StatelessWidget{
     final _styleInfo = TextStyle (color : Colors.white, fontSize: 14, fontFamily: "");
     double tileSize = MediaQuery. of(context).size.width / 9;
 
+    String titleText = isCustom ? "n x n" : (size.toString() + "x" + size.toString());
+
+    var bodyUi;
+
+    if (isCustom) {
+      bodyUi = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("AI PLAYER: YOUR CHOICE", style: _styleInfo ),
+          Text("STARTING PLAYER: YOUR CHOICE", style: _styleInfo,),
+          Text("WIN BY: YOUR CHOICE", style: _styleInfo ),
+          Container(
+            margin: EdgeInsets.only(top:1),
+            child:Text("AI LEVEL: YOUR CHOICE " , style:TextStyle (color : Colors.white, fontSize: 14, fontFamily: "")),
+          ),
+        ],
+      );
+    } else {
+      bodyUi = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
+          Text("STARTING PLAYER: " + starter, style: _styleInfo,),
+          Text("WIN BY: " + winBy.toString() + " IN A LINE", style: _styleInfo ),
+          Container(
+            margin: EdgeInsets.only(top:1),
+            child:Text("AI LEVEL: UNBEATABLE " , style:TextStyle (color : Color(0xaa900c3f), fontSize: 14, fontFamily: "")),
+          ),
+        ],
+      );
+    }
+
+
     return Container(
       child: InkWell(
         focusColor: Colors.transparent,
@@ -45,7 +81,10 @@ class BattleOptionWrapper extends StatelessWidget{
         highlightColor: Colors.transparent,
         splashColor: color,
         onTap: () {
-          showPlayAsOptions(context, size, gameMode, winBy);
+          if (isCustom)
+            navigate(context, CustomBoardPage());
+          else
+            showPlayAsOptions(context, size, gameMode, winBy);
         },
         child: BattleOption(
           imgPath,
@@ -56,7 +95,7 @@ class BattleOptionWrapper extends StatelessWidget{
                 height: 1.5 * tileSize,
                 child: FittedBox(
                   fit: BoxFit.contain,
-                  child: Text(size.toString() + "x" + size.toString(),
+                  child: Text(titleText,
                     textAlign: TextAlign.left,
                     style: TextStyle (
                       color : color,
@@ -66,55 +105,7 @@ class BattleOptionWrapper extends StatelessWidget{
               ),
               FittedBox(
                 fit: BoxFit.contain,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
-                    Text("STARTING PLAYER: " + starter, style: _styleInfo,),
-                    Text("WIN BY " + winBy.toString() + " IN A LINE", style: _styleInfo ),
-                    Opacity(
-                      opacity: isCustom ? 1.0: 0.0,
-                      child: Container (
-                        margin: EdgeInsets.only(top:20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Container(
-                              child: GestureDetector(
-                                onTap: (){
-                                  if (!isCustom){
-                                    return;
-                                  }
-                                },
-                                child: Icon(Icons.share, color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              child: GestureDetector(
-                                onTap: (){
-                                  if (!isCustom){
-                                    return;
-                                  }
-                                },
-                                child: Icon(Icons.edit, color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              child: GestureDetector(
-                                onTap: (){
-                                  if (!isCustom){
-                                    return;
-                                  }
-                                },
-                                child: Icon(Icons.delete, color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                child: bodyUi
               )
             ],
           ),

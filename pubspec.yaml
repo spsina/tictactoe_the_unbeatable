@@ -39,7 +39,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.0"
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/icon.png"
+  image_path_android: "assets/launcher/icon.png"
+  adaptive_icon_background: "assets/launcher/background.png"
+  adaptive_icon_foreground: "assets/launcher/foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -48,24 +56,17 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/images/bg/bg.jpg
-    - assets/images/battleSelect/choose_your_battle.png
+    - assets/icon.ico
     - assets/images/battleSelect/5x5_challenge.png
     - assets/images/battleSelect/3x3_death.png
     - assets/images/battleSelect/7x7.png
     - assets/images/battleSelect/waiting.png
-    - assets/images/win/win.png
-    - assets/images/win/loose.png
     - assets/images/battleSelect/wheel.png
-    - assets/images/battleSelect/your_turn.png
-    - assets/images/battleSelect/ai_turn.png
     - assets/animations/battle/thinking.flr
     - assets/animations/battle/your_turn.flr
     - assets/animations/battle/lose.flr
     - assets/animations/battle/win.flr
     - assets/animations/battle/tie.flr
-    - assets/animations/battleSelect/select.flr
-  
 
   fonts:
     - family: Gearus

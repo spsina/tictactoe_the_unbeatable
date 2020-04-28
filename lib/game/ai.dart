@@ -83,7 +83,7 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
 }
 
 
-Tuple2 <int, int> alphabeta(Board board){
+Tuple2 <int, int> alphaBeta(Board board){
   // opening move
   if (board.possibleMoves.length == board.maxMoves){
     // you are the starter of the game
@@ -92,14 +92,14 @@ Tuple2 <int, int> alphabeta(Board board){
     return Tuple2(middle, middle);
   }
   // if it's the first move, always place a symbol diagonal to the opponent
-  else if (board.possibleMoves.length == board.maxMoves -1){
+  else if (board.possibleMoves.length >= board.maxMoves - 2){
       var theMoves = List();
       for (var i = -1; i<2; i+=2) {
         for (var j = -1; j < 2;j+=2) {
           // this generates all the four possible diagonal positions of the last move
           var pos = Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j);
           if (board.possibleMoves.contains(
-              // the generated position may not be avalibale
+              // the generated position may not be available
               // depending on the position of the last move
               // so check first
               pos))
@@ -138,8 +138,6 @@ Tuple2 <int, int> alphabeta(Board board){
     if (board.ration() <= 0.25)
       d = 5;
   }
-
-  print("D: " + d.toString());
 
   if (board.player == x)
     return maxValue(board, -infinity, infinity, d).item2;

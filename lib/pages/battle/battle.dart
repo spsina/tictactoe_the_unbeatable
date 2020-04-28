@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,45 +34,25 @@ class GameBoard extends StatefulWidget {
 class Game extends State<GameBoard> {
 
   // color fields used to paint the game board
-  final Color xBackgroundColor = Color(0x88005082);
-  final Color xNewBackgroundColor = Color(0xff005082);
+  final Color xBackgroundColor = Color(0x88005082);                   // X background color
+  final Color xNewBackgroundColor = Color(0xff005082);                // X last move background color
 
-  final Color oBackgroundColor =  Color(0xaaffbd69);
-  final Color oNewBackgroundColor = Color(0xffffbd69);
+  final Color oBackgroundColor =  Color(0xaaffbd69);                  // O background color
+  final Color oNewBackgroundColor = Color(0xffffbd69);                // O last move background color
 
-  final Color defaultBackgroundColor = Color(0xfff4f4f4);
+  final Color defaultBackgroundColor = Color(0xfff4f4f4);             // default background color
 
-  Board board;
-  Widget turnWidget;
-  bool ready = false;
+  Board board;                                                        // actual game board
+  Widget turnWidget;                                                  // this widget receives a game state and shows proper animation and message
+  bool ready = false;                                                 // in case of online games, indicates if game is ready to begin
 
-  void socketListener(dictData) {
-    if (dictData['status'] == 300) {
-      // a new move haas been made
-      var move = dictData['move'];
-      moveTo(Tuple2(move['x'], move['y']));
 
-    } else if (dictData['status'] == 600) {
-      // a game reset has been submitted by the opponent
-      setState(() {
-        initialize();
-      });
-    } else if (dictData['status'] == 204) {
-      toastError("Your opponent left the game");
-      navigate(context, BattleSelectPage());
-    } else if (dictData['status'] == -1 ) {
-      navigate(context, BattleSelectPage());
-    }
+  @override
+  void initState() {
+    initialize();
+    super.initState();
   }
 
-  void moveVibrate() async{
-    // each time a move is made
-    // this vibration will happen
-    if (await Vibration.hasVibrator()) {
-      Vibration.cancel();
-      Vibration.vibrate(duration: 20);
-    }
-  }
 
   void initialize() async{
     // prevent the screen from turning off
@@ -93,7 +70,7 @@ class Game extends State<GameBoard> {
     // if the starter of the game is not the same as the player
     if (widget.starter != widget.playingAs) {
 
-      // if playing agaist AI, wait for AI move
+      // if playing against AI, wait for AI move
       if (widget.gameMode == GameMode.AI)
         makeAIMove();
       else if (widget.gameMode == GameMode.ONLINE) {
@@ -110,10 +87,27 @@ class Game extends State<GameBoard> {
 
   }
 
-  @override
-  void initState() {
-    initialize();
-    super.initState();
+
+  void socketListener(dictData) {
+    // listener function for online games
+
+    if (dictData['status'] == 300) {
+      // a new move haas been made
+      var move = dictData['move'];
+      moveTo(Tuple2(move['x'], move['y']));
+
+    } else if (dictData['status'] == 600) {
+      // a game reset has been submitted by the opponent
+      setState(() {
+        initialize();
+      });
+    } else if (dictData['status'] == 204) {
+      toastError("Your opponent left the game");
+      navigate(context, BattleSelectPage());
+    } else if (dictData['status'] == -1 ) {
+      // connection dropped
+      navigate(context, BattleSelectPage());
+    }
   }
 
   void clearGame() {
@@ -136,14 +130,18 @@ class Game extends State<GameBoard> {
 
   }
 
-  @override
-  void dispose() {
-    clearConnection();
-    super.dispose();
+  void moveVibrate() async{
+    // each time a move is made
+    // this vibration will happen
+    if (await Vibration.hasVibrator()) {
+      Vibration.cancel();
+      Vibration.vibrate(duration: 20);
+    }
   }
   
   Future<void> makeAIMove() async {
-    Tuple2 aiMove = await compute(alphabeta, board);
+    // pass the board to AI and wait for ai move
+    Tuple2 aiMove = await compute(alphaBeta, board);
     moveTo(aiMove);
   }
 
@@ -158,9 +156,8 @@ class Game extends State<GameBoard> {
       moveTo(Tuple2(i, j));
     } else {
       // if it's not your turn,
-      // or the cell is not empty, reject the move
-      
-      if (board.player != widget.playingAs || board.board[i][j] != "")
+
+      if (board.player != widget.playingAs)
         return;
       
       // make the move
@@ -187,7 +184,6 @@ class Game extends State<GameBoard> {
   }
 
   void moveTo(Tuple2 m) {
-
     // not sure why it happens, but sometimes this function is called with a null move
     // rejecting the null move does not seem to break the game
     if (m == null)
@@ -208,8 +204,15 @@ class Game extends State<GameBoard> {
   }
 
   @override
+  void dispose() {
+    clearConnection();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
+    // using timeSize ensures consistent results in different screen sizes
     final double tileSize = MediaQuery. of(context).size.width / 9;
     
     // check if the game is finished
@@ -237,7 +240,7 @@ class Game extends State<GameBoard> {
                 margin: EdgeInsets.only(top: tileSize/ 2),
                 child: Column (
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // a list of row, each containig a list of cols
+                  // a list of row, each containing a list of cols
                   children: List<Widget>.generate(board.size, (i) {
                     // generate a row
                     return Container(
