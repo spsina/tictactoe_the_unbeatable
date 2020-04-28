@@ -137,9 +137,9 @@ class Game extends State<GameBoard> {
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     clearConnection();
-    super.deactivate();
+    super.dispose();
   }
   
   Future<void> makeAIMove() async {

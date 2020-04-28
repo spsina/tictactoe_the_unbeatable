@@ -121,9 +121,9 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     clearConnection();
-    super.deactivate();
+    super.dispose();
   }
 
   @override

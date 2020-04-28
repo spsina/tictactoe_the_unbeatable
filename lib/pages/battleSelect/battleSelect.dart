@@ -7,8 +7,6 @@ import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:uni_links/uni_links.dart';
-
-import 'components/dialogs.dart';
 import 'customBoardPage.dart';
 
 class BattleSelectPage extends StatefulWidget{
