@@ -20,12 +20,20 @@ class _JoinGameState extends State<JoinGame> {
   bool isGameInfoMode = false;                                        // game info UI or enter gameId ui
   String gameId;                                                      // game id
   GameInfoUi gameInfoUi;                                              // Widget that shows retrieved info about a game
+  bool isReady = false;                                               // is subscription of wsc ready
   final gameIdController = TextEditingController();
   var buttonChild = Icon(Icons.group_add, color: Colors.white,);      // add, play, loading
 
 
   _JoinGameState() {
-    wsc.subscribe(socketListener);
+    _subscribe();
+  }
+
+  Future<void> _subscribe() async{
+    await wsc.subscribe(socketListener);
+    setState(() {
+      isReady = true;
+    });
   }
 
   @override
@@ -89,7 +97,7 @@ class _JoinGameState extends State<JoinGame> {
         gameInfoUi = GameInfoUi(size: game['size'], winBy: game['winBy'], playAs: game['starter'] == "X" ? "O" : "X");
         buttonChild = Icon(Icons.play_arrow, color: Colors.white,);
       });
-    } else if (dictData['status'] == 200){
+    } else if (dictData['status'] == 190){
       wsc.unsubscribe(socketListener);
       // start the game
       navigate(context, GameBoard(
@@ -203,6 +211,10 @@ class _JoinGameState extends State<JoinGame> {
                     onTap: () {
                       if (loading)
                         return;
+                      if (!isReady) {
+                        toastInfo("Your connection is not ready, try in a second!");
+                        return;
+                      }
                       if (isGameInfoMode)
                         joinAndPlay();
                       else

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:mutex/mutex.dart';
 
 class WebSocketConnection {
   final String url;
@@ -10,15 +11,29 @@ class WebSocketConnection {
   IOWebSocketChannel _channel;           // Channel wrapper
   Set<Function> _subscribers;            // subscribers are functions that will be called on data event
   bool isOn = false;                     // indicates that a live connection is established with the server
+  Mutex m = Mutex();
 
   WebSocketConnection({this.url, this.timeout=15}){
     _subscribers = Set();
     establishConnection();
   }
 
+  void _clearChannel() {
+    if (_channel != null) {
+      if (_channel.sink != null) {
+        _channel.sink.close();
+      }
+    }
+
+    if (_socket != null) {
+      _socket.close();
+    }
+  }
+
   Future<void> establishConnection() async {
     // establish a connection with the server
     try {
+      _clearChannel();
       _socket = await WebSocket
           .connect(url)
           .timeout(Duration(seconds: timeout));
@@ -34,7 +49,6 @@ class WebSocketConnection {
   Future<void> ensureConnection() async {
     // try to establish a connection if no active connections
     if (!isOn){
-      _socket.close();
       await establishConnection();
     }
   }
@@ -58,14 +72,24 @@ class WebSocketConnection {
     isOn = false;
   }
 
-  void subscribe(Function func) {
-    // add function to subscribers set
-    _subscribers.add(func);
+  Future<void> subscribe(Function func) async {
+    await m.acquire();
+    try {
+      // add function to subscribers set
+      _subscribers.add(func);
+    } finally {
+      m.release();
+    }
   }
 
-  void unsubscribe(Function func) {
-    // remove function from subscribers list
-    _subscribers.remove(func);
+  Future<void> unsubscribe(Function func) async {
+    await m.acquire();
+    try {
+      // remove function from subscribers list
+      _subscribers.removeWhere((sub) => sub == func);
+    } finally {
+      m.release();
+    }
   }
 
   Future<bool> send(dynamic dictMsg) async{
@@ -77,25 +101,29 @@ class WebSocketConnection {
       _channel.sink.add(jsonEncode(dictMsg));
       return true;
     }
-    else {
-      toastError("No active connection to the server");
+    else
       return false;
-    }
   }
 
-  void masterListener(dynamic msg) {
+  Future<void> masterListener(dynamic msg) async{
     // master socket listener
     // all the subscribed functions
     // will be called with a json decoded msg
 
     var jsonMsg = jsonDecode(msg);
 
-    _subscribers.forEach((subscriber) {
-      subscriber(jsonMsg);
-    });
+    // during broadcast members cannot change
+    await m.acquire();
+    try {
+      _subscribers.forEach((subscriber) {
+        subscriber(jsonMsg);
+      });
+    } finally {
+      m.release();
+    }
   }
 
   void dispose(){
-    _socket.close();
+    _clearChannel();
   }
 }
