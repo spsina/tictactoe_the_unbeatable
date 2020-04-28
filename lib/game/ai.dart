@@ -92,7 +92,7 @@ Tuple2 <int, int> alphaBeta(Board board){
     return Tuple2(middle, middle);
   }
   // if it's the first move, always place a symbol diagonal to the opponent
-  else if (board.possibleMoves.length == board.maxMoves -1){
+  else if (board.possibleMoves.length >= board.maxMoves - 2){
       var theMoves = List();
       for (var i = -1; i<2; i+=2) {
         for (var j = -1; j < 2;j+=2) {

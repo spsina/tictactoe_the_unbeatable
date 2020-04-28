@@ -58,7 +58,7 @@ class BattleOptions extends StatelessWidget{
               starter: "X",
               color: Color(0xff16817a),
               size: 7,
-              winBy: 4,
+              winBy: 5,
               gameMode: GameMode.AI,
               imgPath: "assets/images/battleSelect/7x7.png",
               isCustom: false,

@@ -15,8 +15,8 @@ class BattleOptionWrapper extends StatelessWidget{
   final String starter;              // player that starts the game
   final GameMode gameMode;           // Local, with ai, or online
   final String imgPath;              // an image to be shown for the level
-  final int winBy;
-  final bool isCustom;
+  final int winBy;                   // number of symbols in a line to win
+  final bool isCustom;               // is it an option created by the user
 
   const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer,
     this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
@@ -72,7 +72,12 @@ class BattleOptionWrapper extends StatelessWidget{
                   children: <Widget>[
                     Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
                     Text("STARTING PLAYER: " + starter, style: _styleInfo,),
-                    Text("WIN BY " + winBy.toString() + " IN A LINE", style: _styleInfo ),
+                    Text("WIN BY: " + winBy.toString() + " IN A LINE", style: _styleInfo ),
+                    !isCustom ?
+                    Container(
+                      margin: EdgeInsets.only(top:1),
+                      child:Text("AI LEVEL: UNBEATABLE " , style:TextStyle (color : Color(0xaa900c3f), fontSize: 14, fontFamily: "")),
+                    ) : SizedBox(),
                     Opacity(
                       opacity: isCustom ? 1.0: 0.0,
                       child: Container (
