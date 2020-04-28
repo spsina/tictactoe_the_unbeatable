@@ -23,10 +23,8 @@ class CustomBoard extends StatefulWidget{
 
 class _CustomBoardState extends State<CustomBoard> {
 
-  double boardSize = 4;
-  int _boardSize = 4;
-  double winBy = 4;
-  int _winBy = 4;
+  int boardSize = 4;
+  int winBy = 4;
   bool withAi = true;
   String aiPlayer = "O";
   String starter = "X";
@@ -91,20 +89,20 @@ class _CustomBoardState extends State<CustomBoard> {
         children: <Widget>[
           // Game size
           Container(
-            child: Text("BOARD SIZE " + boardSize.toInt().toString(), style: _style,),
+            child: Text("BOARD SIZE " + boardSize.round().toString(), style: _style,),
           ),
           Container(
             child: Slider(
-              value: _boardSize.toDouble(),
+              value: boardSize.toDouble(),
               min: 4,
               max: 10,
               divisions: 6,
-              label: '$_boardSize',
+              label: '$boardSize',
               inactiveColor: Colors.black,
               activeColor: Color(0xaaffbd69),
               onChanged: (val) {
                 setState(() {
-                  _boardSize = val.round();
+                  boardSize = val.round();
                   if (winBy > boardSize)
                     winBy = boardSize;
                 });
@@ -113,19 +111,19 @@ class _CustomBoardState extends State<CustomBoard> {
           ),
           // win by
           Container(
-            child: Text("WIN BY " + winBy.toInt().toString() + " IN A LINE", style: _style,),
+            child: Text("WIN BY " + winBy.round().toString() + " IN A LINE", style: _style,),
           ),
           Slider(
-            value: _winBy.toDouble(),
+            value: winBy.toDouble(),
             min: 3,
-            max: boardSize,
+            max: boardSize.toDouble(),
             divisions: boardSize.round() - 3,
-            label: "$_winBy",
+            label: "$winBy",
             inactiveColor: Colors.black,
             activeColor: Color(0xaaffbd69),
             onChanged: (val) {
               setState(() {
-                _winBy = val.round();
+                winBy = val.round();
               });
             },
           ),
