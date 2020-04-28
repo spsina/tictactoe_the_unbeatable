@@ -4,7 +4,11 @@ import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/utils/socketConnectio.dart';
 
+// global web socket connection
 WebSocketConnection wsc;
+
+// global uni link status
+bool uniLinkUsed = false;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/main.dart';
-import 'package:tictactoe/pages/battleSelect/components/aboutBotton.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
@@ -19,7 +18,13 @@ class BattleSelectPage extends StatefulWidget{
 }
 
 class _BattleSelectPageState extends State<BattleSelectPage> {
-  Future<Null> initUniLinks() async {
+  Future<void> initUniLinks() async {
+
+    if (uniLinkUsed)
+      return;
+
+    uniLinkUsed = true;
+
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       String initialLink = await getInitialLink();
