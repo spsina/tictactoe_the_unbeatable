@@ -23,8 +23,8 @@ class CustomBoard extends StatefulWidget{
 
 class _CustomBoardState extends State<CustomBoard> {
 
-  double boardSize = 4;
-  double winBy = 4;
+  int boardSize = 4;
+  int winBy = 4;
   bool withAi = true;
   String aiPlayer = "O";
   String starter = "X";
@@ -53,7 +53,7 @@ class _CustomBoardState extends State<CustomBoard> {
               Container(
                 child: DropdownButton<String>(
                   underline: SizedBox(),
-                  dropdownColor: Colors.grey,
+                  dropdownColor: Color(0xff323232),
                   value: aiPlayer,
                   elevation: 20,
                   onChanged: (String value) {
@@ -66,7 +66,7 @@ class _CustomBoardState extends State<CustomBoard> {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value,
-                        style: TextStyle(fontFamily: "", color: Colors.white),),
+                        style: TextStyle(fontFamily: "", color: Color(0xaaffbd69)),),
                     );
                   }).toList(),
                 ),
@@ -81,7 +81,7 @@ class _CustomBoardState extends State<CustomBoard> {
         aiPlayerWidget = SizedBox();
       }
     });
-
+  
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,33 +89,41 @@ class _CustomBoardState extends State<CustomBoard> {
         children: <Widget>[
           // Game size
           Container(
-            child: Text("BOARD SIZE " + boardSize.toInt().toString(), style: _style,),
+            child: Text("BOARD SIZE " + boardSize.round().toString(), style: _style,),
           ),
           Container(
             child: Slider(
-              value: boardSize,
-              min: 3,
+              value: boardSize.toDouble(),
+              min: 4,
               max: 10,
+              divisions: 6,
+              label: '$boardSize',
+              inactiveColor: Colors.black,
+              activeColor: Color(0xaaffbd69),
               onChanged: (val) {
                 setState(() {
-                  boardSize = val;
+                  boardSize = val.round();
                   if (winBy > boardSize)
                     winBy = boardSize;
                 });
-              },
+              }, 
             ),
           ),
           // win by
           Container(
-            child: Text("WIN BY " + winBy.toInt().toString() + " IN A LINE", style: _style,),
+            child: Text("WIN BY " + winBy.round().toString() + " IN A LINE", style: _style,),
           ),
           Slider(
-            value: winBy,
+            value: winBy.toDouble(),
             min: 3,
-            max: boardSize,
+            max: boardSize.toDouble(),
+            divisions: boardSize.round() - 3,
+            label: "$winBy",
+            inactiveColor: Colors.black,
+            activeColor: Color(0xaaffbd69),
             onChanged: (val) {
               setState(() {
-                winBy = val;
+                winBy = val.round();
               });
             },
           ),
@@ -129,7 +137,7 @@ class _CustomBoardState extends State<CustomBoard> {
                   child: Container(
                     width: 150,
                     child: DropdownButton<GameMode>(
-                      dropdownColor: Colors.grey,
+                      dropdownColor: Color(0xff323232),
                       underline: SizedBox(),
                       isExpanded: true,
                       isDense: false,
@@ -153,7 +161,7 @@ class _CustomBoardState extends State<CustomBoard> {
                           value: value,
                           child: SizedBox(
                             width: 200,
-                            child: Text(strVal,textAlign: TextAlign.right ,style: TextStyle(fontFamily: "", color: Colors.white),),
+                            child: Text(strVal,textAlign: TextAlign.right ,style: TextStyle(fontFamily: "", color: Color(0xaaffbd69)),),
                         ),
                         );
                       }).toList(),
@@ -171,7 +179,7 @@ class _CustomBoardState extends State<CustomBoard> {
                 Container(
                   child: DropdownButton<String>(
                     underline: SizedBox(),
-                    dropdownColor: Colors.grey,
+                    dropdownColor: Color(0xff323232),
                     value: starter,
                     elevation: 20,
                     onChanged: (String value) {
@@ -183,7 +191,7 @@ class _CustomBoardState extends State<CustomBoard> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value, style: TextStyle(fontFamily: "", color: Colors.white),),
+                        child: Text(value, style: TextStyle(fontFamily: "", color: Color(0xaaffbd69)),),
                       );
                     }).toList(),
                   ),
