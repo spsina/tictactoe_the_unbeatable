@@ -3,12 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/game/board.dart';
+import 'package:vibration/vibration.dart';
 
 class Turn extends StatelessWidget{
 
   final Game game;
 
   Turn(this.game) : super(key: ValueKey<int>(game.hashCode.toInt()));
+
+  void winVibrate() async{
+    // when you win
+    // this vibration will happen
+    if (await Vibration.hasVibrator()) {
+      Vibration.cancel();
+      Vibration.vibrate(pattern: [0, 500, 100, 500]);
+    }
+  }
+
+  void loseVibrate() async{
+    // when you lose
+    // this vibration will happen
+    if (await Vibration.hasVibrator()) {
+      Vibration.cancel();
+      Vibration.vibrate(duration: 1500);
+    }
+  }
+
+  void tieVibrate() async{
+    // when you tie
+    // this vibration will happen
+    if (await Vibration.hasVibrator()) {
+      Vibration.cancel();
+      Vibration.vibrate(duration: 250);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +100,7 @@ class Turn extends StatelessWidget{
       if (finished.item2 == null){
         // the game is a tie
         text = ".:: THE GAME IS A TIE ::.";
+        tieVibrate();
       } else {
         // choose the text
         if (game.widget.gameMode == GameMode.LOCAL) {
@@ -79,8 +108,10 @@ class Turn extends StatelessWidget{
         } else {
           if (finished.item2 == game.widget.playingAs) {
             text = ".:: YOU WIN ::.";
+            winVibrate();
           } else {
             text = ".:: YOU LOSE ::.";
+            loseVibrate();
           }
         }
       }

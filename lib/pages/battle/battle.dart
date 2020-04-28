@@ -12,7 +12,8 @@ import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
 import 'package:tuple/tuple.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:vibration/vibration.dart';
+import 'package:wakelock/wakelock.dart';
 
 enum GameMode {
   AI,
@@ -36,7 +37,7 @@ class GameBoard extends StatefulWidget {
 class Game extends State<GameBoard> {
 
   // color fields used to paint the game board
-  final Color xBackgroundColor = Color(0xaa005082);
+  final Color xBackgroundColor = Color(0x88005082);
   final Color xNewBackgroundColor = Color(0xff005082);
 
   final Color oBackgroundColor =  Color(0xaaffbd69);
@@ -67,7 +68,18 @@ class Game extends State<GameBoard> {
     }
   }
 
+  void moveVibrate() async{
+    // each time a move is made
+    // this vibration will happen
+    if (await Vibration.hasVibrator()) {
+      Vibration.cancel();
+      Vibration.vibrate(duration: 20);
+    }
+  }
+
   void initialize() async{
+    // prevent the screen from turning off
+    Wakelock.enable();
 
     ready = false;
     board = Board(widget.size, widget.starter, widget.winBy);
@@ -118,6 +130,9 @@ class Game extends State<GameBoard> {
     // clear game and unsubscribe
     clearGame();
     wsc.unsubscribe(socketListener);
+
+    // don't prevent the screen from turning off
+    Wakelock.disable();
 
   }
 
@@ -177,7 +192,9 @@ class Game extends State<GameBoard> {
     // rejecting the null move does not seem to break the game
     if (m == null)
       return;
-    
+
+    moveVibrate();
+
     int i = m.item1; int j = m.item2;
     setState(() {
 
