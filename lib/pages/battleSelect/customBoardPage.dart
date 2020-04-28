@@ -26,10 +26,18 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
   bool loading = false;                               // indicates if some request is being sent or received
   String gameId;                                      // an online generated gameId
   GeneralState generalState = GeneralState.CREATE;    // overall state of the widget
+  bool isReady = false;                               // subscription status
 
   _CustomBoardPageState() {
     // subscribe to the global wsc
-    wsc.subscribe(socketListener);
+    _subscribe();
+  }
+
+  Future<void> _subscribe() async {
+    await wsc.subscribe(socketListener);
+    setState(() {
+      isReady = true;
+    });
   }
 
   void socketListener(dynamic dictData) {
@@ -78,6 +86,12 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
   void requestGameId(request) async{
     // sends the request for a new online game
     // and sets the loading to true
+
+    if (!isReady){
+      toastInfo("Your connection is not ready yet, try in a second!");
+      return;
+    }
+
     setState(() {
       loading = true;
     });

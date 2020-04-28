@@ -49,7 +49,6 @@ class Game extends State<GameBoard> {
   bool ready = false;
 
   void socketListener(dictData) {
-
     if (dictData['status'] == 300) {
       // a new move haas been made
       var move = dictData['move'];
@@ -76,7 +75,7 @@ class Game extends State<GameBoard> {
 
     if (widget.gameMode == GameMode.ONLINE) {
       // if game mode is online. establish a connection to server
-      wsc.subscribe(socketListener);
+      await wsc.subscribe(socketListener);
     }
 
     // if the starter of the game is not the same as the player
