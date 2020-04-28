@@ -18,7 +18,8 @@ class BattleOptionWrapper extends StatelessWidget{
   final int winBy;
   final bool isCustom;
 
-  const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer, this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
+  const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer,
+    this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
 
   String get aiPlayerStr {
     if (aiPlayer == AIPlayer.X)
