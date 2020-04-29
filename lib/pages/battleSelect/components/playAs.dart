@@ -31,9 +31,6 @@ class PlayAs extends StatelessWidget{
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                // this closes the dialog box
-                Navigator.of(context).pop();
-
                 navigate(context, GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy,), false);
               },
               child: Container(
@@ -49,9 +46,6 @@ class PlayAs extends StatelessWidget{
             ),
             GestureDetector(
               onTap: () {
-                // this closes the dialog box
-                Navigator.of(context).pop();
-
                 navigate(context, GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy,), false);
               },
               child: Container(

@@ -8,7 +8,7 @@ import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 void goHome(BuildContext context) {
   // navigate to battle select page and pop everything
-  Navigator.of(context).pop();
+  navigate(context, BattleSelectPage(), true);
 }
 
 void navigate(BuildContext context, Widget page, bool clear) {
