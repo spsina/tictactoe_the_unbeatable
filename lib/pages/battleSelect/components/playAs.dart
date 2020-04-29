@@ -1,7 +1,6 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/pages/generic/helper.dart';
@@ -31,7 +30,7 @@ class PlayAs extends StatelessWidget{
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                navigate(context, GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy,), false);
+                navigate(context, GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
               },
               child: Container(
                 width: tileSize * 2,
@@ -46,7 +45,7 @@ class PlayAs extends StatelessWidget{
             ),
             GestureDetector(
               onTap: () {
-                navigate(context, GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy,), false);
+                navigate(context, GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
               },
               child: Container(
                 width: tileSize * 2,

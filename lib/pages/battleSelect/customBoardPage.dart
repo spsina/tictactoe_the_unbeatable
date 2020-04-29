@@ -65,6 +65,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
           winBy: _customBoard.currentState.winBy.toInt(),
           starter: _customBoard.currentState.starter,
           playingAs: _customBoard.currentState.starter,
+          level: _customBoard.currentState.level,
           gameMode: GameMode.ONLINE,
           gameId: gameId,
         );
@@ -167,6 +168,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
                   starter: _customBoard.currentState.starter,
                   gameMode: _customBoard.currentState.gameMode,
                   winBy: _customBoard.currentState.winBy.toInt(),
+                  level: _customBoard.currentState.level,
                 );
                 navigate(context, game, false);
               } else {
