@@ -35,7 +35,7 @@ Tuple2<double, Tuple2<int, int>> maxValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves.take(50)){
+  for (var move in board.possibleMoves){
     var data = minValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 > value){
@@ -65,7 +65,7 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves.take(50)){
+  for (var move in board.possibleMoves){
     var data = maxValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 < value){
@@ -92,7 +92,7 @@ Tuple2 <int, int> alphaBeta(Board board){
     return Tuple2(middle, middle);
   }
   // if it's the first move, always place a symbol diagonal to the opponent
-  else if (board.possibleMoves.length >= board.maxMoves - 2){
+  else if (board.possibleMoves.length >= board.maxMoves - 1){
       var theMoves = List();
       for (var i = -1; i<2; i+=2) {
         for (var j = -1; j < 2;j+=2) {
@@ -122,23 +122,19 @@ Tuple2 <int, int> alphaBeta(Board board){
   if (board.size == 3) {
     int d = inf;
   } else if (board.size == 5){
-    if (board.ration() > 0.8)
-      d = 5;
-    else if (board.ration() > 0.3)
-      d = 5;
-    else if (board.ration() <= 0.3)
-      d = inf;
+    d = 1;
   } else if (board.size <= 7){
-    d = 3;
+    d = 1;
     if (board.ration() <= 0.5)
       d = 5;
   }
   else if (board.size > 7){
-    d = 3;
+    d = 2;
     if (board.ration() <= 0.25)
       d = 5;
   }
-
+  print("D " + d.toString());
+  d = 2;
   if (board.player == x)
     return maxValue(board, -infinity, infinity, d).item2;
   

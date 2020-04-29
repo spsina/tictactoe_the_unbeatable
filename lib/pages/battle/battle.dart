@@ -151,15 +151,14 @@ class Game extends State<GameBoard> {
     if (board.terminal().item1)
       return ;
 
+    // if it's not your turn,
+    if (board.player != widget.playingAs || board.board[i][j] != "")
+      return;
+
     // there are no constraints on a local game
     if (widget.gameMode == GameMode.LOCAL){
       moveTo(Tuple2(i, j));
     } else {
-      // if it's not your turn,
-
-      if (board.player != widget.playingAs)
-        return;
-      
       // make the move
       moveTo(Tuple2(i,j));
 
@@ -308,10 +307,7 @@ class Game extends State<GameBoard> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 clearConnection();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
-                );
+                goHome(context);
               }
           ),
           SpeedDialChild(

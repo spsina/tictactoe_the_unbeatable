@@ -258,7 +258,7 @@ class _JoinGameState extends State<JoinGame> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 clearConnection();
-                navigate(context, BattleSelectPage());
+                goHome(context);
               }
           ),
         ],
