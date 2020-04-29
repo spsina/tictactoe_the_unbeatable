@@ -103,7 +103,9 @@ class Game extends State<GameBoard> {
       });
     } else if (dictData['status'] == 204) {
       toastError("Your opponent left the game");
-      navigate(context, BattleSelectPage());
+
+      clearConnection();
+      goHome(context);
     } else if (dictData['status'] == -1 ) {
       // connection dropped
       clearConnection();

@@ -118,23 +118,8 @@ Tuple2 <int, int> alphaBeta(Board board){
       }
     }
 
-  int d = inf;
-  if (board.size == 3) {
-    int d = inf;
-  } else if (board.size == 5){
-    d = 1;
-  } else if (board.size <= 7){
-    d = 1;
-    if (board.ration() <= 0.5)
-      d = 5;
-  }
-  else if (board.size > 7){
-    d = 2;
-    if (board.ration() <= 0.25)
-      d = 5;
-  }
-  print("D " + d.toString());
-  d = 2;
+  int d = 1;
+
   if (board.player == x)
     return maxValue(board, -infinity, infinity, d).item2;
   

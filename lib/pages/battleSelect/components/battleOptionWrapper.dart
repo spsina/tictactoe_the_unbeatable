@@ -82,7 +82,7 @@ class BattleOptionWrapper extends StatelessWidget{
         splashColor: color,
         onTap: () {
           if (isCustom)
-            navigate(context, CustomBoardPage());
+            navigate(context, CustomBoardPage(), false);
           else
             showPlayAsOptions(context, size, gameMode, winBy);
         },

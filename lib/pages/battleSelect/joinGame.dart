@@ -106,7 +106,7 @@ class _JoinGameState extends State<JoinGame> {
         gameMode: GameMode.ONLINE,
         playingAs: gameInfoUi.playAs,
         gameId: gameId,
-        starter: gameInfoUi.playAs == "X"? "O":"X",),
+        starter: gameInfoUi.playAs == "X"? "O":"X",),false
       );
     } else if (dictData['status'] == -1) {
       // set the state to enter game id
