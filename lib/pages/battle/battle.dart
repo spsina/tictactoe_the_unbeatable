@@ -106,7 +106,8 @@ class Game extends State<GameBoard> {
       navigate(context, BattleSelectPage());
     } else if (dictData['status'] == -1 ) {
       // connection dropped
-      navigate(context, BattleSelectPage());
+      clearConnection();
+      goHome(context);
     }
   }
 
