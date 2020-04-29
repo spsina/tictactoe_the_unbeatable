@@ -25,8 +25,9 @@ class GameBoard extends StatefulWidget {
   final String starter;             // player who starts the game
   final GameMode gameMode;          // AI, LOCAL, ONLINE
   final int winBy;
+  final int level;                  // ai level, 1 to 3
 
-  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId});
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level});
   Game createState() => Game();
 }
 
@@ -144,7 +145,7 @@ class Game extends State<GameBoard> {
   
   Future<void> makeAIMove() async {
     // pass the board to AI and wait for ai move
-    Tuple2 aiMove = await compute(alphaBeta, board);
+    Tuple2 aiMove = await compute(alphaBeta, Tuple2(board, widget.level));
     moveTo(aiMove);
   }
 
