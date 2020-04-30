@@ -99,8 +99,9 @@ class AI {
   }
 
 
-  static Tuple2 <int, int> alphaBeta(Tuple2 args){
+  static Tuple2 <Tuple2<int, int>, String> alphaBeta(Tuple2 args){
     Board board = args.item1;
+    String id  = board.id;
     level = args.item2;
 
 
@@ -111,7 +112,7 @@ class AI {
         // you are the starter of the game
         // choose the middle
         int middle = board.size ~/ 2;
-        return Tuple2(middle, middle);
+        return Tuple2(Tuple2(middle, middle), id);
       }
       // if it's the first move, always place a symbol diagonal to the opponent
       else if (board.possibleMoves.length >= board.maxMoves - 1) {
@@ -147,8 +148,8 @@ class AI {
       d += 1;
 
     if (board.player == x)
-      return maxValue(board, -infinity, infinity, d).item2;
+      return Tuple2(maxValue(board, -infinity, infinity, d).item2, id);
 
-    return minValue(board, -infinity, infinity, d).item2;
+    return Tuple2(minValue(board, -infinity, infinity, d).item2, id);
   }
 }
