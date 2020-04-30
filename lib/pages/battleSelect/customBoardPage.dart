@@ -65,6 +65,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
           winBy: _customBoard.currentState.winBy.toInt(),
           starter: _customBoard.currentState.starter,
           playingAs: _customBoard.currentState.starter,
+          level: _customBoard.currentState.level,
           gameMode: GameMode.ONLINE,
           gameId: gameId,
         );
@@ -72,7 +73,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         wsc.unsubscribe(socketListener);
 
         // lunch the game board
-        navigate(context, game);
+        navigate(context, game, false);
       } else if (dictData['status'] == -1) {
         setState(() {
           generalState = GeneralState.CREATE;
@@ -167,8 +168,9 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
                   starter: _customBoard.currentState.starter,
                   gameMode: _customBoard.currentState.gameMode,
                   winBy: _customBoard.currentState.winBy.toInt(),
+                  level: _customBoard.currentState.level,
                 );
-                navigate(context, game);
+                navigate(context, game, false);
               } else {
                 // create an online game
                 var request = {
@@ -243,7 +245,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 clearConnection();
-                navigate(context, BattleSelectPage());
+                goHome(context);
               }
           ),
         ],

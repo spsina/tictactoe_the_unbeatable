@@ -35,7 +35,7 @@ Tuple2<double, Tuple2<int, int>> maxValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves.take(50)){
+  for (var move in board.possibleMoves){
     var data = minValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 > value){
@@ -65,7 +65,7 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
     return cmp(a, b, board.lastMove);
   });
 
-  for (var move in board.possibleMoves.take(50)){
+  for (var move in board.possibleMoves){
     var data = maxValue(result(board, move.item1, move.item2), alpha, beta, depth - 1);
     
     if (data.item1 < value){
@@ -83,27 +83,31 @@ Tuple2<double, Tuple2<int, int>> minValue(Board board, double alpha, double beta
 }
 
 
-Tuple2 <int, int> alphaBeta(Board board){
-  // opening move
-  if (board.possibleMoves.length == board.maxMoves){
-    // you are the starter of the game
-    // choose the middle
-    int middle = board.size ~/ 2;
-    return Tuple2(middle, middle);
-  }
-  // if it's the first move, always place a symbol diagonal to the opponent
-  else if (board.possibleMoves.length >= board.maxMoves - 2){
+Tuple2 <int, int> alphaBeta(Tuple2 args){
+  Board board = args.item1;
+  int level = args.item2;
+
+  // no opening strategy if level is below 3
+  if (level >= 3 && board.winCount == 4) {
+    // opening move
+    if (board.possibleMoves.length == board.maxMoves) {
+      // you are the starter of the game
+      // choose the middle
+      int middle = board.size ~/ 2;
+      return Tuple2(middle, middle);
+    }
+    // if it's the first move, always place a symbol diagonal to the opponent
+    else if (board.possibleMoves.length >= board.maxMoves - 1) {
       var theMoves = List();
-      for (var i = -1; i<2; i+=2) {
-        for (var j = -1; j < 2;j+=2) {
+      for (var i = -1; i < 2; i += 2) {
+        for (var j = -1; j < 2; j += 2) {
           // this generates all the four possible diagonal positions of the last move
           var pos = Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j);
           if (board.possibleMoves.contains(
-              // the generated position may not be available
-              // depending on the position of the last move
-              // so check first
+            // the generated position may not be available
+            // depending on the position of the last move
+            // so check first
               pos))
-
             // store the available position, to select a random later
             theMoves.add(pos);
         }
@@ -113,31 +117,17 @@ Tuple2 <int, int> alphaBeta(Board board){
       if (theMoves.length > 1) {
         int index = Random().nextInt(theMoves.length - 1);
         return theMoves[index];
-      } else if (theMoves.length == 1){
+      } else if (theMoves.length == 1) {
         return theMoves[0];
       }
     }
+  }
 
-  int d = inf;
-  if (board.size == 3) {
-    int d = inf;
-  } else if (board.size == 5){
-    if (board.ration() > 0.8)
-      d = 5;
-    else if (board.ration() > 0.3)
-      d = 5;
-    else if (board.ration() <= 0.3)
-      d = inf;
-  } else if (board.size <= 7){
-    d = 3;
-    if (board.ration() <= 0.5)
-      d = 5;
-  }
-  else if (board.size > 7){
-    d = 3;
-    if (board.ration() <= 0.25)
-      d = 5;
-  }
+
+  int d = level;
+
+  if (board.ration() <= 0.4)
+    d += 1;
 
   if (board.player == x)
     return maxValue(board, -infinity, infinity, d).item2;

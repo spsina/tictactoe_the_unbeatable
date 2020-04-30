@@ -25,8 +25,9 @@ class GameBoard extends StatefulWidget {
   final String starter;             // player who starts the game
   final GameMode gameMode;          // AI, LOCAL, ONLINE
   final int winBy;
+  final int level;                  // ai level, 1 to 3
 
-  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId});
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level});
   Game createState() => Game();
 }
 
@@ -103,10 +104,13 @@ class Game extends State<GameBoard> {
       });
     } else if (dictData['status'] == 204) {
       toastError("Your opponent left the game");
-      navigate(context, BattleSelectPage());
+
+      clearConnection();
+      goHome(context);
     } else if (dictData['status'] == -1 ) {
       // connection dropped
-      navigate(context, BattleSelectPage());
+      clearConnection();
+      goHome(context);
     }
   }
 
@@ -141,7 +145,7 @@ class Game extends State<GameBoard> {
   
   Future<void> makeAIMove() async {
     // pass the board to AI and wait for ai move
-    Tuple2 aiMove = await compute(alphaBeta, board);
+    Tuple2 aiMove = await compute(alphaBeta, Tuple2(board, widget.level));
     moveTo(aiMove);
   }
 
@@ -151,15 +155,19 @@ class Game extends State<GameBoard> {
     if (board.terminal().item1)
       return ;
 
+    // if the cell is not empty ignore
+    if (board.board[i][j] != "")
+      return;
+
     // there are no constraints on a local game
     if (widget.gameMode == GameMode.LOCAL){
       moveTo(Tuple2(i, j));
     } else {
-      // if it's not your turn,
 
-      if (board.player != widget.playingAs)
+      // if it's not your turn, ignore the move
+      if (board.player != widget.playingAs )
         return;
-      
+
       // make the move
       moveTo(Tuple2(i,j));
 
@@ -308,10 +316,7 @@ class Game extends State<GameBoard> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 clearConnection();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Entry(BattleSelectPage())),
-                );
+                goHome(context);
               }
           ),
           SpeedDialChild(

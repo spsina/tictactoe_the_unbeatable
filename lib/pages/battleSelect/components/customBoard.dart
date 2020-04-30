@@ -29,6 +29,8 @@ class _CustomBoardState extends State<CustomBoard> {
   String aiPlayer = "O";
   String starter = "X";
   GameMode gameMode = GameMode.AI;
+  int level = 2;
+  int maxLevel = 4;
 
   var aiPlayerWidget;
 
@@ -127,6 +129,32 @@ class _CustomBoardState extends State<CustomBoard> {
               });
             },
           ),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 100),
+            child: gameMode == GameMode.AI ?
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text("AI LEVEL " + level.toString() , style: _style,),
+                ),
+                Slider(
+                  value: level.toDouble(),
+                  min: 1,
+                  max: maxLevel.toDouble(),
+                  divisions: maxLevel - 1,
+                  label: "$level",
+                  inactiveColor: Colors.black,
+                  activeColor: Color(0xaaffbd69),
+                  onChanged: (val) {
+                    setState(() {
+                      level = val.round();
+                    });
+                  },
+                ),
+              ],
+            ) : SizedBox(),
+          ),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -200,7 +228,7 @@ class _CustomBoardState extends State<CustomBoard> {
             ),
           Container(
             child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 100),
                 child: aiPlayerWidget,
             ),
           ),

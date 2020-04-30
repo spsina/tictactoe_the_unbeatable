@@ -68,7 +68,7 @@ class Turn extends StatelessWidget{
         if (game.board.player == game.widget.playingAs) {
           text = ".:: YOUR TURN ::.";
         } else if (game.widget.gameMode == GameMode.ONLINE) {
-          text = ".:: WAITING FOR YOUR OPPONANT ::.";
+          text = ".:: WAITING FOR YOUR OPPONENT ::.";
         } else {
           text = ".:: AI IS THINKING ::.";
         }

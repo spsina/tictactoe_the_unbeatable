@@ -9,6 +9,7 @@ WebSocketConnection wsc;
 
 // global uni link status
 bool uniLinkUsed = false;
+BuildContext gbc;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,11 @@ void main() async{
   // to hide both:
   SystemChrome.setEnabledSystemUIOverlays ([]);
 
-  runApp(Entry(BattleSelectPage()));
+  runApp(MaterialApp(
+      theme: ThemeData(fontFamily: 'Gearus'),
+      title: "TIC TAC TOE, THE UNBEATABLE",
+      home: BattleSelectPage()
+  ));
 }
 
 class Entry extends StatefulWidget{
@@ -38,12 +43,9 @@ class Entry extends StatefulWidget{
 }
 
 class _EntryState extends State<Entry> {
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'Gearus'),
-      title: "TIC TAC TOE, THE UNBEATABLE",
-      home: widget.page
-      );
+    return SizedBox();
   }
 }

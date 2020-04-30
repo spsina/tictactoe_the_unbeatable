@@ -33,7 +33,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
       var gameId = uri.queryParameters['gameId'];
 
       if (gameId != null && gameId != "")
-        navigate(context, JoinGame(initialGameId: gameId,));
+        navigate(context, JoinGame(initialGameId: gameId,), false);
 
     } catch(err) {
       // Handle exception by warning the user their action did not succeed
@@ -83,14 +83,14 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
             backgroundColor: Colors.red,
             label: 'PLAY WITH A FIREND',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: ()=> navigate(context, JoinGame())
+            onTap: ()=> navigate(context, JoinGame(), false)
           ),
           SpeedDialChild(
             child: Icon(Icons.add_circle),
             backgroundColor: Colors.blue,
             label: 'CUSTOM BOARD',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => navigate(context, CustomBoardPage())
+            onTap: () => navigate(context, CustomBoardPage(),false)
           ),
           SpeedDialChild(
             child: Icon(Icons.info),
