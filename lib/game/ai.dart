@@ -105,42 +105,42 @@ class AI {
     level = args.item2;
 
 
-    // no opening strategy if level is below 3
-//    if (level >= 3 && board.winCount == 4 && board.size > 5) {
-//      // opening move
-//      if (board.possibleMoves.length == board.maxMoves) {
-//        // you are the starter of the game
-//        // choose the middle
-//        int middle = board.size ~/ 2;
-//        return Tuple2(Tuple2(middle, middle), id);
-//      }
-//      // if it's the first move, always place a symbol diagonal to the opponent
-//      else if (board.possibleMoves.length >= board.maxMoves - 1) {
-//        var theMoves = List();
-//        for (var i = -1; i < 2; i += 2) {
-//          for (var j = -1; j < 2; j += 2) {
-//            // this generates all the four possible diagonal positions of the last move
-//            var pos = Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j);
-//            if (board.possibleMoves.contains(
-//              // the generated position may not be available
-//              // depending on the position of the last move
-//              // so check first
-//                pos))
-//              // store the available position, to select a random later
-//              theMoves.add(pos);
-//          }
-//        }
-//        // this does not happen, but if no moves, just ignore the opening
-//        // strategy and let the ai choose the opening move
-//        if (theMoves.length > 1) {
-//          int index = Random().nextInt(theMoves.length - 1);
-//          return Tuple2(theMoves[index], id);
-//        } else if (theMoves.length == 1) {
-//          return Tuple2(theMoves[0], id);
-//        }
-//      }
-//    }
-//
+    // no opening strategy if level is == 3 and win count is 4
+    if (level == 3 && board.winCount == 4 && board.size > 5) {
+      // opening move
+      if (board.possibleMoves.length == board.maxMoves) {
+        // you are the starter of the game
+        // choose the middle
+        int middle = board.size ~/ 2;
+        return Tuple2(Tuple2(middle, middle), id);
+      }
+      // if it's the first move, always place a symbol diagonal to the opponent
+      else if (board.possibleMoves.length >= board.maxMoves - 1) {
+        var theMoves = List();
+        for (var i = -1; i < 2; i += 2) {
+          for (var j = -1; j < 2; j += 2) {
+            // this generates all the four possible diagonal positions of the last move
+            var pos = Tuple2(board.lastMove.item1 + i, board.lastMove.item2 + j);
+            if (board.possibleMoves.contains(
+              // the generated position may not be available
+              // depending on the position of the last move
+              // so check first
+                pos))
+              // store the available position, to select a random later
+              theMoves.add(pos);
+          }
+        }
+        // this does not happen, but if no moves, just ignore the opening
+        // strategy and let the ai choose the opening move
+        if (theMoves.length > 1) {
+          int index = Random().nextInt(theMoves.length - 1);
+          return Tuple2(theMoves[index], id);
+        } else if (theMoves.length == 1) {
+          return Tuple2(theMoves[0], id);
+        }
+      }
+    }
+
 
     int d = level;
 
