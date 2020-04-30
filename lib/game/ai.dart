@@ -105,8 +105,8 @@ class AI {
     level = args.item2;
 
 
-    // no opening strategy if level is below 3
-    if (level >= 3 && board.winCount == 4 && board.size > 5) {
+    // no opening strategy if level is == 3 and win count is 4
+    if (level == 3 && board.winCount == 4 && board.size > 5) {
       // opening move
       if (board.possibleMoves.length == board.maxMoves) {
         // you are the starter of the game
@@ -134,9 +134,9 @@ class AI {
         // strategy and let the ai choose the opening move
         if (theMoves.length > 1) {
           int index = Random().nextInt(theMoves.length - 1);
-          return theMoves[index];
+          return Tuple2(theMoves[index], id);
         } else if (theMoves.length == 1) {
-          return theMoves[0];
+          return Tuple2(theMoves[0], id);
         }
       }
     }
