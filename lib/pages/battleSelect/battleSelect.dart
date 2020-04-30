@@ -58,20 +58,22 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
           children: <Widget>[
             TopTitle(),
             Expanded(
-              flex: 20,
+              flex: 10,
               child: _battleOption,
             ),
             Expanded(
               flex: 1,
-              child: IconButton(
-                onPressed: () {
-                  _battleOption.controller.animateTo(
-                    _battleOption.controller.position.maxScrollExtent,
-                    duration: Duration(milliseconds: 1000),
-                    curve: Curves.ease,
-                  );
-                },
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
+              child: Container(
+                child: IconButton(
+                  onPressed: () {
+                    _battleOption.controller.animateTo(
+                      _battleOption.controller.position.maxScrollExtent,
+                      duration: Duration(milliseconds: 1000),
+                      curve: Curves.ease,
+                    );
+                  },
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
+                ),
               ),
             )
           ],
