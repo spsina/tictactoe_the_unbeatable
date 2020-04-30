@@ -145,7 +145,7 @@ class Game extends State<GameBoard> {
   
   Future<void> makeAIMove() async {
     // pass the board to AI and wait for ai move
-    Tuple2 aiMove = await compute(alphaBeta, Tuple2(board, widget.level));
+    Tuple2 aiMove = await compute(AI.alphaBeta, Tuple2(board, widget.level));
     moveTo(aiMove);
   }
 

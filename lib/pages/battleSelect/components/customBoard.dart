@@ -30,7 +30,7 @@ class _CustomBoardState extends State<CustomBoard> {
   String starter = "X";
   GameMode gameMode = GameMode.AI;
   int level = 2;
-  int maxLevel = 4;
+  int maxLevel = 3;
 
   var aiPlayerWidget;
 
