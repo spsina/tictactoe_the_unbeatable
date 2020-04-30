@@ -23,13 +23,13 @@ class CustomBoard extends StatefulWidget{
 
 class _CustomBoardState extends State<CustomBoard> {
 
-  int boardSize = 4;
-  int winBy = 4;
+  int boardSize = 8;
+  int winBy = 5;
   bool withAi = true;
   String aiPlayer = "O";
   String starter = "X";
   GameMode gameMode = GameMode.AI;
-  int level = 2;
+  int level = 1;
   int maxLevel = 3;
 
   var aiPlayerWidget;
@@ -91,7 +91,7 @@ class _CustomBoardState extends State<CustomBoard> {
         children: <Widget>[
           // Game size
           Container(
-            child: Text("BOARD SIZE " + boardSize.round().toString(), style: _style,),
+            child: Text("BOARD SIZE " + boardSize.toString(), style: _style,),
           ),
           Container(
             child: Slider(
@@ -104,7 +104,7 @@ class _CustomBoardState extends State<CustomBoard> {
               activeColor: Color(0xaaffbd69),
               onChanged: (val) {
                 setState(() {
-                  boardSize = val.round();
+                  boardSize = val.ceil();
                   if (winBy > boardSize)
                     winBy = boardSize;
                 });
@@ -117,15 +117,15 @@ class _CustomBoardState extends State<CustomBoard> {
           ),
           Slider(
             value: winBy.toDouble(),
-            min: 3,
+            min: 4,
             max: boardSize.toDouble(),
-            divisions: boardSize.round() - 3,
+            divisions: (boardSize - 4 > 0) ? boardSize - 4 : 1,
             label: "$winBy",
             inactiveColor: Colors.black,
             activeColor: Color(0xaaffbd69),
             onChanged: (val) {
               setState(() {
-                winBy = val.round();
+                winBy = val.ceil();
               });
             },
           ),
