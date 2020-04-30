@@ -139,7 +139,7 @@ class Game extends State<GameBoard> {
     // this vibration will happen
     if (await Vibration.hasVibrator()) {
       Vibration.cancel();
-      Vibration.vibrate(duration: 20);
+      Vibration.vibrate(duration: 50);
     }
   }
   

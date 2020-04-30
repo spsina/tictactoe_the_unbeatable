@@ -25,7 +25,7 @@ class Turn extends StatelessWidget{
     // this vibration will happen
     if (await Vibration.hasVibrator()) {
       Vibration.cancel();
-      Vibration.vibrate(duration: 1500);
+      Vibration.vibrate(duration: 500);
     }
   }
 
