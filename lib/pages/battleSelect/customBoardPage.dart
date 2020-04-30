@@ -144,18 +144,18 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
       child: Column (
         children: <Widget>[
           Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xff000000),
-                      blurRadius: 20.0, // has the effect of softening the shadow
-                      spreadRadius: 5.0, // has the effect of extending the shadow
-                    )
-                  ]
-              ),
-              margin: EdgeInsets.only(top:30),
-              padding: EdgeInsets.all(20),
-              child: _customBoard
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xff000000),
+                    blurRadius: 20.0, // has the effect of softening the shadow
+                    spreadRadius: 5.0, // has the effect of extending the shadow
+                  )
+                ]
+            ),
+            margin: EdgeInsets.only(top:30),
+            padding: EdgeInsets.all(20),
+            child: _customBoard
           ),
           InkWell(
             onTap: () {

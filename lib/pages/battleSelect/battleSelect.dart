@@ -16,6 +16,8 @@ class BattleSelectPage extends StatefulWidget{
 }
 
 class _BattleSelectPageState extends State<BattleSelectPage> {
+  final _battleOption = BattleOptions();
+
   Future<void> initUniLinks() async {
 
     if (uniLinkUsed)
@@ -56,9 +58,22 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
           children: <Widget>[
             TopTitle(),
             Expanded(
-              flex: 4,
-              child: BattleOptions(),
+              flex: 20,
+              child: _battleOption,
             ),
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                onPressed: () {
+                  _battleOption.controller.animateTo(
+                    _battleOption.controller.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 1000),
+                    curve: Curves.ease,
+                  );
+                },
+                icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
+              ),
+            )
           ],
         ),
       ),

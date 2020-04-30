@@ -5,27 +5,24 @@ import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptionWrapper.dart';
 
 class BattleOptions extends StatelessWidget{
-
-
+  final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     double tileSize = MediaQuery. of(context).size.width / 9;
 
 
-    return
-      Container(
-      margin: EdgeInsets.only(top: tileSize),
-
-      height: tileSize*6,
+    return Container(
+      margin: EdgeInsets.only(top: tileSize / 2),
       width: 9 * tileSize,
       child:
       Container (
-
         child: ListView(
+          controller: controller,
           children: <Widget>[
             BattleOptionWrapper(
               imgPath: "assets/images/battleSelect/wheel.png",
               isCustom: true,
+              description: "You can create a custom board, with custom settings. Choose to play online with a friend or against AI",
               color: Color(0xffdbdbdb),
             ),
             BattleOptionWrapper(
