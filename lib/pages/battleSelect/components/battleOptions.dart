@@ -33,6 +33,11 @@ class BattleOptions extends StatelessWidget{
         child: ListView(
           children: <Widget>[
             BattleOptionWrapper(
+              imgPath: "assets/images/battleSelect/wheel.png",
+              isCustom: true,
+              color: Colors.white,
+            ),
+            BattleOptionWrapper(
               aiPlayer: AIPlayer.SELECT,
               starter: "X",
               color: Color(0xffff1e56),
@@ -63,11 +68,6 @@ class BattleOptions extends StatelessWidget{
               imgPath: "assets/images/battleSelect/7x7.png",
               isCustom: false,
 
-            ),
-            BattleOptionWrapper(
-              imgPath: "assets/images/battleSelect/wheel.png",
-              isCustom: true,
-              color: Colors.white,
             ),
           ],
         ),

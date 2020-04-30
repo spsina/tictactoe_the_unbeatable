@@ -243,8 +243,8 @@ class Board{
       score += getRawScore(countTargetInCol(box, target, i), countTargetInCol(box, opp, i), extra);
     }
 
-    score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra);
-    score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra);
+    score += getRawScore(countInMainAxis(box, target), countInMainAxis(box, opp), extra) * 10;
+    score += getRawScore(countInCrossAxis(box, target), countInCrossAxis(box, opp), extra) * 10;
 
     return score;
   }
