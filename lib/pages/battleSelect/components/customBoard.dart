@@ -107,6 +107,12 @@ class _CustomBoardState extends State<CustomBoard> {
                   boardSize = val.ceil();
                   if (winBy > boardSize)
                     winBy = boardSize;
+                  if (boardSize > 8) {
+                    maxLevel = 3;
+                    if (level > maxLevel)
+                      level = 3;
+                  } else
+                    maxLevel = 4;
                 });
               }, 
             ),
