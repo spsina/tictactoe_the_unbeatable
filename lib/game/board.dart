@@ -19,6 +19,20 @@ class Board{
     return (possibleMoves.length/maxMoves);
   }
 
+  String get id{
+    String _id = "";
+    board.forEach((row) {
+      row.forEach((cell) {
+        if (cell == "")
+          _id += " ";
+        else
+          _id += cell;
+      });
+    });
+
+    return _id;
+  }
+
   Board clone(){
     // return a clone of this board
     
