@@ -38,7 +38,7 @@ class BattleOptionWrapper extends StatelessWidget{
   Widget build(BuildContext context) {
     final _style = TextStyle (color : color,);
 
-    final _styleInfo = TextStyle (color : Colors.white, fontSize: 14, fontFamily: "");
+    final _styleInfo = TextStyle (color : Color(0xffdae1e7), fontSize: 14, fontFamily: "");
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     String titleText = isCustom ? "n x n" : (size.toString() + "x" + size.toString());
