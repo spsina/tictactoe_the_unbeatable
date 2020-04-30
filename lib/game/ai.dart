@@ -11,8 +11,8 @@ class AI {
     if (level >= 3)
       return 1.0;
     else if (level == 2)
-      return 0.5;
-    return 0.2;
+      return 0.2;
+    return 0.1;
   }
 
   static int takeCount(int total) {
