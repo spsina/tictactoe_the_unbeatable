@@ -17,6 +17,11 @@ void main() async{
   wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
 
 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   // to hide only bottom bar:
   SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.top]);
 
