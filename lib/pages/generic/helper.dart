@@ -8,19 +8,17 @@ import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 void goHome(BuildContext context) {
   // navigate to battle select page and pop everything
-  navigate(context, BattleSelectPage(), true);
+  navigate(BattleSelectPage(), true);
 }
 
-void navigate(BuildContext context, Widget page, bool clear) {
+void navigate(Widget page, bool clear) {
   if (clear) {
-    Navigator.pushAndRemoveUntil(
-        context,
+    navigatorKey.currentState.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => page),
         (route) => false
     );
   } else {
-    Navigator.push(
-      context,
+    navigatorKey.currentState.push(
       MaterialPageRoute(builder: (context) => page),
     );
   }

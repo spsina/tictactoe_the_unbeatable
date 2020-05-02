@@ -100,7 +100,7 @@ class _JoinGameState extends State<JoinGame> {
     } else if (dictData['status'] == 190){
       wsc.unsubscribe(socketListener);
       // start the game
-      navigate(context, GameBoard(
+      navigate(GameBoard(
         size: gameInfoUi.size,
         winBy: gameInfoUi.winBy,
         gameMode: GameMode.ONLINE,

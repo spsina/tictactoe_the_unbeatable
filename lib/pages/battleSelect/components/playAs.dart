@@ -30,7 +30,7 @@ class PlayAs extends StatelessWidget{
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                navigate(context, GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
+                navigate( GameBoard(size: size, playingAs: x, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
               },
               child: Container(
                 width: tileSize * 2,
@@ -45,7 +45,7 @@ class PlayAs extends StatelessWidget{
             ),
             GestureDetector(
               onTap: () {
-                navigate(context, GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
+                navigate( GameBoard(size: size, playingAs: o, starter: x,gameMode: gameMode,winBy: winBy, level: 3,), false);
               },
               child: Container(
                 width: tileSize * 2,

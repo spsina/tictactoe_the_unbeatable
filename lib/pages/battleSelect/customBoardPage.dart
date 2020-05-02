@@ -73,7 +73,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         wsc.unsubscribe(socketListener);
 
         // lunch the game board
-        navigate(context, game, false);
+        navigate( game, false);
       } else if (dictData['status'] == -1) {
         setState(() {
           generalState = GeneralState.CREATE;
@@ -170,7 +170,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
                   winBy: _customBoard.currentState.winBy.toInt(),
                   level: _customBoard.currentState.level,
                 );
-                navigate(context, game, false);
+                navigate( game, false);
               } else {
                 // create an online game
                 var request = {
