@@ -14,9 +14,14 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // set up the universal links listener
 Future<Null> initUniLinks() async {
   try {
-    getLinksStream().listen(parseLink, onError: (err) {});
+    getLinksStream().listen(parseLink, onError: (err) {
+      print("on error " + err.toString());
+    });
     parseLink(await getInitialLink());
-  } catch (err) {}
+  } catch (err) {
+    print("top level catch " + err.toString());
+  }
+
 }
 
 // parse incoming links
@@ -26,8 +31,15 @@ void parseLink(String link) async {
       Uri uri = Uri.parse(link);
       String gameId = uri.queryParameters['gameId'];
       navigate(JoinGame(initialGameId: gameId), false);
+    } else {
+      print("Null revceived");
     }
-  } catch(err) {}
+
+  } catch(err) {
+    print("inside catch "  + err.toString());
+    // Handle exception by warning the user their action did not succeed
+    // return?
+  }
 }
 
 void main() async{
@@ -40,12 +52,6 @@ void main() async{
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  // to hide only bottom bar:
-  SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.top]);
-
-  // to hide only status bar:
-  SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]);
 
   // to hide both:
   SystemChrome.setEnabledSystemUIOverlays ([]);
