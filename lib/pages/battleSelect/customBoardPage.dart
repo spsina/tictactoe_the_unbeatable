@@ -239,14 +239,14 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.home),
-              backgroundColor: Colors.red,
-              label: 'HOME',
-              labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () {
-                clearConnection();
-                goHome(context, false);
-              }
+            child: Icon(Icons.home),
+            backgroundColor: Colors.red,
+            label: 'HOME',
+            labelStyle: TextStyle(fontSize: 14.0),
+            onTap: () {
+              clearConnection();
+              goHome(context, false);
+            }
           ),
         ],
       ),
