@@ -19,9 +19,12 @@ class BattleOptionWrapper extends StatelessWidget{
   final String imgPath;              // an image to be shown for the level
   final int winBy;                   // number of symbols in a line to win
   final bool isCustom;               // is it an option created by the user
+  final int aiLevel;                 // AI Level
+  final String description;          // description
 
   const BattleOptionWrapper({Key key, this.color, this.size, this.aiPlayer,
-    this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom}) : super(key: key);
+    this.starter, this.gameMode, this.imgPath, this.winBy, this.isCustom,
+    this.aiLevel, this.description}) : super(key: key);
 
   String get aiPlayerStr {
     if (aiPlayer == AIPlayer.X)
@@ -38,7 +41,7 @@ class BattleOptionWrapper extends StatelessWidget{
   Widget build(BuildContext context) {
     final _style = TextStyle (color : color,);
 
-    final _styleInfo = TextStyle (color : Colors.white, fontSize: 14, fontFamily: "");
+    final _styleInfo = TextStyle (color : Color(0xffdae1e7), fontSize: 14, fontFamily: "");
     double tileSize = MediaQuery. of(context).size.width / 9;
 
     String titleText = isCustom ? "n x n" : (size.toString() + "x" + size.toString());
@@ -49,13 +52,16 @@ class BattleOptionWrapper extends StatelessWidget{
       bodyUi = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("AI PLAYER: YOUR CHOICE", style: _styleInfo ),
-          Text("STARTING PLAYER: YOUR CHOICE", style: _styleInfo,),
-          Text("WIN BY: YOUR CHOICE", style: _styleInfo ),
           Container(
-            margin: EdgeInsets.only(top:1),
-            child:Text("AI LEVEL: YOUR CHOICE " , style:TextStyle (color : Colors.white, fontSize: 14, fontFamily: "")),
-          ),
+            width: 4 *tileSize,
+            height: 2 * tileSize,
+            child: SingleChildScrollView(
+                child:Text(description,
+                  style: _styleInfo,
+                  textAlign: TextAlign.left,
+                )
+            )
+          )
         ],
       );
     } else {
@@ -65,15 +71,10 @@ class BattleOptionWrapper extends StatelessWidget{
           Text("AI PLAYER: " + aiPlayerStr, style: _styleInfo ),
           Text("STARTING PLAYER: " + starter, style: _styleInfo,),
           Text("WIN BY: " + winBy.toString() + " IN A LINE", style: _styleInfo ),
-          Container(
-            margin: EdgeInsets.only(top:1),
-            child:Text("AI LEVEL: UNBEATABLE " , style:TextStyle (color : Color(0xaa900c3f), fontSize: 14, fontFamily: "")),
-          ),
+          Text("AI LEVEL: 3 " , style:_styleInfo),
         ],
       );
     }
-
-
     return Container(
       child: InkWell(
         focusColor: Colors.transparent,
@@ -82,7 +83,7 @@ class BattleOptionWrapper extends StatelessWidget{
         splashColor: color,
         onTap: () {
           if (isCustom)
-            navigate(context, CustomBoardPage(), false);
+            navigate( CustomBoardPage(), false);
           else
             showPlayAsOptions(context, size, gameMode, winBy);
         },

@@ -11,8 +11,8 @@ class AI {
     if (level >= 3)
       return 1.0;
     else if (level == 2)
-      return 0.5;
-    return 0.2;
+      return 0.2;
+    return 0.1;
   }
 
   static int takeCount(int total) {
@@ -99,19 +99,20 @@ class AI {
   }
 
 
-  static Tuple2 <int, int> alphaBeta(Tuple2 args){
+  static Tuple2 <Tuple2<int, int>, String> alphaBeta(Tuple2 args){
     Board board = args.item1;
+    String id  = board.id;
     level = args.item2;
 
 
-    // no opening strategy if level is below 3
-    if (level >= 3 && board.winCount == 4 && board.size > 5) {
+    // no opening strategy if level is == 3 and win count is 4
+    if (level == 3 && board.winCount == 4 && board.size > 5) {
       // opening move
       if (board.possibleMoves.length == board.maxMoves) {
         // you are the starter of the game
         // choose the middle
         int middle = board.size ~/ 2;
-        return Tuple2(middle, middle);
+        return Tuple2(Tuple2(middle, middle), id);
       }
       // if it's the first move, always place a symbol diagonal to the opponent
       else if (board.possibleMoves.length >= board.maxMoves - 1) {
@@ -133,9 +134,9 @@ class AI {
         // strategy and let the ai choose the opening move
         if (theMoves.length > 1) {
           int index = Random().nextInt(theMoves.length - 1);
-          return theMoves[index];
+          return Tuple2(theMoves[index], id);
         } else if (theMoves.length == 1) {
-          return theMoves[0];
+          return Tuple2(theMoves[0], id);
         }
       }
     }
@@ -147,8 +148,8 @@ class AI {
       d += 1;
 
     if (board.player == x)
-      return maxValue(board, -infinity, infinity, d).item2;
+      return Tuple2(maxValue(board, -infinity, infinity, d).item2, id);
 
-    return minValue(board, -infinity, infinity, d).item2;
+    return Tuple2(minValue(board, -infinity, infinity, d).item2, id);
   }
 }

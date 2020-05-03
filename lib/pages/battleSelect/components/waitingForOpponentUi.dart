@@ -31,7 +31,6 @@ class WaitingForOpponentUi extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.all(20),
                       width: 6 * tileSize,
                       height: tileSize,
                       child: FittedBox(
@@ -41,11 +40,14 @@ class WaitingForOpponentUi extends StatelessWidget{
                           )
                       )
                   ),
-                  IconButton(
-                    onPressed: (){
-                      Share.share("""Let's play tic tac toe.\nGame Id: """ + gameId + "\nhttps://l37.ir/game/tictactoe/play?gameId=" + gameId);
-                    },
-                    icon: Icon(Icons.share, color: Colors.white,),
+                  Container(
+                    width: 1 * tileSize,
+                    child: IconButton(
+                      onPressed: (){
+                        Share.share("""Let's play tic tac toe.\nGame Id: """ + gameId + "\nhttps://play.l37.ir/game/tictactoe?gameId=" + gameId);
+                      },
+                      icon: Icon(Icons.share, color: Colors.white,),
+                    ),
                   )
                 ],
               )

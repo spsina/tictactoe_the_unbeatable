@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
@@ -16,34 +15,8 @@ class BattleSelectPage extends StatefulWidget{
 }
 
 class _BattleSelectPageState extends State<BattleSelectPage> {
-  Future<void> initUniLinks() async {
+  final _battleOption = BattleOptions();
 
-    if (uniLinkUsed)
-      return;
-
-    uniLinkUsed = true;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      String initialLink = await getInitialLink();
-      // Parse the link and warn the user, if it is not correct,
-      // but keep in mind it could be `null`.
-
-      Uri uri = Uri.parse(initialLink);
-      var gameId = uri.queryParameters['gameId'];
-
-      if (gameId != null && gameId != "")
-        navigate(context, JoinGame(initialGameId: gameId,), false);
-
-    } catch(err) {
-      // Handle exception by warning the user their action did not succeed
-      // return?
-    }
-  }
-
-  _BattleSelectPageState() {
-    initUniLinks();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +29,24 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
           children: <Widget>[
             TopTitle(),
             Expanded(
-              flex: 4,
-              child: BattleOptions(),
+              flex: 10,
+              child: _battleOption,
             ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: IconButton(
+                  onPressed: () {
+                    _battleOption.controller.animateTo(
+                      _battleOption.controller.position.maxScrollExtent,
+                      duration: Duration(milliseconds: 1000),
+                      curve: Curves.ease,
+                    );
+                  },
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -83,14 +71,14 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
             backgroundColor: Colors.red,
             label: 'PLAY WITH A FIREND',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: ()=> navigate(context, JoinGame(), false)
+            onTap: ()=> navigate( JoinGame(), false)
           ),
           SpeedDialChild(
             child: Icon(Icons.add_circle),
             backgroundColor: Colors.blue,
             label: 'CUSTOM BOARD',
             labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => navigate(context, CustomBoardPage(),false)
+            onTap: () => navigate( CustomBoardPage(),false)
           ),
           SpeedDialChild(
             child: Icon(Icons.info),

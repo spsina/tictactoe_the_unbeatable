@@ -32,6 +32,7 @@ dependencies:
   wakelock: ^0.1.4+1
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -44,7 +45,6 @@ dev_dependencies:
 flutter_icons:
   ios: true
   android: true
-  image_path_ios: "assets/launcher/icon.png"
   image_path_android: "assets/launcher/icon.png"
   adaptive_icon_background: "assets/launcher/background.png"
   adaptive_icon_foreground: "assets/launcher/foreground.png"
@@ -56,7 +56,6 @@ flutter_icons:
 flutter:
 
   assets:
-    - assets/icon.ico
     - assets/images/battleSelect/5x5_challenge.png
     - assets/images/battleSelect/3x3_death.png
     - assets/images/battleSelect/7x7.png

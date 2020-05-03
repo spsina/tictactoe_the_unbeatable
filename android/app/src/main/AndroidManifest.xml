@@ -26,13 +26,13 @@
             </intent-filter>
 
             <!-- Deep Links -->
-            <intent-filter android:label="TIC TAC TOE, THE UNBEATABLE">
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
-                    android:host="l37.ir"
-                    android:pathPrefix="/game/tictactoe/play" />
+                    android:host="play.l37.ir"
+                    android:pathPrefix="/game/tictactoe" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
