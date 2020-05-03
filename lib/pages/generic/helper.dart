@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
+import 'package:tictactoe/pages/battleSelect/components/dialogs.dart';
 
-void goHome(BuildContext context) {
+void goHome(BuildContext context, bool ask) {
   // navigate to battle select page and pop everything
-  navigate(BattleSelectPage(), true);
+
+  if (ask)
+    askToGoHome(context);
+  else
+    navigate(BattleSelectPage(), true);
 }
 
 void navigate(Widget page, bool clear) {

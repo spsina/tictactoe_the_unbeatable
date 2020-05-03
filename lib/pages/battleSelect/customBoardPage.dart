@@ -245,7 +245,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 clearConnection();
-                goHome(context);
+                goHome(context, true);
               }
           ),
         ],

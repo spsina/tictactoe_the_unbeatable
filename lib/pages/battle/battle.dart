@@ -106,11 +106,11 @@ class Game extends State<GameBoard> {
       toastError("Your opponent left the game");
 
       clearConnection();
-      goHome(context);
+      goHome(context, false);
     } else if (dictData['status'] == -1 ) {
       // connection dropped
       clearConnection();
-      goHome(context);
+      goHome(context, false);
     }
   }
 
@@ -236,113 +236,118 @@ class Game extends State<GameBoard> {
       });
     }
 
-    return Scaffold(
-      backgroundColor: Color(0xff1B2429),
+    return WillPopScope(
+      onWillPop: (){
+        goHome(context, true);
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xff1B2429),
 
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
-              child: turnWidget,
-            ),
-            Container (
-                margin: EdgeInsets.only(top: tileSize/ 2),
-                child: Column (
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // a list of row, each containing a list of cols
-                  children: List<Widget>.generate(board.size, (i) {
-                    // generate a row
-                    return Container(
-                      margin: EdgeInsets.only(top: tileSize/5, right: 10, left:10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List<Widget>.generate(board.size, (j) {
-                          // each cell
-                          return Material(
-                            color: (i == board.lastMove.item1 && j == board.lastMove.item2) ?
-                            board.board[i][j] == 'X' ? xNewBackgroundColor : oNewBackgroundColor:
-                            board.board[i][j] == 'X' ? xBackgroundColor : board.board[i][j] == 'O' ? oBackgroundColor :
-                                defaultBackgroundColor
-                            ,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: InkWell(
-                              splashColor: Color(0xfff4f4f4),
-                              onTap: (){
-                                playerMoveTo(i, j);
-                              },
-                              child: Container(
-                                  width: (9 - (board.size+1)*0.2)/widget.size * tileSize,
-                                  height: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
-                                  child: Center(
-                                    child: Text(board.board[i][j], textAlign: TextAlign.center, style: TextStyle(
-                                        fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
-                                        color: Colors.white
-                                    ),
-                                    ),
-                                  )
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 500),
+                child: turnWidget,
+              ),
+              Container (
+                  margin: EdgeInsets.only(top: tileSize/ 2),
+                  child: Column (
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // a list of row, each containing a list of cols
+                    children: List<Widget>.generate(board.size, (i) {
+                      // generate a row
+                      return Container(
+                        margin: EdgeInsets.only(top: tileSize/5, right: 10, left:10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List<Widget>.generate(board.size, (j) {
+                            // each cell
+                            return Material(
+                              color: (i == board.lastMove.item1 && j == board.lastMove.item2) ?
+                              board.board[i][j] == 'X' ? xNewBackgroundColor : oNewBackgroundColor:
+                              board.board[i][j] == 'X' ? xBackgroundColor : board.board[i][j] == 'O' ? oBackgroundColor :
+                                  defaultBackgroundColor
+                              ,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
                               ),
-                            ),
-                          );
-                        }),
-                      ),
+                              child: InkWell(
+                                splashColor: Color(0xfff4f4f4),
+                                onTap: (){
+                                  playerMoveTo(i, j);
+                                },
+                                child: Container(
+                                    width: (9 - (board.size+1)*0.2)/widget.size * tileSize,
+                                    height: (9 - (widget.size+1)*0.3)/widget.size * tileSize,
+                                    child: Center(
+                                      child: Text(board.board[i][j], textAlign: TextAlign.center, style: TextStyle(
+                                          fontSize: ((9 - (widget.size+1)*0.3)/widget.size * tileSize ) * 0.5,
+                                          color: Colors.white
+                                      ),
+                                      ),
+                                    )
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      );
+                    }),
+                  )
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          visible: true,
+          closeManually: false,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.home),
+                backgroundColor: Colors.red,
+                label: 'HOME',
+                labelStyle: TextStyle(fontSize: 14.0),
+                onTap: () {
+                  clearConnection();
+                  goHome(context, true);
+                }
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.replay),
+              backgroundColor: Colors.blue,
+              label: 'RESTART THE GAME',
+              labelStyle: TextStyle(fontSize: 14.0),
+              onTap: () {
+                setState(() {
+                  if (widget.gameMode == GameMode.ONLINE) {
+                    // notify other player to reset the game as well
+                    wsc.send(
+                        {
+                          'type': 'PUT',
+                          'rmode': 'reset',
+                          'gameId': widget.gameId
+                        }
                     );
-                  }),
-                )
+                  }
+                  initialize();
+                });
+              }
             ),
           ],
         ),
-      ),
-      floatingActionButton: SpeedDial(
-        // both default to 16
-        marginRight: 18,
-        marginBottom: 20,
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        visible: true,
-        closeManually: false,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8.0,
-        shape: CircleBorder(),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.home),
-              backgroundColor: Colors.red,
-              label: 'HOME',
-              labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () {
-                clearConnection();
-                goHome(context);
-              }
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.replay),
-            backgroundColor: Colors.blue,
-            label: 'RESTART THE GAME',
-            labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () {
-              setState(() {
-                if (widget.gameMode == GameMode.ONLINE) {
-                  // notify other player to reset the game as well
-                  wsc.send(
-                      {
-                        'type': 'PUT',
-                        'rmode': 'reset',
-                        'gameId': widget.gameId
-                      }
-                  );
-                }
-                initialize();
-              });
-            }
-          ),
-        ],
       ),
     );
   }
