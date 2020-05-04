@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:tictactoe/pages/generic/helper.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:mutex/mutex.dart';
+
+import 'helper.dart';
 
 class WebSocketConnection {
   final String url;

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
-import 'package:tictactoe/pages/generic/helper.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:tictactoe/utils/helper.dart';
 import 'customBoardPage.dart';
 
 class BattleSelectPage extends StatefulWidget{
@@ -16,6 +16,20 @@ class BattleSelectPage extends StatefulWidget{
 
 class _BattleSelectPageState extends State<BattleSelectPage> {
   final _battleOption = BattleOptions();
+
+  _BattleSelectPageState(){
+    notifier.subscribe(notificationHandler);
+  }
+
+  void notificationHandler(dynamic notification) {
+    var style = TextStyle(color: Color(0xffdbdbdb), fontFamily: "");
+
+    print("I got called");
+    alertDialog(context,
+        Text(notification['notification']['title'], style: style,),
+        Text (notification['notification']['body'], style: style,),
+        Color(0xffcf7500));
+  }
 
 
   @override

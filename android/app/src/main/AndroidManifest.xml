@@ -9,8 +9,10 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!--        android:name="io.flutter.app.FlutterApplication"-->
+
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="TicTacToe, The Unbeatable"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -34,6 +36,11 @@
                     android:host="play.l37.ir"
                     android:pathPrefix="/game/tictactoe" />
                 <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
