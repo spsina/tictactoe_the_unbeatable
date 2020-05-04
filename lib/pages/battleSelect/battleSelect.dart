@@ -28,7 +28,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
     alertDialog(context,
         Text(notification['notification']['title'], style: style,),
         Text (notification['notification']['body'], style: style,),
-        Color(0xffcf7500));
+        Color(0xff1f4068));
   }
 
 
