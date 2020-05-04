@@ -30,7 +30,6 @@ dependencies:
   mutex: ^1.0.3
   vibration: ^1.2.4
   wakelock: ^0.1.4+1
-  feature_discovery: ^0.8.0
 
 
 
