@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
-import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import ir.tapsell.sdk.Tapsell;
@@ -12,9 +11,12 @@ import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellAdShowListener;
 import ir.tapsell.sdk.TapsellShowOptions;
+import ir.tapsell.sdk.bannerads.TapsellBannerType;
+import ir.tapsell.sdk.bannerads.TapsellBannerView;
 
 public class MainActivity extends FlutterActivity {
-    String ZONE_ID = "5eafec4d693e0800019cc8c2";
+    String zone_id_full = "5eafec4d693e0800019cc8c2";
+    String zone_id_banner = "5eaffb0611bba80001b9c8a7";
 
     private static final String CHANNEL = "ir.l37.tictactoe/tapsell";
 
@@ -38,17 +40,18 @@ public class MainActivity extends FlutterActivity {
     void requestAndShow() {
         TapsellShowOptions showOptions = new TapsellShowOptions();
         showOptions.setBackDisabled(true);
+        showOptions.setShowDialog(true);
         showOptions.setRotationMode(TapsellShowOptions.ROTATION_LOCKED_PORTRAIT);
         Tapsell.requestAd(getApplicationContext(),
-            ZONE_ID,
+                zone_id_full,
             new TapsellAdRequestOptions(),
             new TapsellAdRequestListener() {
                 @Override
                 public void onAdAvailable(String adId) {
                     Tapsell.showAd(getApplicationContext(),
-                        ZONE_ID,
+                            zone_id_full,
                         adId,
-                        new TapsellShowOptions(),
+                        showOptions,
                         new TapsellAdShowListener() {
                             @Override
                             public void onOpened() {
