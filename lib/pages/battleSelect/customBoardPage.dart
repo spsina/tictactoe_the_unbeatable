@@ -4,7 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/waitingForOpponentUi.dart';
-import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:tictactoe/utils/helper.dart';
 import 'battleSelect.dart';
 import 'components/customBoard.dart';
 
@@ -239,14 +239,14 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.home),
-              backgroundColor: Colors.red,
-              label: 'HOME',
-              labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () {
-                clearConnection();
-                goHome(context, false);
-              }
+            child: Icon(Icons.home),
+            backgroundColor: Colors.red,
+            label: 'HOME',
+            labelStyle: TextStyle(fontSize: 14.0),
+            onTap: () {
+              clearConnection();
+              goHome(context, false);
+            }
           ),
         ],
       ),

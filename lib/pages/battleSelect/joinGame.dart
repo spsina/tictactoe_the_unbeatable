@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
-import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:tictactoe/utils/helper.dart';
 import 'battleSelect.dart';
 import 'package:tictactoe/main.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/game/board.dart';
-import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:tictactoe/utils/helper.dart';
 
 class PlayAs extends StatelessWidget{
   

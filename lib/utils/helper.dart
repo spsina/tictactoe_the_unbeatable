@@ -66,3 +66,16 @@ void toastInfo(String msg) {
       fontSize: 16.0
   );
 }
+
+void alertDialog(BuildContext context, Widget title, Widget body, Color color) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog (
+          title: title,
+          backgroundColor: color,
+          content: body
+      );
+    },
+  );
+}

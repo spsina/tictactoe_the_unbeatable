@@ -30,6 +30,7 @@ dependencies:
   mutex: ^1.0.3
   vibration: ^1.2.4
   wakelock: ^0.1.4+1
+  firebase_messaging: ^6.0.13
 
 
 

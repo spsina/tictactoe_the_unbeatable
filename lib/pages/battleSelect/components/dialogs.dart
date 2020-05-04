@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
-import 'package:tictactoe/pages/generic/helper.dart';
+import 'package:tictactoe/utils/helper.dart';
 
 import 'customBoard.dart';
 
