@@ -26,7 +26,7 @@ class GameBoard extends StatefulWidget {
   final int winBy;
   final int level;                  // ai level, 1 to 3
 
-  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level});
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level}) {}
   Game createState() => Game();
 }
 
@@ -46,6 +46,7 @@ class Game extends State<GameBoard> {
   Widget turnWidget;                                                  // this widget receives a game state and shows proper animation and message
   bool ready = false;                                                 // in case of online games, indicates if game is ready to begin
 
+  int plays = 1;                                                      // number of times game this game payed
 
   @override
   void initState() {
@@ -55,6 +56,12 @@ class Game extends State<GameBoard> {
 
 
   void initialize() async{
+
+    if (plays % 4 == 0)
+      tapsell.requestAndShow();
+
+    plays ++;
+
     // prevent the screen from turning off
     Wakelock.enable();
 

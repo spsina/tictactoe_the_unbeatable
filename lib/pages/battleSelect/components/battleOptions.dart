@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptionWrapper.dart';
 
@@ -19,7 +20,7 @@ class BattleOptions extends StatelessWidget{
         child: ListView(
           controller: controller,
           children: <Widget>[
-            BattleOptionWrapper(
+          BattleOptionWrapper(
               imgPath: "assets/images/battleSelect/wheel.png",
               isCustom: true,
               description: "You can create a custom board, with custom settings. Choose to play online with a friend or against AI",

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/utils/firebaseMessage.dart';
 import 'package:tictactoe/utils/socketConnectio.dart';
+import 'package:tictactoe/utils/tapSell.dart';
 import 'package:tictactoe/utils/universalLinks.dart';
 
 // global web socket connection
@@ -17,6 +18,9 @@ Notifier notifier;
 // global universal links dispatcher
 UniversalLinks ul;
 
+// native tapsell api
+Tapsell tapsell;
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -25,6 +29,7 @@ void main() async{
   navigatorKey = new GlobalKey<NavigatorState>();
   notifier = Notifier();
   ul = UniversalLinks();
+  tapsell = Tapsell();
 
   // portrait mode only
   SystemChrome.setPreferredOrientations([

@@ -7,12 +7,14 @@ import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
 import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
+import ir.tapsell.sdk.Tapsell;
 
 public class Application extends FlutterApplication implements PluginRegistrantCallback {
     @Override
     public void onCreate() {
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
+        Tapsell.initialize(this, "jtlfdjtgedppdqhrqeopdgkifiipedscijmntaptkqkttohrcirhtblfsokjgcjasigkot");
     }
 
     @Override
