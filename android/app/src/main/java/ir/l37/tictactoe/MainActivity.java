@@ -66,7 +66,7 @@ public class MainActivity extends FlutterActivity {
                 @Override
                 public void onAdAvailable(String adId) {
                     Tapsell.showAd(getApplicationContext(),
-                            zone_id_reward,
+                            zone,
                         adId,
                         showOptions,
                         new TapsellAdShowListener() {
