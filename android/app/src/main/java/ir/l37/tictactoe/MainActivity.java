@@ -40,6 +40,7 @@ public class MainActivity extends FlutterActivity {
     void requestAndShow() {
         TapsellShowOptions showOptions = new TapsellShowOptions();
         showOptions.setBackDisabled(true);
+        showOptions.setShowDialog(true);
         showOptions.setRotationMode(TapsellShowOptions.ROTATION_LOCKED_PORTRAIT);
         Tapsell.requestAd(getApplicationContext(),
                 zone_id_full,

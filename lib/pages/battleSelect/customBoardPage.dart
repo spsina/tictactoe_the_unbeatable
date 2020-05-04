@@ -73,6 +73,7 @@ class _CustomBoardPageState extends State<CustomBoardPage> {
         wsc.unsubscribe(socketListener);
 
         // lunch the game board
+        tapsell.requestAndShow();
         navigate( game, false);
       } else if (dictData['status'] == -1) {
         setState(() {
