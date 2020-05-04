@@ -21,8 +21,8 @@ void askToGoHome(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog (
-        title: new Text("Do you want to leave?", style: TextStyle(color: Colors.white, fontSize: 15),),
-        backgroundColor: Color(0xffff1e56),
+        title: new Text("Do you want to leave?", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+        backgroundColor: Color(0xff1f4068),
         content: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -35,7 +35,7 @@ void askToGoHome(BuildContext context) {
                     onPressed: () {
                       tapsell.requestAndShow(false);
                       goHome(context, false);},
-                    icon: Icon(Icons.check, size: 40, color: Color(0xffffac41),),
+                    icon: Icon(Icons.check_circle, size: 40, color: Color(0xff8EC6C5),),
                   ),
                 ],
               ),
@@ -45,7 +45,7 @@ void askToGoHome(BuildContext context) {
                 children: [
                   IconButton(
                     onPressed: () { navigatorKey.currentState.pop(); },
-                    icon: Icon(Icons.cancel, size: 40, color: Color(0xff1f4068),),
+                    icon: Icon(Icons.cancel, size: 40, color: Color(0xffff1e56),),
                   ),
                 ],
               ),
