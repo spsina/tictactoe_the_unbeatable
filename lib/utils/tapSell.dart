@@ -13,9 +13,13 @@ class Tapsell {
     ready = true;
   }
 
-  void requestAndShow() {
-    if (ready)
-      platform.invokeMethod('requestAndShow');
+  void requestAndShow(bool isReward) {
+    if (ready) {
+      if (isReward)
+        platform.invokeMethod('requestAndShowReward');
+      else
+        platform.invokeMethod('requestAndShowInstant');
+    }
     else
       print("tapsell not ready");
   }

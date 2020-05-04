@@ -58,7 +58,7 @@ class Game extends State<GameBoard> {
   void initialize() async{
 
     if (plays % 4 == 0)
-      tapsell.requestAndShow();
+      tapsell.requestAndShow(true);
 
     plays ++;
 
