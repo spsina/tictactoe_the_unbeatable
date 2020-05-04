@@ -8,18 +8,15 @@ import io.flutter.Log;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugins.GeneratedPluginRegistrant;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellAdShowListener;
 import ir.tapsell.sdk.TapsellShowOptions;
-import ir.tapsell.sdk.bannerads.TapsellBannerType;
-import ir.tapsell.sdk.bannerads.TapsellBannerView;
 
 public class MainActivity extends FlutterActivity {
-    String zone_id_full = "5eafec4d693e0800019cc8c2";
-    String zone_id_banner = "5eaffb0611bba80001b9c8a7";
+    String zone_id_reward = "5eafd67811bba80001b9c891";
+    String zone_id_instant = "5eafec4d693e0800019cc8c2";
 
     private static final String CHANNEL = "ir.l37.tictactoe/tapsell";
 
@@ -43,29 +40,33 @@ public class MainActivity extends FlutterActivity {
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
                 .setMethodCallHandler(
                         (call, result) -> {
-                            if (call.method.equals("requestAndShow")) {
-                                requestAndShow();
-                                result.success("Method Called");
-                            } else {
-                                result.notImplemented();
+                            if (call.method.equals("requestAndShowReward")) {
+                                requestAndShow(zone_id_reward, true);
+                            } else if (call.method.equals("requestAndShowInstant")) {
+                                requestAndShow(zone_id_instant, false);
                             }
                         }
                 );
     }
 
-    void requestAndShow() {
+    void requestAndShow(String zone, boolean isReward) {
         TapsellShowOptions showOptions = new TapsellShowOptions();
-        showOptions.setBackDisabled(true);
-        showOptions.setShowDialog(true);
+        if (isReward) {
+            showOptions.setBackDisabled(true);
+            showOptions.setShowDialog(true);
+        } else {
+            showOptions.setBackDisabled(false);
+            showOptions.setShowDialog(false);
+        }
         showOptions.setRotationMode(TapsellShowOptions.ROTATION_LOCKED_PORTRAIT);
         Tapsell.requestAd(getApplicationContext(),
-                zone_id_full,
+                zone,
             new TapsellAdRequestOptions(),
             new TapsellAdRequestListener() {
                 @Override
                 public void onAdAvailable(String adId) {
                     Tapsell.showAd(getApplicationContext(),
-                            zone_id_full,
+                            zone_id_reward,
                         adId,
                         showOptions,
                         new TapsellAdShowListener() {
