@@ -33,7 +33,7 @@ void askToGoHome(BuildContext context) {
                 children: [
                   IconButton(
                     onPressed: () {
-                      tapsell.requestAndShow();
+                      tapsell.requestAndShow(false);
                       goHome(context, false);},
                     icon: Icon(Icons.check, size: 40, color: Color(0xffffac41),),
                   ),
