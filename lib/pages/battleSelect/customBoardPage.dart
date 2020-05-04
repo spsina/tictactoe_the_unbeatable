@@ -4,7 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/waitingForOpponentUi.dart';
-import 'file:///C:/Users/sina/Desktop/dev/tictactoe/lib/utils/helper.dart';
+import 'package:tictactoe/utils/helper.dart';
 import 'battleSelect.dart';
 import 'components/customBoard.dart';
 
