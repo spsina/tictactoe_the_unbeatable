@@ -7,29 +7,23 @@ import 'package:tictactoe/utils/tapSell.dart';
 import 'package:tictactoe/utils/universalLinks.dart';
 
 // global web socket connection
-WebSocketConnection wsc;
+WebSocketConnection wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
 
 // global navigator
-GlobalKey<NavigatorState> navigatorKey;
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 // global notifier
-Notifier notifier;
+Notifier notifier = Notifier();
 
 // global universal links dispatcher
-UniversalLinks ul;
+UniversalLinks ul = UniversalLinks();
 
 // native tapsell api
-Tapsell tapsell;
+Tapsell tapsell = Tapsell();
 
-void main() async{
+
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // setup
-  wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
-  navigatorKey = new GlobalKey<NavigatorState>();
-  notifier = Notifier();
-  ul = UniversalLinks();
-  tapsell = Tapsell();
 
   // portrait mode only
   SystemChrome.setPreferredOrientations([
