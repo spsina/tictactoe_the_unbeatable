@@ -32,7 +32,9 @@ void askToGoHome(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () { goHome(context, false); },
+                    onPressed: () {
+                      tapsell.requestAndShow();
+                      goHome(context, false);},
                     icon: Icon(Icons.check, size: 40, color: Color(0xffffac41),),
                   ),
                 ],
