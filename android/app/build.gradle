@@ -26,10 +26,8 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
+assert keystorePropertiesFile.exists()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 28
@@ -61,10 +59,15 @@ android {
             signingConfig signingConfigs.release
         }
 
+        profile {
+            signingConfig signingConfigs.release
+        }
+
         debug {
             signingConfig signingConfigs.release
         }
     }
+
 
 }
 

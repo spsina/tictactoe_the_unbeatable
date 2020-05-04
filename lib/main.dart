@@ -21,12 +21,13 @@ UniversalLinks ul;
 // native tapsell api
 Tapsell tapsell;
 
-void main() async{
+
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // setup
   wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
-  navigatorKey = new GlobalKey<NavigatorState>();
+  navigatorKey = GlobalKey<NavigatorState>();
   notifier = Notifier();
   ul = UniversalLinks();
   tapsell = Tapsell();

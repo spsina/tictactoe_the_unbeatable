@@ -25,7 +25,6 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
   void notificationHandler(dynamic notification) {
     var style = TextStyle(color: Color(0xffdbdbdb), fontFamily: "");
 
-    print("I got called");
     alertDialog(context,
         Text(notification['notification']['title'], style: style,),
         Text (notification['notification']['body'], style: style,),

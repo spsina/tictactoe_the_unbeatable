@@ -20,8 +20,10 @@ class Notifier {
   }
 
   void dispatch(dynamic notification){
-    if (!isInit)
+    if (!isInit) {
+      print("Not init");
       return;
+    }
 
     _subscribers.forEach((f) {
       f(notification);
