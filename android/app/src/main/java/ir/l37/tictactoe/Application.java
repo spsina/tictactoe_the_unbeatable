@@ -14,7 +14,7 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void onCreate() {
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
-        Tapsell.initialize(this, "jtlfdjtgedppdqhrqeopdgkifiipedscijmntaptkqkttohrcirhtblfsokjgcjasigkot");
+        Tapsell.initialize(this, Secret.TAPSELL_KEY);
     }
 
     @Override

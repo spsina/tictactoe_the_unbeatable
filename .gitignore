@@ -31,6 +31,8 @@
 /build/
 key.properties
 google-services.json
+Secret.java
+
 # Web related
 lib/generated_plugin_registrant.dart
 
