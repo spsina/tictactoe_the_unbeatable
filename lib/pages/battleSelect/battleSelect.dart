@@ -18,7 +18,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
   final _battleOption = BattleOptions();
 
   _BattleSelectPageState(){
-//    notifier.subscribe(notificationHandler);
+    notifier.subscribe(notificationHandler);
   }
 
   void notificationHandler(dynamic notification) {
