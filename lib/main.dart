@@ -23,7 +23,7 @@ void main() async{
   // setup
   wsc = WebSocketConnection(url: "ws://cafepay.app:9090");
   navigatorKey = new GlobalKey<NavigatorState>();
-  notifier = Notifier();
+//  notifier = Notifier();
   ul = UniversalLinks();
 
   // portrait mode only

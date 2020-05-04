@@ -48,6 +48,3 @@ class Notifier {
     isInit = true;
   }
 }
-
-
-
