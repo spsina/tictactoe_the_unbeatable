@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:tictactoe/utils/style.dart';
+import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
+
 
 /* Animated Show Dialog */
 void animatedShowDialog(BuildContext context, String title, String body) {
@@ -11,12 +13,12 @@ void animatedShowDialog(BuildContext context, String title, String body) {
       flareAnimation: 'spin1',
       title: Text(
         title.toUpperCase(),
-        style: blackTitleStyle,
+        style: blackTitleStyle(context),
       ),
       description: Text(
         body,
         textAlign: TextAlign.center,
-        style: blackBodyStyle,
+        style: blackBodyStyle(context),
       ),
       entryAnimation: EntryAnimation.DEFAULT,
       onOkButtonPressed: () {
@@ -43,11 +45,11 @@ void generalShowDialog(
       backgroundColor: color,
       title: Text(
         title.toUpperCase(),
-        style: whiteTitleStyle,
+        style: whiteTitleStyle(context),
       ),
       content: Text(
         body,
-        style: whiteBodyStyle,
+        style: whiteBodyStyle(context),
       ),
     ),
   );
@@ -55,6 +57,7 @@ void generalShowDialog(
 
 void fancyShowDialog(
     BuildContext context, String title, String body, Color color) {
+      double tileSize = MediaQuery.of(context).size.width / 9;
   showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -65,13 +68,13 @@ void fancyShowDialog(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        height: 250.0,
-        width: 300.0,
+        height: tileSize*5,
+        width: tileSize*3,
         child: Stack(
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 250,
+              height: tileSize*5,
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(12.0),
@@ -79,7 +82,7 @@ void fancyShowDialog(
             ),
             Container(
               width: double.infinity,
-              height: 50,
+              height: tileSize*0.8,
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                 color: Color(0xffffbd69),
@@ -92,20 +95,20 @@ void fancyShowDialog(
                 alignment: Alignment.center,
                 child: Text(
                   title.toUpperCase(),
-                  style: whiteTitleStyle,
+                  style: whiteTitleStyle(context),
                 ),
               ),
             ),
             Container(
-              width: 300.0,
-              height: 150.0,
+              width: double.infinity,
+              height: tileSize*3,
               alignment: Alignment.center,
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.fromLTRB(tileSize*0.28, tileSize*0.31, tileSize*0.28, tileSize*0.31),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
                   body,
-                  style: whiteBodyStyle,
+                  style: whiteBodyStyle(context),
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -118,7 +121,7 @@ void fancyShowDialog(
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 50,
+                  height: tileSize*0.8,
                   child: Align(
                     alignment: Alignment.center,
                     child: FlatButton(
@@ -129,7 +132,7 @@ void fancyShowDialog(
                         "OKAY",
                         style: TextStyle(
                             color: Color(0xffffbd69),
-                            fontSize: 20,
+                            fontSize: tileSize*0.3,
                             fontWeight: FontWeight.w600),
                       ),
                     ),

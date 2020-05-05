@@ -22,6 +22,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
   }
 
   void notificationHandler(dynamic notification) {
+    double tileSize = MediaQuery.of(context).size.width / 9;
     alertDialog(
       context,
       notification['data']['type'],
@@ -33,7 +34,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    double tilteSize = MediaQuery.of(context).size.width / 9;
+    double tileSize = MediaQuery.of(context).size.width / 9;
 
     return Scaffold(
       backgroundColor: Color(0xff1B2429),
