@@ -65,5 +65,5 @@ void alertDialog(
     BuildContext context, String type, Widget title, Widget body, Color color) {
   (type == "update")
       ? animatedShowDialog(context, title, body)
-      : generalShowDialog(context, title, body, color);
+      : fancyShowDialog(context, title, body, color);
 }
