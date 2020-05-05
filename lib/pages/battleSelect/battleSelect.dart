@@ -9,8 +9,7 @@ import 'package:tictactoe/pages/battleSelect/joinGame.dart';
 import 'package:tictactoe/utils/helper.dart';
 import 'customBoardPage.dart';
 
-class BattleSelectPage extends StatefulWidget{
-
+class BattleSelectPage extends StatefulWidget {
   @override
   _BattleSelectPageState createState() => _BattleSelectPageState();
 }
@@ -18,23 +17,37 @@ class BattleSelectPage extends StatefulWidget{
 class _BattleSelectPageState extends State<BattleSelectPage> {
   final _battleOption = BattleOptions();
 
-  _BattleSelectPageState(){
+  _BattleSelectPageState() {
     notifier.subscribe(notificationHandler);
   }
 
   void notificationHandler(dynamic notification) {
-    var style = TextStyle(color: Color(0xffdbdbdb), fontFamily: "");
-
-    alertDialog(context,
-        Text(notification['notification']['title'], style: style,),
-        Text (notification['notification']['body'], style: style,),
+    var titleStyle = TextStyle(
+        color: Colors.black,
+        fontSize: 16.0,
+        fontWeight: FontWeight.bold,
+        fontFamily: "");
+    var bodyStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 13.0,
+      fontFamily: "",
+    );
+    alertDialog(
+        context,
+        Text(
+          notification['notification']['title'],
+          style: titleStyle,
+        ),
+        Text(
+          notification['notification']['body'],
+          style: bodyStyle,
+        ),
         Color(0xff1f4068));
   }
 
-
   @override
   Widget build(BuildContext context) {
-    double tileSize = MediaQuery. of(context).size.width / 9;
+    double tileSize = MediaQuery.of(context).size.width / 9;
 
     return Scaffold(
       backgroundColor: Color(0xff1B2429),
@@ -57,7 +70,10 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
                       curve: Curves.ease,
                     );
                   },
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             )
@@ -81,19 +97,17 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-            child: Icon(Icons.group_add),
-            backgroundColor: Colors.red,
-            label: 'PLAY WITH A FIREND',
-            labelStyle: TextStyle(fontSize: 14.0),
-            onTap: ()=> navigate( JoinGame(), false)
-          ),
+              child: Icon(Icons.group_add),
+              backgroundColor: Colors.red,
+              label: 'PLAY WITH A FIREND',
+              labelStyle: TextStyle(fontSize: 14.0),
+              onTap: () => navigate(JoinGame(), false)),
           SpeedDialChild(
-            child: Icon(Icons.add_circle),
-            backgroundColor: Colors.blue,
-            label: 'CUSTOM BOARD',
-            labelStyle: TextStyle(fontSize: 14.0),
-            onTap: () => navigate( CustomBoardPage(),false)
-          ),
+              child: Icon(Icons.add_circle),
+              backgroundColor: Colors.blue,
+              label: 'CUSTOM BOARD',
+              labelStyle: TextStyle(fontSize: 14.0),
+              onTap: () => navigate(CustomBoardPage(), false)),
           SpeedDialChild(
             child: Icon(Icons.info),
             backgroundColor: Colors.green,

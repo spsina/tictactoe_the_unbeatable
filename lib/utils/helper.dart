@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 import 'package:tictactoe/pages/battleSelect/components/dialogs.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 void goHome(BuildContext context, bool ask) {
   // navigate to battle select page and pop everything
@@ -61,40 +62,58 @@ void toastInfo(String msg) {
 void alertDialog(BuildContext context, Widget title, Widget body, Color color) {
   showDialog(
     context: context,
-    builder: (BuildContext context) => Center(
-      child: Stack(
-        children: [
-          Positioned(
-              top: 15.0,
-              left: 20.0,
-              child: Column(
-                children: [
-                  AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    backgroundColor: color,
-                    title: title,
-                    content: body,
-                    actions: <Widget>[
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: FlatButton(
-                          child: Icon(
-                        Icons.check_circle,
-                        size: 40,
-                        color: Color(0xaaffbd69),
-                      ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
-        ],
+    builder: (BuildContext context) => FlareGiffyDialog(
+      cardBackgroundColor: color,
+      flarePath: 'assets/animations/Update.flr',
+      flareAnimation: 'spin1',
+      title: title,
+      description: body,
+      entryAnimation: EntryAnimation.DEFAULT,
+      onOkButtonPressed: () {
+        Navigator.of(context).pop();
+      },
+      onlyOkButton: true,
+      buttonOkColor: Color(0xffffbd69),
+      buttonOkText: Text(
+        'OK',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
+      // child: Stack(
+      //   children: [
+      //     Positioned(
+      //         top: 15.0,
+      //         left: 20.0,
+      //         child: Column(
+      //           children: [
+      //             AlertDialog(
+      //               shape: RoundedRectangleBorder(
+      //                   borderRadius: BorderRadius.circular(10.0)),
+      //               backgroundColor: color,
+      //               title: title,
+      //               content: body,
+      //               actions: <Widget>[
+      //                 Align(
+      //                   alignment: Alignment.bottomRight,
+      //                   child: FlatButton(
+      //                     child: Icon(
+      //                   Icons.check_circle,
+      //                   size: 40,
+      //                   color: Color(0xaaffbd69),
+      //                 ),
+      //                     onPressed: () {
+      //                       Navigator.of(context).pop();
+      //                     },
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ],
+      //         )),
+      //   ],
+      // ),
     ),
   );
 }
