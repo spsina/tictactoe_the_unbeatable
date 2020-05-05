@@ -37,6 +37,7 @@ class Notifier {
         if (msg['data']['dispatch'] == "true")
           dispatch(msg);
       },
+
     );
 
     isInit = true;

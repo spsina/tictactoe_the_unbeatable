@@ -33,21 +33,23 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
       fontFamily: "",
     );
     alertDialog(
-        context,
-        Text(
-          notification['notification']['title'],
-          style: titleStyle,
-        ),
-        Text(
-          notification['notification']['body'],
-          style: bodyStyle,
-        ),
-        Color(0xff1f4068));
+      context,
+      notification['data']['type'],
+      Text(
+        notification['notification']['title'],
+        style: titleStyle,
+      ),
+      Text(
+        notification['notification']['body'],
+        style: bodyStyle,
+      ),
+      Color(0xff1f4068),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    double tileSize = MediaQuery.of(context).size.width / 9;
+    double tilteSize = MediaQuery.of(context).size.width / 9;
 
     return Scaffold(
       backgroundColor: Color(0xff1B2429),
