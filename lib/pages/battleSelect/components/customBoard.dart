@@ -55,7 +55,7 @@ class _CustomBoardState extends State<CustomBoard> {
               Container(
                 child: DropdownButton<String>(
                   underline: SizedBox(),
-                  dropdownColor: Color(0xff323232),
+                  //dropdownColor: Color(0xff323232),
                   value: aiPlayer,
                   elevation: 20,
                   onChanged: (String value) {
@@ -171,7 +171,7 @@ class _CustomBoardState extends State<CustomBoard> {
                   child: Container(
                     width: 150,
                     child: DropdownButton<GameMode>(
-                      dropdownColor: Color(0xff323232),
+                      //dropdownColor: Color(0xff323232),
                       underline: SizedBox(),
                       isExpanded: true,
                       isDense: false,
@@ -213,7 +213,7 @@ class _CustomBoardState extends State<CustomBoard> {
                 Container(
                   child: DropdownButton<String>(
                     underline: SizedBox(),
-                    dropdownColor: Color(0xff323232),
+                   // dropdownColor: Color(0xff323232),
                     value: starter,
                     elevation: 20,
                     onChanged: (String value) {

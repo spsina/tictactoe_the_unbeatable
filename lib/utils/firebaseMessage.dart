@@ -37,16 +37,10 @@ class Notifier {
         if (msg['data']['dispatch'] == "true")
           dispatch(msg);
       },
-      onResume: (Map<String, dynamic> msg) async {
-        if (msg['data']['dispatch'] == "true")
-          dispatch(msg);
-      },
-      onLaunch: (Map<String, dynamic> msg) async {
-        if (msg['data']['dispatch'] == "true")
-          dispatch(msg);
-      },
+
     );
 
     isInit = true;
   }
 }
+

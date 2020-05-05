@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flare_flutter: ^1.8.3
+  flare_flutter: ^2.0.1
   tuple: ^1.0.3
   web_socket_channel: ^1.1.0
   flutter_speed_dial: ^1.2.5
@@ -31,6 +31,7 @@ dependencies:
   vibration: ^1.2.4
   wakelock: ^0.1.4+1
   firebase_messaging: ^6.0.13
+  giffy_dialog: ^1.7.0
 
 
 
@@ -67,6 +68,7 @@ flutter:
     - assets/animations/battle/lose.flr
     - assets/animations/battle/win.flr
     - assets/animations/battle/tie.flr
+    - assets/animations/Update.flr
 
   fonts:
     - family: Gearus
