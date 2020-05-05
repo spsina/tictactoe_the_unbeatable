@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
-import 'package:tictactoe/game/ai.dart';
+import 'package:tictactoe/utils/style.dart';
 
-void animatedShowDialog(BuildContext context, Widget title, Widget body) {
+/* Animated Show Dialog */
+void animatedShowDialog(BuildContext context, String title, String body) {
   showDialog(
     context: context,
     builder: (BuildContext context) => FlareGiffyDialog(
       flarePath: 'assets/animations/Update.flr',
       flareAnimation: 'spin1',
-      title: title,
-      description: body,
+      title: Text(
+        title.toUpperCase(),
+        style: blackTitleStyle,
+      ),
+      description: Text(
+        body,
+        textAlign: TextAlign.center,
+        style: blackBodyStyle,
+      ),
       entryAnimation: EntryAnimation.DEFAULT,
       onOkButtonPressed: () {
         Navigator.of(context).pop();
@@ -17,10 +25,10 @@ void animatedShowDialog(BuildContext context, Widget title, Widget body) {
       onlyOkButton: true,
       buttonOkColor: Color(0xffffbd69),
       buttonOkText: Text(
-        'OK',
+        'OKAY',
         style: TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w600,
         ),
       ),
     ),
@@ -28,19 +36,25 @@ void animatedShowDialog(BuildContext context, Widget title, Widget body) {
 }
 
 void generalShowDialog(
-    BuildContext context, Widget title, Widget body, Color color) {
+    BuildContext context, String title, String body, Color color) {
   showDialog(
     context: context,
     builder: (BuildContext context) => AlertDialog(
       backgroundColor: color,
-      title: title,
-      content: body,
+      title: Text(
+        title.toUpperCase(),
+        style: whiteTitleStyle,
+      ),
+      content: Text(
+        body,
+        style: whiteBodyStyle,
+      ),
     ),
   );
 }
 
 void fancyShowDialog(
-    BuildContext context, Widget title, Widget body, Color color) {
+    BuildContext context, String title, String body, Color color) {
   showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -51,13 +65,13 @@ void fancyShowDialog(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        height: 300.0,
+        height: 250.0,
         width: 300.0,
         child: Stack(
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 300,
+              height: 250,
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(12.0),
@@ -76,16 +90,24 @@ void fancyShowDialog(
               ),
               child: Align(
                 alignment: Alignment.center,
-                child: title,
+                child: Text(
+                  title.toUpperCase(),
+                  style: whiteTitleStyle,
+                ),
               ),
             ),
             Container(
-              width: double.infinity,
-              height: 200,
+              width: 300.0,
+              height: 150.0,
               alignment: Alignment.center,
+              margin: EdgeInsets.all(20),
               child: Align(
                 alignment: Alignment.center,
-                child: body,
+                child: Text(
+                  body,
+                  style: whiteBodyStyle,
+                  textAlign: TextAlign.justify,
+                ),
               ),
             ),
             Align(
@@ -104,9 +126,9 @@ void fancyShowDialog(
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        "Okay",
+                        "OKAY",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Color(0xffffbd69),
                             fontSize: 20,
                             fontWeight: FontWeight.w600),
                       ),

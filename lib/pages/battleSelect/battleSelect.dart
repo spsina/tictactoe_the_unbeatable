@@ -22,27 +22,11 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
   }
 
   void notificationHandler(dynamic notification) {
-    var titleStyle = TextStyle(
-        color: Colors.black,
-        fontSize: 16.0,
-        fontWeight: FontWeight.bold,
-        fontFamily: "");
-    var bodyStyle = TextStyle(
-      color: Colors.black,
-      fontSize: 13.0,
-      fontFamily: "",
-    );
     alertDialog(
       context,
       notification['data']['type'],
-      Text(
-        notification['notification']['title'],
-        style: titleStyle,
-      ),
-      Text(
-        notification['notification']['body'],
-        style: bodyStyle,
-      ),
+      notification['notification']['title'],
+      notification['notification']['body'],
       Color(0xff1f4068),
     );
   }

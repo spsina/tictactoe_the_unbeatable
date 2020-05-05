@@ -62,7 +62,7 @@ void toastInfo(String msg) {
 }
 
 void alertDialog(
-    BuildContext context, String type, Widget title, Widget body, Color color) {
+    BuildContext context, String type, String title, String body, Color color) {
   (type == "update")
       ? animatedShowDialog(context, title, body)
       : fancyShowDialog(context, title, body, color);
