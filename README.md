@@ -7,7 +7,7 @@ Highly customizable tic-tac-toe game. You can create your own custom tic-tac-toe
 - custom starting player
 - single player against AI
 - four different AI difficulty levels
-- multiplayer
+- multilayer
 - offline
 
 # Play!
