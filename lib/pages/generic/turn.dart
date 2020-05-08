@@ -12,6 +12,9 @@ class Turn extends StatelessWidget{
   Turn(this.game) : super(key: ValueKey<int>(game.hashCode.toInt()));
 
   void winVibrate() async{
+    if (!Game.useVibrator)
+      return;
+
     // when you win
     // this vibration will happen
     if (await Vibration.hasVibrator()) {
@@ -21,6 +24,9 @@ class Turn extends StatelessWidget{
   }
 
   void loseVibrate() async{
+    if (!Game.useVibrator)
+      return;
+
     // when you lose
     // this vibration will happen
     if (await Vibration.hasVibrator()) {
@@ -30,6 +36,9 @@ class Turn extends StatelessWidget{
   }
 
   void tieVibrate() async{
+    if (!Game.useVibrator)
+      return;
+
     // when you tie
     // this vibration will happen
     if (await Vibration.hasVibrator()) {

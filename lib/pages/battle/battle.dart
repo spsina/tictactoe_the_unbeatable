@@ -45,7 +45,7 @@ class Game extends State<GameBoard> {
   Board board;                                                        // actual game board
   Widget turnWidget;                                                  // this widget receives a game state and shows proper animation and message
   bool ready = false;                                                 // in case of online games, indicates if game is ready to begin
-
+  static bool useVibrator = true;                                     // vibration status
   int plays = 1;                                                      // number of times game this game payed
 
   @override
@@ -141,6 +141,9 @@ class Game extends State<GameBoard> {
   }
 
   void moveVibrate() async{
+    if (!useVibrator)
+      return;
+
     // each time a move is made
     // this vibration will happen
     if (await Vibration.hasVibrator()) {
@@ -329,6 +332,17 @@ class Game extends State<GameBoard> {
                 onTap: () {
                   clearConnection();
                   goHome(context, true);
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.vibration),
+                backgroundColor: Colors.orange,
+                label: 'TOGGLE VIBRATION',
+                labelStyle: TextStyle(fontSize: 14.0),
+                onTap: () {
+                  setState(() {
+                    useVibrator = !useVibrator;
+                  });
                 }
             ),
             SpeedDialChild(
