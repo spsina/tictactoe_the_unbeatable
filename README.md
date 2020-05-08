@@ -11,5 +11,5 @@ Highly customizable tic-tac-toe game. You can create your own custom tic-tac-toe
 - offline
 
 # Play!
-The android version of the app is published on play store. [you install and play the game here](https://play.google.com/store/apps/details?id=ir.l37.tictactoe).
+The android version of the app is published on play store. [you can install and play the game here](https://play.google.com/store/apps/details?id=ir.l37.tictactoe).
 
