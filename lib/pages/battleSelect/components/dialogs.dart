@@ -38,7 +38,6 @@ void askToGoHome(BuildContext context) {
                   children: [
                     IconButton(
                       onPressed: () {
-                        tapsell.requestAndShow(false);
                         goHome(context, false);
                       },
                       icon: Icon(

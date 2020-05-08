@@ -56,10 +56,6 @@ class Game extends State<GameBoard> {
 
 
   void initialize() async{
-
-    if (plays % 4 == 0)
-      tapsell.requestAndShow(true);
-
     plays ++;
 
     // prevent the screen from turning off
