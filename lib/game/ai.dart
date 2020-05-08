@@ -106,7 +106,7 @@ class AI {
 
 
     // no opening strategy if level is == 3 and win count is 4
-    if (level == 3 && board.winCount == 4 && board.size > 5) {
+    if (level >= 3) {
       // opening move
       if (board.possibleMoves.length == board.maxMoves) {
         // you are the starter of the game
