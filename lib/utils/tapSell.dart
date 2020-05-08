@@ -14,6 +14,7 @@ class Tapsell {
   }
 
   void requestAndShow(bool isReward) {
+    return;
     if (ready) {
       if (isReward)
         platform.invokeMethod('requestAndShowReward');
