@@ -1,27 +1,44 @@
+import 'dart:math';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:mutex/mutex.dart';
 
 class Notifier {
-  FirebaseMessaging _firebaseMessaging;      // main firebase cloud messaging instance
-  Set<Function> _subscribers;                // functions that get called when a notification is received
-  bool isInit = false;
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();      // main firebase cloud messaging instance
+  static final Set<Function> _subscribers = Set();                              // functions that get called when a notification is received
+  static bool isInit = false;
+  static Random rnd = Random();
+  static Mutex m = Mutex();
+
+  static List<dynamic> archive = List();
 
   Notifier() {
-    _firebaseMessaging = FirebaseMessaging();
-    _subscribers = Set();
-    init();
+    if (!isInit)
+      init();
   }
 
-  void subscribe(Function f) {
+  static void subscribe(Function f) async{
+    await m.acquire();
     _subscribers.add(f);
+
+    archive.forEach((msg) {
+      f(msg);
+    });
+
+    archive = List();
+    m.release();
   }
 
-  void unsubscribe(Function f){
+  static void unsubscribe(Function f) async {
+    m.acquire();
     _subscribers.remove(f);
+    m.release();
   }
 
-  void dispatch(dynamic notification){
+  static void dispatch(dynamic notification) async{
+    m.acquire();
     if (!isInit) {
-      print("Not init");
+      archive.add(notification);
       return;
     }
 
@@ -29,15 +46,20 @@ class Notifier {
       f(notification);
     });
 
+    m.release();
+
   }
 
-  void init() async {
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> msg) async {
-        if (msg['data']['dispatch'] == "true")
-          dispatch(msg);
-      },
+  static Future<dynamic> handler(Map<String, dynamic> msg) async {
+    if (msg['data']['dispatch'] == "true")
+      Notifier.dispatch(msg);
+  }
 
+  static void init() async {
+    _firebaseMessaging.configure(
+      onMessage: handler,
+      onLaunch: handler,
+      onResume: handler
     );
 
     isInit = true;

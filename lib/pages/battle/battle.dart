@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,35 @@ class GameBoard extends StatefulWidget {
 
   GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level});
   Game createState() => Game();
+
+
+  static GameBoard randomGame () {
+    final Random rnd = Random();
+    var size = 4 + rnd.nextInt(7);
+    var maxLevel = size > 8 ? 3 : 4;
+    var winBy;
+    var level;
+
+    if (size == 4)
+      winBy = 4;
+    else
+      winBy = 4 + rnd.nextInt(size - 4);
+
+    level = 2 + rnd.nextInt(maxLevel - 2);
+
+    var gameBoard = GameBoard(
+        size: size,
+        playingAs: rnd.nextBool() ? "X" : "O",
+        starter: rnd.nextBool() ? "X" : "O",
+        gameMode: GameMode.AI,
+        winBy: winBy,
+        level: level
+    );
+
+    return gameBoard;
+  }
+
+
 }
 
 
@@ -89,7 +120,6 @@ class Game extends State<GameBoard> {
     });
 
   }
-
 
   void socketListener(dictData) {
     // listener function for online games

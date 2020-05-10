@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:tictactoe/pages/battle/battle.dart';
+import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
+import 'package:tictactoe/utils/helper.dart';
 import 'package:tictactoe/utils/style.dart';
 
 
@@ -140,6 +143,96 @@ void fancyShowDialog(
               ),
             ),
           ],
+        ),
+      ),
+    ),
+  );
+}
+
+Future<void> randomGameDialog(
+    BuildContext context, GameBoard gameBoard) {
+  double tileSize = MediaQuery.of(context).size.width / 9;
+  return showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        width: tileSize*3,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xff1f4068),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: double.infinity,
+                height: tileSize*0.8,
+                alignment: Alignment.bottomCenter,
+                decoration: BoxDecoration(
+                  color: Color(0xffffbd69),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Let's play a random game!",
+                    style: whiteTitleStyle(context),
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: GameInfoUi(size: gameBoard.size,
+                      winBy: gameBoard.winBy,
+                      playAs: gameBoard.playingAs,
+                      level: gameBoard.level
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: tileSize*0.8,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: FlatButton(
+                        onPressed: () {
+                          navigate(gameBoard, false);
+                        },
+                        child: Text(
+                          "PLAY",
+                          style: TextStyle(
+                              color: Color(0xffffbd69),
+                              fontSize: tileSize*0.3,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),

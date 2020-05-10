@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tictactoe/main.dart';
+import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
 import 'package:tictactoe/pages/battleSelect/components/topTitle.dart';
 import 'package:tictactoe/pages/battleSelect/joinGame.dart';
+import 'package:tictactoe/utils/customAlertDialog.dart';
+import 'package:tictactoe/utils/firebaseMessage.dart';
 import 'package:tictactoe/utils/helper.dart';
 import 'customBoardPage.dart';
 
@@ -16,19 +18,30 @@ class BattleSelectPage extends StatefulWidget {
 class _BattleSelectPageState extends State<BattleSelectPage> {
   final _battleOption = BattleOptions();
 
-  _BattleSelectPageState() {
-    notifier.subscribe(notificationHandler);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Notifier.subscribe(notificationHandler);
+    });
   }
 
-  void notificationHandler(dynamic notification) {
-    alertDialog(
-      context,
-      notification['data']['type'],
-      notification['notification']['title'],
-      notification['notification']['body'],
-      Color(0xff1f4068),
-    );
+  void notificationHandler(dynamic notification) async {
+    if (notification['data']['type'] == "random_game") {
+      randomGameDialog(context, GameBoard.randomGame());
+    }
+    else {
+      alertDialog(
+        context,
+        notification['data']['type'],
+        notification['notification']['title'],
+        notification['notification']['body'],
+        Color(0xff1f4068),
+      );
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

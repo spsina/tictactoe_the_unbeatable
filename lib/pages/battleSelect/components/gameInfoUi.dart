@@ -5,8 +5,9 @@ class GameInfoUi extends StatelessWidget{
   final int size;
   final int winBy;
   final String playAs;
+  final int level;
 
-  const GameInfoUi({Key key, this.size, this.winBy, this.playAs}) : super(key: key);
+  const GameInfoUi({Key key, this.size, this.winBy, this.playAs, this.level}) : super(key: key);
 
 
   @override
@@ -65,6 +66,18 @@ class GameInfoUi extends StatelessWidget{
                       ),
                       Container(
                         child: Text(playAs.toLowerCase(), style: TextStyle(color: Colors.white),),
+                      )
+                    ],
+                  ),
+                  Divider(color: Colors.white,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text("AI LEVEL ", style: TextStyle(color: Colors.white),),
+                      ),
+                      Container(
+                        child: Text( (level != null) ? level.toString() : "FRIENDLY!", style: TextStyle(color: Colors.white),),
                       )
                     ],
                   )
