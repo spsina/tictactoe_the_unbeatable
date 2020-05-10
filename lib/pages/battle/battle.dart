@@ -35,7 +35,6 @@ class GameBoard extends StatefulWidget {
   static GameBoard randomGame () {
     final Random rnd = Random();
     var size = 4 + rnd.nextInt(7);
-    var maxLevel = size > 8 ? 3 : 4;
     var winBy;
     var level;
 
@@ -44,7 +43,7 @@ class GameBoard extends StatefulWidget {
     else
       winBy = 4 + rnd.nextInt(size - 4);
 
-    level = 2 + rnd.nextInt(maxLevel - 2);
+    level = 3;
 
     var gameBoard = GameBoard(
         size: size,
