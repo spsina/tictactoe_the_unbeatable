@@ -1,4 +1,3 @@
-import 'package:tictactoe/game/ai.dart';
 import 'package:tuple/tuple.dart';
 
 var x = "X";

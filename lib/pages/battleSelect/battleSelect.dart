@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battleSelect/components/battleOptions.dart';
@@ -22,7 +21,6 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
   }
 
   void notificationHandler(dynamic notification) {
-    double tileSize = MediaQuery.of(context).size.width / 9;
     alertDialog(
       context,
       notification['data']['type'],
@@ -34,7 +32,6 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    double tileSize = MediaQuery.of(context).size.width / 9;
 
     return Scaffold(
       backgroundColor: Color(0xff1B2429),

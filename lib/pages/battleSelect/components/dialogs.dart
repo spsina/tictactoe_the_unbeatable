@@ -4,8 +4,6 @@ import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/playAs.dart';
 import 'package:tictactoe/utils/helper.dart';
 
-import 'customBoard.dart';
-
 void showPlayAsOptions(
     BuildContext context, int size, GameMode gameMode, int winBy) {
   showDialog(

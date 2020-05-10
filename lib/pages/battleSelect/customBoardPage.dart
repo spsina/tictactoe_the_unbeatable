@@ -5,7 +5,6 @@ import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/waitingForOpponentUi.dart';
 import 'package:tictactoe/utils/helper.dart';
-import 'battleSelect.dart';
 import 'components/customBoard.dart';
 
 class CustomBoardPage extends StatefulWidget{

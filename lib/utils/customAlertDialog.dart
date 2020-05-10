@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:tictactoe/utils/style.dart';
-import 'package:tictactoe/pages/battleSelect/battleSelect.dart';
 
 
 /* Animated Show Dialog */

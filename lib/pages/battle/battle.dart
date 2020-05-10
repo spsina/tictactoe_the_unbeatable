@@ -26,7 +26,7 @@ class GameBoard extends StatefulWidget {
   final int winBy;
   final int level;                  // ai level, 1 to 3
 
-  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level}) {}
+  GameBoard({this.size, this.playingAs, this.starter, this.gameMode, this.winBy, this.gameId, this.level});
   Game createState() => Game();
 }
 

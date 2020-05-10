@@ -39,7 +39,6 @@ class BattleOptionWrapper extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final _style = TextStyle (color : color,);
 
     final _styleInfo = TextStyle (color : Color(0xffdae1e7), fontSize: 14, fontFamily: "");
     double tileSize = MediaQuery. of(context).size.width / 9;
