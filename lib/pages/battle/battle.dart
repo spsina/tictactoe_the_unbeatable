@@ -273,6 +273,15 @@ class Game extends State<GameBoard> {
       });
     }
 
+    var vibrationOn = Icon(Icons.vibration);
+    var vibrationOff = Center(
+      child: Stack(
+        children: [
+          Icon(Icons.vibration),
+          Icon(Icons.not_interested)
+        ],),
+    );
+
     return WillPopScope(
       onWillPop: (){
         goHome(context, true);
@@ -363,7 +372,7 @@ class Game extends State<GameBoard> {
                 }
             ),
             SpeedDialChild(
-                child: Icon(Icons.vibration),
+                child: useVibrator ? vibrationOff : vibrationOn,
                 backgroundColor: Colors.orange,
                 label: 'TOGGLE VIBRATION',
                 labelStyle: TextStyle(fontSize: 14.0),
