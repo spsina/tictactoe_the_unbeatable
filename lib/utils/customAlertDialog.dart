@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/battle/battle.dart';
 import 'package:tictactoe/pages/battleSelect/components/gameInfoUi.dart';
 import 'package:tictactoe/utils/helper.dart';
@@ -150,7 +151,7 @@ void fancyShowDialog(
 }
 
 Future<void> randomGameDialog(
-    BuildContext context, GameBoard gameBoard) {
+    BuildContext context, GameBoard gameBoard, bool isPlay) {
   double tileSize = MediaQuery.of(context).size.width / 9;
   return showDialog(
     context: context,
@@ -186,7 +187,7 @@ Future<void> randomGameDialog(
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Let's play a random game!",
+                    isPlay ? "Let's play a random game!" : "game info",
                     style: whiteTitleStyle(context),
                   ),
                 ),
@@ -217,10 +218,13 @@ Future<void> randomGameDialog(
                       alignment: Alignment.center,
                       child: FlatButton(
                         onPressed: () {
-                          navigate(gameBoard, false);
+                          if (isPlay)
+                            navigate(gameBoard, false);
+                          else
+                            navigatorKey.currentState.pop();
                         },
                         child: Text(
-                          "PLAY",
+                          isPlay? "PLAY" : "OWKAY",
                           style: TextStyle(
                               color: Color(0xffffbd69),
                               fontSize: tileSize*0.3,

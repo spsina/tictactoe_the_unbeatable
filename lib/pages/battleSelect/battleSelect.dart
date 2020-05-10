@@ -28,7 +28,7 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
 
   void notificationHandler(dynamic notification) async {
     if (notification['data']['type'] == "random_game") {
-      randomGameDialog(context, GameBoard.randomGame());
+      randomGameDialog(context, GameBoard.randomGame(), true);
     }
     else {
       alertDialog(

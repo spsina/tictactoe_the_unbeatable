@@ -8,6 +8,7 @@ import 'package:tictactoe/game/ai.dart';
 import 'package:tictactoe/game/board.dart';
 import 'package:tictactoe/main.dart';
 import 'package:tictactoe/pages/generic/turn.dart';
+import 'package:tictactoe/utils/customAlertDialog.dart';
 import 'package:tictactoe/utils/helper.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vibration/vibration.dart';
@@ -33,6 +34,8 @@ class GameBoard extends StatefulWidget {
 
 
   static GameBoard randomGame () {
+    // generates a random game
+
     final Random rnd = Random();
     var size = 4 + rnd.nextInt(7);
     var winBy;
@@ -368,6 +371,15 @@ class Game extends State<GameBoard> {
                   setState(() {
                     useVibrator = !useVibrator;
                   });
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.info),
+                backgroundColor: Colors.teal,
+                label: 'GAME INFO',
+                labelStyle: TextStyle(fontSize: 14.0),
+                onTap: () {
+                  randomGameDialog(context, this.widget, false);
                 }
             ),
             SpeedDialChild(
