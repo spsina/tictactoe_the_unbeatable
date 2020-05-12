@@ -105,12 +105,6 @@ class _BattleSelectPageState extends State<BattleSelectPage> {
               label: 'CUSTOM BOARD',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () => navigate(CustomBoardPage(), false)),
-          SpeedDialChild(
-            child: Icon(Icons.info),
-            backgroundColor: Colors.green,
-            label: 'ABOUT US',
-            labelStyle: TextStyle(fontSize: 14.0),
-          ),
         ],
       ),
     );
