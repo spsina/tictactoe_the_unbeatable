@@ -79,7 +79,7 @@ class Game extends State<GameBoard> {
   Widget turnWidget;                                                  // this widget receives a game state and shows proper animation and message
   bool ready = false;                                                 // in case of online games, indicates if game is ready to begin
   static bool useVibrator = true;                                     // vibration status
-  int plays = 1;                                                      // number of times game this game payed
+  int plays = 0;                                                      // number of times game this game payed
 
   @override
   void initState() {
@@ -88,8 +88,12 @@ class Game extends State<GameBoard> {
   }
 
 
-  void initialize() async{
+  void initialize() async {
     plays ++;
+
+    if (plays % 4 == 0){
+      await tapsell.requestAndShow(true);
+    }
 
     // prevent the screen from turning off
     Wakelock.enable();
