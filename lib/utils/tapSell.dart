@@ -9,16 +9,18 @@ class Tapsell {
   }
 
   Future<void> init() async {
-    platform = MethodChannel('ir.l37.tictactoe/tapsell');
+//    platform = MethodChannel('ir.l37.tictactoe/tapsell');
+//    ready = true;
+
     ready = true;
   }
 
   Future<void> requestAndShow(bool isReward) async {
-    if (ready) {
-      if (isReward)
-        await platform.invokeMethod('requestAndShowReward');
-      else
-        await platform.invokeMethod('requestAndShowInstant');
-    }
+//    if (ready) {
+//      if (isReward)
+//        await platform.invokeMethod('requestAndShowReward');
+//      else
+//        await platform.invokeMethod('requestAndShowInstant');
+//    }
   }
 }

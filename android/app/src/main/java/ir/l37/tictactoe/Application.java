@@ -1,5 +1,7 @@
 package ir.l37.tictactoe;
 
+import com.google.android.gms.ads.MobileAds;
+
 import io.flutter.app.FlutterApplication;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.PluginRegistry;
@@ -15,6 +17,8 @@ public class Application extends FlutterApplication implements PluginRegistrantC
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
         Tapsell.initialize(this, Secret.TAPSELL_KEY);
+        MobileAds.initialize(this, "ca-app-pub-9727873253002188~6596895142");
+
     }
 
     @Override
